@@ -94,7 +94,7 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
 //        this.is = serial.getInputStream();
 //
 //    }
-    public static SerialComm getArduino(String portName) throws PortInUseException, UnsupportedCommOperationException, IOException {
+    public static SerialComm openSerialComm(String portName) throws PortInUseException, UnsupportedCommOperationException, IOException {
         CommPortIdentifier portId = Ports.getPortIdentifier(portName);
         if (portId == null) {
             throw new IllegalArgumentException("Port not found: " + portName);
@@ -287,4 +287,11 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
     public String toString() {
         return "ArduinoSerial";
     }
+
+    public DataInputStream getDataInputStream() {
+        return dataInputStream;
+    }
+
+    
+
 }

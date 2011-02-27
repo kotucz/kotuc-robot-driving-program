@@ -13,7 +13,7 @@ import robotour.iface.MeasureException;
  * @author Kotuc
  * @see http://www.tcpipguide.com/free/t_SerialLineInternetProtocolSLIP-2.htm
  */
-public class SimpleMessageInterpreter implements MessageReceived {
+public class SimpleMessageInterpreter implements BinaryMessageReceived {
 
     private final SimpleArduinoRobot robot;
 

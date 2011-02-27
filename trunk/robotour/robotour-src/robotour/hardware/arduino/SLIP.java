@@ -24,9 +24,9 @@ public class SLIP {
     final SLIPOutputStream slipos;
     final DataOutputStream sliposdata;
     final SLIPInput input;
-    final MessageReceived messager;
+    final BinaryMessageReceived messager;
 
-    public SLIP(SerialComm serial, MessageReceived messager) {
+    public SLIP(SerialComm serial, BinaryMessageReceived messager) {
         this.slipos = new SLIPOutputStream(serial.getOutputStream());
         this.sliposdata = new DataOutputStream(slipos);
         this.input = new SLIPInput();

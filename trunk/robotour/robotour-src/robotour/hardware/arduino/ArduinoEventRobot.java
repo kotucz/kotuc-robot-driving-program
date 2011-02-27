@@ -150,7 +150,7 @@ public class ArduinoEventRobot implements EventListener {
 
     public static void main(String[] args) throws Exception {
 
-        final SerialComm arduino = SerialComm.getArduino("COM13");
+        final SerialComm arduino = SerialComm.openSerialComm("COM13");
 //        final ArduinoSerial arduino = new ArduinoSerial(
 //                    //                        new FileInputStream("C:/Users/Kotuc/Desktop/logs/arduino-com132-2010-07-25-213138.log"),
 //                    //                        new FileInputStream("C:/Users/Kotuc/Desktop/logs/arduino-com132-2010-07-25-213031.log")
