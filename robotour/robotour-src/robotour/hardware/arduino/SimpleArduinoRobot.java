@@ -36,7 +36,7 @@ public class SimpleArduinoRobot {
 
         final SimpleArduinoRobot robot = new SimpleArduinoRobot();
 
-        SLIP slip = new SLIP(SerialComm.getArduino("COM13"), new SimpleMessageInterpreter(robot));
+        SLIP slip = new SLIP(SerialComm.openSerialComm("COM13"), new SimpleMessageInterpreter(robot));
 
         ArduinoPuppet puppet = new ArduinoPuppet(slip, new EventLog());
 

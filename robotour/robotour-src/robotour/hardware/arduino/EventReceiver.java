@@ -17,7 +17,7 @@ import robotour.util.log.events.UnknownEvent;
  *
  * @author Kotuc
  */
-public class EventReceiver implements MessageReceived {
+public class EventReceiver implements BinaryMessageReceived {
 
     final EventListener listener;
 
