@@ -1,5 +1,6 @@
 package robotour.navi.local.beacons;
 
+import robotour.navi.basic.RobotPose;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -7,7 +8,7 @@ import java.util.logging.Logger;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 import robotour.gui.map.LocalPoint;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

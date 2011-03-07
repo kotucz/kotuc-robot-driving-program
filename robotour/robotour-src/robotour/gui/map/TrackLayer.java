@@ -64,12 +64,19 @@ public class TrackLayer implements MapLayer {
             map.drawDot(pt.getPoint(), 0.5); // 0.5 meter dot
         }
 
+        {
         g.setColor(Color.RED);
+        
+//        Point minp = map.toPoint(minBounds);
+//        Point maxp = map.toPoint(maxBounds);
 
-        Point minp = map.toPoint(minBounds);
-        Point maxp = map.toPoint(maxBounds);
+            System.err.println("TODO track layer bounds");
 
-        g.drawRect(minp.x, minp.y, maxp.x - minp.x, maxp.y - minp.y);
+//        g.drawRect(minp.x, minp.y, maxp.x - minp.x, maxp.y - minp.y);
+        }
+
+
+
 
 //        g.setStroke(new BasicStroke((int)(1*map.dpm/map.getScale()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 //        

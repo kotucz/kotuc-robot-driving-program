@@ -3,7 +3,7 @@ package robotour.navi.local.slam;
 import java.util.Collection;
 import javax.vecmath.Vector2d;
 import robotour.gui.map.LocalPoint;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

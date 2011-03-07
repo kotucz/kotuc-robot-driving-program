@@ -1,7 +1,8 @@
 package robotour.gui.map;
 
+import java.awt.geom.Point2D;
 import javax.vecmath.Point2d;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *
@@ -84,6 +85,10 @@ public class LocalPoint {
 
     public Point2d toPoint2d() {
         return new Point2d(this.x, this.y);
+    }
+
+    public Point2D toAwtPoint() {
+        return new Point2D.Double(this.x, this.y);
     }
 
 }

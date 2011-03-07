@@ -3,7 +3,7 @@ package robotour.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import robotour.iface.MeasureException;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

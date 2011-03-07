@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  * compas 3x sonar

@@ -1,9 +1,10 @@
 package robotour.navi.local;
 
+import robotour.navi.local.odometry.PassiveOdometry;
 import robotour.gui.map.LocalPath;
 import robotour.gui.map.LocalPoint;
 import java.awt.Color;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 import robotour.gui.map.MapView;
 import robotour.util.RobotSystems;
 

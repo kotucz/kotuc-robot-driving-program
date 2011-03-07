@@ -7,12 +7,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
-import robotour.navi.gps.Angle;
+import robotour.navi.basic.Angle;
 import robotour.navi.gps.GPSPoint;
-import robotour.navi.local.beacons.RobotPose;
+import robotour.navi.basic.RobotPose;
 
 /**
  *
@@ -48,6 +52,10 @@ public class MapView {
 
         this.graphics = (Graphics2D) g;
 
+        graphics.translate(-eye.getX(), -eye.getY());
+
+        graphics.scale(DPM / scale2, DPM / scale2);
+
         synchronized (layers) {
             for (MapLayer mapLayer : layers) {
                 mapLayer.paint(this);
@@ -55,85 +63,97 @@ public class MapView {
         }
 
         drawGrid(this);
-
     }
 
     public void addLayer(MapLayer layer) {
         synchronized (layers) {
             layers.add(layer);
+
+
         }
     }
 
     public void setEye(LocalPoint neweye) {
         this.eye = neweye;
-    }
 
+
+    } //    /**
+    //     *  inversion to gpsToPoint
+    //     */
+    //    GPSPoint clickToGPS(Point click) {
+    //        GPSPoint gp = GPSPoint.getPoint(
+    //                Latitude.valueOfRadians(eye.latitude().radians() - (scale2 * click.y / EARTH_R / DPM)),
+    //                Longitude.valueOfRadians(eye.longitude().radians() + (scale2 * click.x / GPSPoint.LONG_EARTH_R / DPM)));
+    //        return gp;
+    //    }
     //    /**
-//     *  inversion to gpsToPoint
-//     */
-//    GPSPoint clickToGPS(Point click) {
-//        GPSPoint gp = GPSPoint.getPoint(
-//                Latitude.valueOfRadians(eye.latitude().radians() - (scale2 * click.y / EARTH_R / DPM)),
-//                Longitude.valueOfRadians(eye.longitude().radians() + (scale2 * click.x / GPSPoint.LONG_EARTH_R / DPM)));
-//        return gp;
-//    }
-//    /**
-//     *  method for painting transform
-//     */
-//    int getX(GPSPoint p) {
-//        // metres per degree 72602,289332233937399765867967468
-//        return (int) Math.round(metersPerLongitudeRadian * (p.longitude().radians() - zeroGPS.longitude().radians()) * DPM / scale2);
-//    }
-//
-//    /**
-//     *  method for painting transform
-//     */
-//    int getY(GPSPoint p) {
-//        return (int) -Math.round(metersPerLatitudeRadian * (p.latitude().radians() - zeroGPS.latitude().radians()) * DPM / scale2);
-//    }
+    //     *  method for painting transform
+    //     */
+    //    int getX(GPSPoint p) {
+    //        // metres per degree 72602,289332233937399765867967468
+    //        return (int) Math.round(metersPerLongitudeRadian * (p.longitude().radians() - zeroGPS.longitude().radians()) * DPM / scale2);
+    //    }
+    //
+    //    /**
+    //     *  method for painting transform
+    //     */
+    //    int getY(GPSPoint p) {
+    //        return (int) -Math.round(metersPerLatitudeRadian * (p.latitude().radians() - zeroGPS.latitude().radians()) * DPM / scale2);
+    //    }
+
     int metersToPixels(double meters) {
         return (int) Math.round(meters * DPM / scale2);
+
+
     }
 
     LocalPoint toLocal(GPSPoint gps) {
         if (gps == null) {
             throw new NullPointerException("gps");
+
+
         }
         if (gpsReference == null) {
             gpsReference = new GPSReference(gps);
+
+
         }
         return gpsReference.toLocal(gps);
-    }
 
-    Point toPoint(GPSPoint gps) {
-        return toPoint(toLocal(gps));
-    }
+
+    } //    Point toPoint(GPSPoint gps) {
+    //        return toPoint(toLocal(gps));
+    //    }
 
     LocalPoint clickToLocal(Point click) {
         LocalPoint lp = new LocalPoint(
                 eye.getX() + (scale2 * click.x / DPM),
                 eye.getY() - (scale2 * click.y / DPM));
+
+
         return lp;
+
+
     }
 
-    int getX(LocalPoint p) {
-//        return (int) Math.round((p.getX() - eye.getLongMetres()) * DPM / scale2);
-//        return (int) Math.round((p.getX() - eye.getX()) * DPM / scale2);
-        return metersToPixels(p.getX() - eye.getX());
-    }
-
-    int getY(LocalPoint p) {
-//        return (int) -Math.round((p.getY() - eye.getLatMetres()) * DPM / scale2);
-//        return (int) -Math.round((p.getY() - eye.getY()) * DPM / scale2);
-        return -metersToPixels(p.getY() - eye.getY());
-    }
-
-    Point toPoint(LocalPoint local) {
-        return new Point(getX(local), getY(local));
-    }
-
+//    int getX(LocalPoint p) {
+////        return (int) Math.round((p.getX() - eye.getLongMetres()) * DPM / scale2);
+////        return (int) Math.round((p.getX() - eye.getX()) * DPM / scale2);
+//        return metersToPixels(p.getX() - eye.getX());
+//    }
+//    int getY(LocalPoint p) {
+////        return (int) -Math.round((p.getY() - eye.getLatMetres()) * DPM / scale2);
+////        return (int) -Math.round((p.getY() - eye.getY()) * DPM / scale2);
+//        return -metersToPixels(p.getY() - eye.getY());
+//    }
+//    Point toPoint(LocalPoint local) {
+//        return local.toAwtPoint();
+//        return new Point(getX(local), getY(local));
+//    }
     public LocalPoint getEye() {
         return eye;
+
+
     }
 //    double scale = 0.0000001;
 //    private double scale2 = 10000000.0;
@@ -149,16 +169,25 @@ public class MapView {
 
     public double getScale() {
         return scale2;
+
+
     }
 
     public void setScale(double scale) {
         scale = Math.max(MIN_SCALE, Math.min(scale, MAX_SCALE));
+
+
         this.scale2 = scale;
+
+
     }
 
     public void zoomTo(LocalPoint center, double scale) {
         setEye(center);
-        setScale(scale);
+        setScale(
+                scale);
+
+
     }
 
 //    public void zoomTo(Track track) {
@@ -172,6 +201,8 @@ public class MapView {
 //    }
     public Graphics2D getGraphics() {
         return graphics;
+
+
     }
     double mets = 0.01;
 
@@ -186,11 +217,16 @@ public class MapView {
 
         mets = 0.01;
         // pixel minimum diff
+
+
         while (metersToPixels(mets) < 30) {
             mets *= 10;
+
+
         }
 
-        for (int i = -10; i < 10; i++) {
+        for (int i = -10; i
+                < 10; i++) {
 
             LocalPoint px1 = new LocalPoint(-1000, Math.round(eye.getY()) + i * mets);
             LocalPoint px2 = new LocalPoint(1000, Math.round(eye.getY()) + i * mets);
@@ -206,6 +242,8 @@ public class MapView {
 //            g.drawLine((int)(e.x-2000), (int)((e.y+i)), (int)(e.x+2200), (int)((e.y+i)));
 //            g.drawLine((int)(zoom*i), -2000, (int)(zoom*i), 2000);
 //            g.drawLine(-2000, (int)(zoom*i), 2000, (int)(zoom*i));
+
+
         }
 
 
@@ -240,16 +278,20 @@ public class MapView {
 
     public void drawLine(GPSPoint p1, GPSPoint p2, double lwidth) {
         drawLine(toLocal(p1), toLocal(p2), lwidth);
+
+
     }
 
     public void drawLine(LocalPoint p1, LocalPoint p2, double lwidth) {
 
         Stroke stroke = graphics.getStroke();
-        graphics.setStroke(new BasicStroke((int) (lwidth * DPM / getScale()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        graphics.setStroke(new BasicStroke((float) lwidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-        graphics.drawLine(getX(p1), getY(p1), getX(p2), getY(p2));
+        graphics.draw(new Line2D.Double(p1.toAwtPoint(), p2.toAwtPoint()));
 
         graphics.setStroke(stroke);
+
+
 
     }
 
@@ -263,46 +305,65 @@ public class MapView {
 //    }
     public void drawText(GPSPoint center, String text) {
         drawText(toLocal(center), text);
+
+
     }
 
     public void drawText(LocalPoint center, String text) {
-        graphics.drawString(text, getX(center), getY(center));
+        graphics.drawString(text, (float) center.toAwtPoint().getX(), (float) center.toAwtPoint().getX());
+//        graphics.drawString(text, getX(center), getY(center));
+
+
     }
 
     public void drawDot(GPSPoint center, double radius) {
         drawDot(toLocal(center), radius);
+
+
     }
 
     public void drawDot(LocalPoint center, double radius) {
-        int r = metersToPixels(radius);
+        graphics.fill(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, center.getX() + radius, center.getY() + radius));
 
-        graphics.fillOval(getX(center) - r / 2, getY(center) - r / 2, r, r);
+
     }
 
     public void drawOval(LocalPoint center, double radius) {
-        int r = metersToPixels(radius);
+        graphics.draw(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, center.getX() + radius, center.getY() + radius));
 
-        graphics.drawOval(getX(center) - r, getY(center) - r, 2 * r, 2 * r);
+
     }
 
     public void drawTexture(Image texture, GPSPoint center, double scale, Angle azimuth) {
         drawTexture(texture, toLocal(center), scale, azimuth);
+
+
     }
 
     public void drawTexture(Image texture, LocalPoint center, double scale, Angle azimuth) {
 
-        Point cent = toPoint(center);
+//        Point cent = toPoint(center);
+        Point2D cent = center.toAwtPoint();
+
+
+
 
         int w = (int) (texture.getWidth(null) * scale / getScale());
+
+
         int h = (int) (texture.getHeight(null) * scale / getScale());
 
-        graphics.translate(cent.x, cent.y);
+        AffineTransform transform = graphics.getTransform();
+        graphics.translate(cent.getX(), cent.getX());
         graphics.rotate(azimuth.radians());
 
         graphics.drawImage(texture, -w / 2, -h / 2, w, h, null);
 
-        graphics.rotate(-azimuth.radians());
-        graphics.translate(-cent.x, -cent.y);
+        graphics.setTransform(transform);
+//        graphics.rotate(-azimuth.radians());
+//        graphics.translate(-cent.x, -cent.y);
+
+
 
     }
 
@@ -312,6 +373,9 @@ public class MapView {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+
         return frame;
+
     }
 }

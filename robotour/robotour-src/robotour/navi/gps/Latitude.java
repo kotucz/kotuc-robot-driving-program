@@ -1,5 +1,7 @@
 package robotour.navi.gps;
 
+import robotour.navi.basic.Angle;
+
 /**
  *
  * @author Tomas

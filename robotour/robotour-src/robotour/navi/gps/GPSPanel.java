@@ -4,6 +4,7 @@
  */
 package robotour.navi.gps;
 
+import robotour.navi.gps.input.GPSInput;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Arrays;

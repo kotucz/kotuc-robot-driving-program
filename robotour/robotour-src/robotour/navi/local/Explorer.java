@@ -1,5 +1,6 @@
 package robotour.navi.local;
 
+import robotour.navi.local.odometry.RTOdometry;
 import robotour.gui.map.RobotImgLayer;
 import robotour.gui.map.LocalObject;
 import robotour.gui.map.LocalMap;
@@ -12,7 +13,7 @@ import robotour.util.RobotSystems;
 import robotour.iface.Sonar;
 import robotour.util.Sonars;
 import robotour.behavior.XPadDriving;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 import robotour.gui.map.MapView;
 
 /**
@@ -24,13 +25,13 @@ public class Explorer implements Runnable {
     private LocalMap map = new LocalMap();
     private Sonars sonars;
     private Compass cmps;
-    private Odometry odometry;
+    private RTOdometry odometry;
     final RobotImgLayer robotImgLayer = new RobotImgLayer();
 
     public Explorer(RobotSystems systems) {
         this.sonars = systems.getSonars();
         this.cmps = systems.getCompass();
-        this.odometry = new Odometry(systems.getWheels());
+        this.odometry = new RTOdometry(systems.getWheels());
         MapView view = new MapView();
         view.addLayer(map);
 

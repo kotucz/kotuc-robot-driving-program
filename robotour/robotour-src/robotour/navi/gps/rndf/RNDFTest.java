@@ -1,0 +1,28 @@
+package robotour.navi.gps.rndf;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import robotour.gui.map.MapTextureManager;
+import robotour.gui.map.MapView;
+import robotour.gui.map.TrackLayer;
+import robotour.navi.gps.Track;
+
+/**
+ *
+ * @author Kotuc
+ */
+public class RNDFTest {
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        MapView view = new MapView();
+        view.addLayer(new MapTextureManager());
+//        view.addLayer(RNDFMap.load(new File("./Luzanky.rnd")));
+        RNDFMap map = new RNDFLoader().load(new File("./luzanky-ver2-rndf.txt"));
+        view.addLayer(map);
+        Track track = map.createTrack("BQPONAR");
+        view.addLayer(new TrackLayer(track));
+//        view.addLayer(RNDFMap.load(new File("./stromovka-rndf.txt")));
+        view.showInFrame();
+    }
+}

@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import robotour.hardware.ControllerTools;
-import robotour.navi.gps.Azimuth;
-import robotour.navi.local.Odometry;
+import robotour.navi.basic.Azimuth;
+import robotour.navi.local.odometry.RTOdometry;
 
 /**
  *
@@ -73,7 +73,7 @@ public class OrthoXPadDriving implements Runnable {
             double steer = 0.0;
             for (Component component : gamepad.getComponents()) {
                 final double M1POW = 0.5;
-                final long M1TIMEMS = Math.round(1000 * Odometry.powerToSpeed(M1POW) / 0.5);
+                final long M1TIMEMS = Math.round(1000 * RTOdometry.powerToSpeed(M1POW) / 0.5);
                 if ("0".equals(component.getIdentifier().getName()) && component.getPollData() > 0.5) {
                     instruction = Executors.callable(new MoveInstruction(M1POW, M1TIMEMS));
                     try {

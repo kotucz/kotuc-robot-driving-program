@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JPanel;
-import robotour.navi.gps.GPXIO;
+import robotour.navi.gps.input.GPXIO;
 import robotour.navi.gps.Track;
 import robotour.navi.gps.TrackPoint;
 

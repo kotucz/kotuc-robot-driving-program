@@ -2,8 +2,8 @@ package robotour.gui.map;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import robotour.navi.gps.Azimuth;
-import robotour.navi.local.beacons.RobotPose;
+import robotour.navi.basic.Azimuth;
+import robotour.navi.basic.RobotPose;
 
 /**
  *

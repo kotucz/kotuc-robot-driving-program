@@ -2,8 +2,8 @@ package robotour.tests;
 
 import java.io.File;
 import java.io.FileInputStream;
-import robotour.hardware.arduino.ArduinoEventRobot;
-import robotour.hardware.arduino.SerialComm;
+import robotour.arduino.ArduinoEventRobot;
+import robotour.arduino.SerialComm;
 import robotour.util.log.SerialLog;
 
 /**

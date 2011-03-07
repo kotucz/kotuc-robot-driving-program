@@ -4,6 +4,7 @@
  */
 package robotour.navi.local.beacons;
 
+import robotour.navi.basic.RobotPose;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import robotour.gui.map.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

@@ -3,7 +3,7 @@ package robotour.navi.local.birdseye;
 import java.awt.Color;
 import robotour.gui.map.LocalPath;
 import robotour.iface.Wheels;
-import robotour.navi.local.beacons.RobotPose;
+import robotour.navi.basic.RobotPose;
 import robotour.util.log.events.WheelCommandEvent;
 
 /**

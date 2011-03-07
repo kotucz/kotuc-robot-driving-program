@@ -1,6 +1,8 @@
 package eurobot.kuba;
 
+import robotour.navi.local.odometry.DiffOdometry;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -12,7 +14,6 @@ class KubaInputReader implements Runnable {
 //    final SerialComm serial;
 //    final BinaryMessageReceived messager;
     final DiffOdometry odometry = new DiffOdometry();
-
     final KubaPuppet puppet;
 
     public KubaInputReader(DataInputStream dataInStream, KubaPuppet puppet) {
@@ -27,20 +28,27 @@ class KubaInputReader implements Runnable {
 ////        this.serial = serial;
 ////        this.messager = messager;
 //    }
-
-
     public void run() {
         while (true) {
             try {
-                short length = dataInStream.readShort();
-                short[] array = new short[length];
+                byte startBit = dataInStream.readByte();
+                byte address = dataInStream.readByte();
+                byte length = dataInStream.readByte();
+                byte[] array = new byte[length];
                 for (int i = 0; i < length; i++) {
-                    array[i] = dataInStream.readShort();
+                    array[i] = dataInStream.readByte();
                 }
-                System.out.println("Robot received: " + Arrays.toString(array));
+                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
                 //                    received(array);
+            } catch (EOFException ex) {
+                System.err.print("eof");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             } catch (IOException ex) {
-                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);                
             }
         }
     }
@@ -48,9 +56,7 @@ class KubaInputReader implements Runnable {
     void startListening() {
         new Thread(this).start();
     }
-
 //    private void received(List<Byte> buffer) {
 //        messager.messageRecieved(Binary.toArray(buffer));
 //    }
-
 }

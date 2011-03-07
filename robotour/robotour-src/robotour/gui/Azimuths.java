@@ -1,6 +1,6 @@
 package robotour.gui;
 
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

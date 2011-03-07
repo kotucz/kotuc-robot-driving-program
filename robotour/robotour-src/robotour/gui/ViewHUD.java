@@ -16,7 +16,7 @@ import javax.vecmath.Vector3d;
 import robotour.iface.Compass;
 import robotour.iface.MeasureException;
 import robotour.iface.Sonar;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 import robotour.util.RobotSystems;
 import robotour.util.Sonars;
 import vision.ImageFrame;

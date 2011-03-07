@@ -3,7 +3,7 @@ package robotour.util;
 import robotour.iface.MeasureException;
 import robotour.iface.Bufferable;
 import robotour.iface.Compass;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

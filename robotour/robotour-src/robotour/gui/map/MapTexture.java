@@ -1,10 +1,11 @@
 package robotour.gui.map;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
-import robotour.navi.gps.Angle;
+import java.awt.geom.Point2D;
+import robotour.navi.basic.Angle;
 import robotour.navi.gps.GPSPoint;
 import robotour.navi.gps.Latitude;
 import robotour.navi.gps.Longitude;
@@ -46,8 +47,11 @@ class MapTexture {
     public void paint(Graphics g, MapView map) {
         int w = (int) (texture.getWidth(null) * tscale / map.getScale());
         int h = (int) (texture.getHeight(null) * tscale / map.getScale());
-        Point toPoint = map.toPoint(point);
-        g.drawImage(texture, toPoint.x - w / 2, toPoint.y - h / 2, w, h, null);
-        g.drawString("+", toPoint.x, toPoint.y);
+//        Point toPoint = map.toPoint(point);
+        Point2D toPoint = map.toLocal(point).toAwtPoint();
+        Graphics2D g2 = (Graphics2D)g;
+        g2.drawImage(texture, (int)toPoint.getX() - w / 2, (int)toPoint.getY() - h / 2, w, h, null);
+//        g.drawString("+", toPoint.getX(), toPoint.getY());
+        System.err.println("TO DO texture drawing");
     }
 }

@@ -28,7 +28,7 @@ public class SerialLog {
         if (logDirectory == null) {
 //            logDirectory = new File("./logs/run-" + System.currentTimeMillis() + "/");
 //            logDirectory = new File("./logs/run-" + createReadableTime() + "/");
-            logDirectory = new File(System.getProperty("user.home") + "/RobotourLogs/");
+            logDirectory = new File(System.getProperty("user.home") + "/EurobotLogs/");
             logDirectory.mkdirs();
             logDirectory.mkdir();
         }
@@ -49,12 +49,12 @@ public class SerialLog {
     public static String createReadableTime() {
 //        new Date().getH;
         final Calendar cal = Calendar.getInstance();
-        String time = "" + (long) ((10000L * cal.get(Calendar.YEAR)
+        String time = "" + (cal.get(Calendar.YEAR)+"-"
                 + 100 * (cal.get(Calendar.MONTH) + 1)
-                + cal.get(Calendar.DAY_OF_MONTH)) * 1000000
-                + +10000 * cal.get(Calendar.HOUR_OF_DAY)
-                + +100 * cal.get(Calendar.MINUTE)
-                + +cal.get(Calendar.SECOND));
+                + cal.get(Calendar.DAY_OF_MONTH)) + "-"
+                + 10000 * cal.get(Calendar.HOUR_OF_DAY)
+                + 100 * cal.get(Calendar.MINUTE)
+                + cal.get(Calendar.SECOND);
         return time;
     }
 

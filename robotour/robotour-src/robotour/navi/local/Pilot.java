@@ -1,5 +1,6 @@
 package robotour.navi.local;
 
+import robotour.navi.local.odometry.RTOdometry;
 import robotour.iface.MeasureException;
 import robotour.iface.Wheels;
 import robotour.iface.Compass;
@@ -8,8 +9,8 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robotour.navi.gps.Angle;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Angle;
+import robotour.navi.basic.Azimuth;
 
 /**
  *
@@ -58,7 +59,7 @@ public class Pilot {
      * @param immediateReturn if method is nonblocking
      */
     public void travel(double distance, boolean immediateReturn) {
-        final long duration = Math.abs(Math.round(1000.0 * distance / Odometry.powerToSpeed(power)));
+        final long duration = Math.abs(Math.round(1000.0 * distance / RTOdometry.powerToSpeed(power)));
         System.out.println("Travel " + distance + " m = " + duration + " ms");
         go(power * Math.signum(distance), null, duration, immediateReturn);
     }
@@ -75,7 +76,7 @@ public class Pilot {
         System.out.println("Rotate " + angle + " = " + duration + " ms");
         go(null, steerpower * Math.signum(angle.radians()), duration, immediateReturn);
     }
-    private double maxAngSpeed = Odometry.powerToAngularSpeed(1);
+    private double maxAngSpeed = RTOdometry.powerToAngularSpeed(1);
 
     private double powerToAngularSpeed(double steerpower) {
         return maxAngSpeed * steerpower;

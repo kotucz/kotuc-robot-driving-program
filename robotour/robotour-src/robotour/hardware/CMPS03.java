@@ -3,7 +3,7 @@ package robotour.hardware;
 import java.io.IOException;
 import robotour.iface.Compass;
 import robotour.iface.MeasureException;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *
