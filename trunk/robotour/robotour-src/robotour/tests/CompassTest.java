@@ -6,7 +6,7 @@ import robotour.iface.Compass;
 import robotour.iface.MeasureException;
 import robotour.util.RobotSystems;
 import robotour.iface.Wheels;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

@@ -8,7 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import robotour.iface.Compass;
 import robotour.iface.MeasureException;
 import robotour.util.RobotSystems;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

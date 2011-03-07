@@ -2,7 +2,7 @@ package robotour.gui.map;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import robotour.navi.gps.GPSInput;
+import robotour.navi.gps.input.GPSInput;
 
 /**
  *

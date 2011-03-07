@@ -1,5 +1,6 @@
 package robotour.navi.local.slam;
 
+import robotour.navi.basic.RobotPose;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,9 +14,9 @@ import robotour.gui.map.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
-import robotour.hardware.arduino.SerialComm;
-import robotour.hardware.arduino.SharpScanReader;
-import robotour.navi.gps.Azimuth;
+import robotour.arduino.SerialComm;
+import robotour.arduino.SharpScanReader;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

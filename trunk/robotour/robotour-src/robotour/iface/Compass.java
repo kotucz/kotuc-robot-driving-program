@@ -1,7 +1,7 @@
 package robotour.iface;
 
 import robotour.*;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

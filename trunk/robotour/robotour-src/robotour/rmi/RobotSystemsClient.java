@@ -9,7 +9,7 @@ import robotour.iface.MeasureException;
 import robotour.util.RobotSystems;
 import robotour.iface.Sonar;
 import robotour.util.Sonars;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

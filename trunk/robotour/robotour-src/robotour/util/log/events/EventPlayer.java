@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.gui.map.LocalPoint;
-import robotour.hardware.arduino.ArduinoEventRobot;
-import robotour.hardware.arduino.SerialComm;
-import robotour.navi.gps.Azimuth;
+import robotour.arduino.ArduinoEventRobot;
+import robotour.arduino.SerialComm;
+import robotour.navi.basic.Azimuth;
 import robotour.util.log.SerialLog;
 
 /**

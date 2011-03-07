@@ -1,7 +1,7 @@
 package robotour.navi.local.birdseye;
 
-import robotour.navi.gps.Azimuth;
-import robotour.navi.local.beacons.RobotPose;
+import robotour.navi.basic.Azimuth;
+import robotour.navi.basic.RobotPose;
 
 /**
  *

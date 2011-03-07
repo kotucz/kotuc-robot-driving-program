@@ -1,5 +1,6 @@
 package robotour.navi.gps;
 
+import robotour.navi.gps.input.GPSInput;
 import gnu.io.NoSuchPortException;
 import java.io.File;
 import java.io.IOException;

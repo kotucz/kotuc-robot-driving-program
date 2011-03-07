@@ -18,7 +18,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 import vision.input.VideoInput;
 
 /**

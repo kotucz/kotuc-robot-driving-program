@@ -6,7 +6,7 @@ import java.util.List;
 import robotour.gui.map.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
-import robotour.navi.local.beacons.RobotPose;
+import robotour.navi.basic.RobotPose;
 import vision.pathfinding.birdseye.RealFloor;
 import vision.pathfinding.knowledge.DoubleMatrix;
 

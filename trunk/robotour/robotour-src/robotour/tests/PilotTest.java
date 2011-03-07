@@ -6,8 +6,8 @@ import robotour.iface.MeasureException;
 import robotour.navi.local.Pilot;
 import robotour.util.RobotSystems;
 import robotour.iface.Compass;
-import robotour.navi.gps.Angle;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Angle;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

@@ -9,7 +9,7 @@ public class TrackPoint {
     private GPSPoint point;
     private double altitude;
     private long time;
-    String name = "";
+    private String name = "";
 
     public TrackPoint() {
     }
@@ -21,6 +21,10 @@ public class TrackPoint {
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }    
 
     public long getTime() {
         return time;

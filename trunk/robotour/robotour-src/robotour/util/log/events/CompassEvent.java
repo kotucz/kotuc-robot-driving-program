@@ -1,7 +1,7 @@
 package robotour.util.log.events;
 
 import robotour.iface.Compass;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 
 /**
  *

@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import robotour.iface.MeasureException;
 import robotour.iface.Sonar;
 import robotour.iface.Wheels;
-import robotour.navi.gps.Azimuth;
+import robotour.navi.basic.Azimuth;
 import robotour.util.RobotSystems;
 
 /**

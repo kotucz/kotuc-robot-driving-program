@@ -4,8 +4,8 @@ import robotour.iface.MeasureException;
 import robotour.iface.Wheels;
 import robotour.iface.Compass;
 import robotour.iface.Tachometer;
-import robotour.navi.gps.Azimuth;
-import robotour.navi.local.Odometry;
+import robotour.navi.basic.Azimuth;
+import robotour.navi.local.odometry.RTOdometry;
 
 /**
  *
