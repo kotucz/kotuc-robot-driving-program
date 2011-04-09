@@ -1,19 +1,15 @@
 package robotour.util.log;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import robotour.util.log.events.EventLog;
 import robotour.util.log.events.EventsXmlWriter;
-import vision.input.VideoInput;
 
 /**
  *
@@ -94,40 +90,7 @@ public class SerialLog {
         return tis;
     }
 
-    public static VideoInput getLoggedVideoInput(final VideoInput vi) {
-        return getLoggedVideoInput(vi, getVideoLogDir());
-    }
-    private static File vidLogDir;
-
-    public static File getVideoLogDir() {
-        if (vidLogDir == null) {
-            vidLogDir = new File(getRunLogDirectory(), "video/");
-            vidLogDir.mkdir();
-        }
-        return vidLogDir;
-    }
-
-    public static File createVideoSnapFile(long snaptime) {
-        return new File(getVideoLogDir(), "snap" + snaptime + ".png");
-    }
-
-    public static VideoInput getLoggedVideoInput(final VideoInput vi, final File viLogDir) {
-
-        return new VideoInput() {
-
-            public BufferedImage snap() {
-                BufferedImage image = vi.snap();
-                try {
-                    ImageIO.write(image, "png", createVideoSnapFile(System.currentTimeMillis()));
-                } catch (IOException ex) {
-                    Logger.getLogger(SerialLog.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return image;
-            }
-        };
-
-    }
-
+   
     public static void saveEvents(EventLog eventLog) {
 
         File file = new File(getRunLogDirectory(), "events-" + createReadableTime() + ".xml");

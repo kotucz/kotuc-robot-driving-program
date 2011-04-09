@@ -6,7 +6,7 @@ import robotour.navi.basic.Azimuth;
  *
  * @author Kotuc
  */
-enum Azimuths {
+public enum Azimuths {
     NORTH(0),
     NE(45),
     EAST(90),

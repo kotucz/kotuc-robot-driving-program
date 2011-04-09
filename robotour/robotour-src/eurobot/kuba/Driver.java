@@ -3,8 +3,6 @@ package eurobot.kuba;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.iface.DiffWheels;
-import robotour.navi.basic.Angle;
-import robotour.navi.basic.Azimuth;
 import robotour.navi.local.odometry.RTOdometry;
 
 /**
@@ -52,11 +50,11 @@ public class Driver {
      * @param distance
      * @param immediateReturn if method is nonblocking
      */
-    public void travel(double distance, boolean immediateReturn) {
-        final long duration = Math.abs(Math.round(1000.0 * distance / RTOdometry.powerToSpeed(power)));
-        System.out.println("Travel " + distance + " m = " + duration + " ms");
-        go(power * Math.signum(distance), null, duration, immediateReturn);
-    }
+//    public void travel(double distance, boolean immediateReturn) {
+//        final long duration = Math.abs(Math.round(1000.0 * distance / RTOdometry.powerToSpeed(power)));
+//        System.out.println("Travel " + distance + " m = " + duration + " ms");
+//        go(power * Math.signum(distance), null, duration, immediateReturn);
+//    }
 
     /**
      * Makes a rotation of angle clockwise. Counterclockwise if negative.
@@ -64,12 +62,12 @@ public class Driver {
      * @param angle
      * @param immediateReturn if method is nonblocking
      */
-    public void rotate(Angle angle, boolean immediateReturn) {
-        final long duration = Math.abs(Math.round(1000.0 * angle.radians() / powerToAngularSpeed(steerpower)));
-        //final long duration = 1000;
-        System.out.println("Rotate " + angle + " = " + duration + " ms");
-        go(null, steerpower * Math.signum(angle.radians()), duration, immediateReturn);
-    }
+//    public void rotate(Angle angle, boolean immediateReturn) {
+//        final long duration = Math.abs(Math.round(1000.0 * angle.radians() / powerToAngularSpeed(steerpower)));
+//        //final long duration = 1000;
+//        System.out.println("Rotate " + angle + " = " + duration + " ms");
+//        go(null, steerpower * Math.signum(angle.radians()), duration, immediateReturn);
+//    }
     private double maxAngSpeed = RTOdometry.powerToAngularSpeed(1);
 
     private double powerToAngularSpeed(double steerpower) {
@@ -82,10 +80,10 @@ public class Driver {
      * @param azimuth
      * @param immediateReturn if method is nonblocking
      */
-    public void rotateTo(Azimuth azimuth, boolean immediateReturn) {
-        Angle angle = azimuth.sub(cmps.getAzimuth()).shorter();
-        this.rotate(angle, immediateReturn);
-    }
+//    public void rotateTo(Azimuth azimuth, boolean immediateReturn) {
+//        Angle angle = azimuth.sub(cmps.getAzimuth()).shorter();
+//        this.rotate(angle, immediateReturn);
+//    }
     //private static final Object monitor = new Object();
     double leftspeed;
     double rightspeed;
