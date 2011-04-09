@@ -9,7 +9,7 @@ public class ArdOdometer {
     private short lastticks;
     private volatile short ticks;
 
-    void setTicks(short ticks) {
+    public void setTicks(short ticks) {
         this.ticks = ticks;
     }
 

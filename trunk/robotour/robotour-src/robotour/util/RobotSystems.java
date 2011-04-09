@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.hardware.I2CUSB;
 import robotour.hardware.SSC32;
-import vision.input.VideoInput;
-import vision.input.VideoInputs;
 
 /**
  *
@@ -20,7 +18,7 @@ public class RobotSystems {
     private Wheels wheels;
     private Sonars sonars;
     private Compass compass;
-    private VideoInput video;
+//    private VideoInput video;
     private Tachometer encoder;
     private SSC32 ssc;
 
@@ -62,10 +60,10 @@ public class RobotSystems {
         }
 
 
-        if (videoEnabled) {
-            systems.setVideo(VideoInputs.getVideo());
-
-        }
+//        if (videoEnabled) {
+//            systems.setVideo(VideoInputs.getVideo());
+//
+//        }
 
         if (i2cEnabled) {
             try {
@@ -89,9 +87,9 @@ public class RobotSystems {
         return ssc;
     }
 
-    public void setVideo(VideoInput video) {
-        this.video = video;
-    }
+//    public void setVideo(VideoInput video) {
+//        this.video = video;
+//    }
 
     public static RobotSystems getDefault() {
         try {
@@ -136,9 +134,9 @@ public class RobotSystems {
         return compass;
     }
 
-    public VideoInput getVideo() {
-        return this.video;
-    }
+//    public VideoInput getVideo() {
+//        return this.video;
+//    }
 
     public void setCompass(Compass compass) {
         this.compass = compass;

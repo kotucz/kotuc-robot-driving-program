@@ -1,4 +1,4 @@
-package robotour.navi.local.birdseye;
+package robotour.navi.local.odometry;
 
 import java.awt.Color;
 import robotour.gui.map.LocalPath;

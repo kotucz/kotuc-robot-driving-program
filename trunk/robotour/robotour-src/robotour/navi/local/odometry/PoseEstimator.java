@@ -1,4 +1,4 @@
-package robotour.navi.local.birdseye;
+package robotour.navi.local.odometry;
 
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
@@ -13,7 +13,7 @@ public class PoseEstimator {
     double steerConst = 80;
 
     //  speed -1 .. 1, steer -1 .. 1, time seconds
-    RobotPose transform(RobotPose start, double speed, double steer, double time) {
+    public RobotPose transform(RobotPose start, double speed, double steer, double time) {
 
         RobotPose pose = new RobotPose(start);
         while (time > 0) {

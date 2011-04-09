@@ -1,7 +1,5 @@
 package eurobot.kuba;
 
-import eurobot.kuba.KubaInputReader;
-import eurobot.kuba.KubaOutProtocol;
 import eurobot.kuba.remote.Server;
 import robotour.navi.local.odometry.DiffOdometry;
 import gnu.io.PortInUseException;
@@ -24,13 +22,19 @@ public class KubaPuppet {
     final DiffOdometry diffOdometry;
 //    private final ArduinoSerial serial;
     final KubaOutProtocol protocol;
-    public static final byte CMD_STOP = 100;
-    public static final byte CMD_DRIVE_LR = 1;
-    public static final byte CMD_STATUS_REQ = 0;
-    public static final byte CMD_DRIVE_FT = 102;
-    public static final byte CMD_DRIVE_SET_SPEED = 105;
-    public static final byte CMD_DRIVE_SET_AZIMUTH = 107;
-    public static final byte CMD_CMPS_CALIBRATE = 97;
+    
+    public static final byte CMD_PING = 0;
+    public static final byte CMD_GET_INFO = 1;
+    public static final byte CMD_CHANGE_ADDR = 2;
+    public static final byte CMD_RESET = 3;
+    public static final byte CMD_DRIVE_LR = 4;
+    public static final byte CMD_ENABLE = 5;
+    
+//    public static final byte CMD_DRIVE_FT = 102;
+//    public static final byte CMD_DRIVE_SET_SPEED = 105;
+//    public static final byte CMD_DRIVE_SET_AZIMUTH = 107;
+//    public static final byte CMD_CMPS_CALIBRATE = 97;
+
     public static final byte ADDR_DRIVER = 0x42;
 
 //    private final EventListener eventlog;
@@ -76,10 +80,11 @@ public class KubaPuppet {
 //        }
     }
 
-    public void statusRequest() {
+    public void getInfo() {
         try {
 //            DataOutputStream data =
-            protocol.createNewMessage(ADDR_DRIVER, 1, CMD_STATUS_REQ);
+            System.out.println("Get info: ");
+            protocol.createNewMessage(ADDR_DRIVER, 1, CMD_GET_INFO);
             protocol.sendMessage();
 //            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
         } catch (IOException ex) {
@@ -99,6 +104,19 @@ public class KubaPuppet {
             Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void setEnabled(boolean enabled) {
+        try {
+            System.out.println("Set enabled: " + enabled);
+            DataOutputStream data = protocol.createNewMessage(ADDR_DRIVER, 2, CMD_DRIVE_LR);
+            data.writeByte((enabled)?1:0);            
+            protocol.sendMessage();
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
+        } catch (IOException ex) {
+            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     public void incrementOdometry(int left, int right) {
         diffOdometry.addEncoderDiff(left, right);
@@ -121,7 +139,7 @@ public class KubaPuppet {
     }
 
     public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException {
-        final SerialComm openSerialComm = SerialComm.openSerialComm("COM18");
+        final SerialComm openSerialComm = SerialComm.openSerialComm("/dev/ttyUSB0");
         KubaPuppet puppet = new KubaPuppet(new KubaOutProtocol(openSerialComm));
 
         KubaInputReader inreader = new KubaInputReader(openSerialComm.getDataInputStream(), puppet);
@@ -131,7 +149,7 @@ public class KubaPuppet {
 
         puppet.setSpeediLR(100, 100);
 
-        puppet.statusRequest();
+        puppet.getInfo();
 
         puppet.stopMotors();
 

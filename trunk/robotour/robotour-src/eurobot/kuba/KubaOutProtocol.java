@@ -2,16 +2,9 @@ package eurobot.kuba;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import robotour.arduino.BinaryMessageReceived;
 import robotour.arduino.SerialComm;
-import robotour.util.Binary;
 
 /**
  *
