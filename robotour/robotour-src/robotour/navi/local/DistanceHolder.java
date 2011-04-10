@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import robotour.iface.MeasureException;
 import robotour.iface.Sonar;
 import robotour.iface.Wheels;
-import robotour.navi.basic.Azimuth;
 import robotour.util.RobotSystems;
 
 /**
@@ -14,11 +13,12 @@ import robotour.util.RobotSystems;
  */
 public class DistanceHolder implements Runnable {
 
-    private final double proportional = 0.5;
-    private final double integral = 0.5;
-    private final double derivative = 0.0;
-    private double integralSum = 0;
-    private double previous = 0;
+//    private final double proportional = 0.5;
+//    private final double integral = 0.5;
+//    private final double derivative = 0.0;
+//    private double integralSum = 0;
+//    private double previous = 0;
+    private final PID pid = new PID(0.5, 0.5, 0, 0.6);
     private final Sonar sonar;
     private final Wheels wheels;
 
@@ -50,13 +50,16 @@ public class DistanceHolder implements Runnable {
                 double error = sonar.getDistance() - hold;
                 System.out.println("Distance error: " + error);
 
-                integralSum = 0.6 * (integralSum + error);
+                wheels.setSpeed(pid.pidPeriodical(error));
 
-                wheels.setSpeed(error * proportional +
-                        integralSum * integral +
-                        (error - previous) * derivative);
 
-                previous = error;
+//                integralSum = 0.6 * (integralSum + error);
+//
+//                wheels.setSpeed(error * proportional +
+//                        integralSum * integral +
+//                        (error - previous) * derivative);
+//
+//                previous = error;
 
             } catch (MeasureException ex) {
                 wheels.setSpeed(0);

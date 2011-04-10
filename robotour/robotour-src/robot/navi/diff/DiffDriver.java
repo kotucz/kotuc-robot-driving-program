@@ -1,42 +1,19 @@
-package eurobot.kuba;
+package robot.navi.diff;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.iface.DiffWheels;
-import robotour.navi.local.odometry.RTOdometry;
 
 /**
  *
  * @author Kotuc
  */
-public class Driver {
+public class DiffDriver {
 
     final DiffWheels diffWheels;
     volatile Thread move = null;
 
-    class SpeedProfile {
-
-        private static final double maxAcceleration = 0.1;
-        private static final double maxSpeed = 0.1;
-    }
-
-    class WheelCmd {
-        final double leftspeed;
-        final double rightspeed;
-        final double leftacc;
-        final double rightacc;
-        final long duration;
-
-        public WheelCmd(double leftspeed, double rightspeed, double leftacc, double rightacc, long duration) {
-            this.leftspeed = leftspeed;
-            this.rightspeed = rightspeed;
-            this.leftacc = leftacc;
-            this.rightacc = rightacc;
-            this.duration = duration;
-        }
-    }
-
-    public Driver(DiffWheels diffWheels) {
+    public DiffDriver(DiffWheels diffWheels) {
         this.diffWheels = diffWheels;
     }
 
@@ -68,11 +45,11 @@ public class Driver {
 //        System.out.println("Rotate " + angle + " = " + duration + " ms");
 //        go(null, steerpower * Math.signum(angle.radians()), duration, immediateReturn);
 //    }
-    private double maxAngSpeed = RTOdometry.powerToAngularSpeed(1);
+//    private double maxAngSpeed = RTOdometry.powerToAngularSpeed(1);
 
-    private double powerToAngularSpeed(double steerpower) {
-        return maxAngSpeed * steerpower;
-    }
+//    private double powerToAngularSpeed(double steerpower) {
+//        return maxAngSpeed * steerpower;
+//    }
 
     /**
      * Rotates by shorter side to selected azimuth. May use compass.
@@ -84,11 +61,7 @@ public class Driver {
 //        Angle angle = azimuth.sub(cmps.getAzimuth()).shorter();
 //        this.rotate(angle, immediateReturn);
 //    }
-    //private static final Object monitor = new Object();
-    double leftspeed;
-    double rightspeed;
-    double leftdist;
-    double rightdist;
+    //private static final Object monitor = new Object();    
 
     private synchronized void go(double left, double right, long durationms, boolean immediateReturn) {
         diffWheels.setSpeedsLR(left, right);
@@ -98,7 +71,7 @@ public class Driver {
             try {
                 move.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(Driver.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DiffDriver.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -121,7 +94,7 @@ public class Driver {
             try {
                 Thread.sleep(millis);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Driver.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DiffDriver.class.getName()).log(Level.SEVERE, null, ex);
             }
             diffWheels.stop();
 

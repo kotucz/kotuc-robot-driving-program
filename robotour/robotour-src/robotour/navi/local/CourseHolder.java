@@ -14,11 +14,12 @@ import robotour.util.RobotSystems;
  */
 public class CourseHolder implements Runnable {
 
-    private final double proportional = 0.8;
-    private final double integral = 0.3;
-    private double integralSum = 0;
-    private final double derivative = 0.5;
-    private double previous = 0;
+    final PID pid = new PID(0.8, 0.3, 0.5, 0.9);
+//    private final double proportional = 0.8;
+//    private final double integral = 0.3;
+//    private double integralSum = 0;
+//    private final double derivative = 0.5;
+//    private double previous = 0;
     private final Compass compass;
     private final Wheels wheels;
 
@@ -41,14 +42,16 @@ public class CourseHolder implements Runnable {
                 
                 double error = hold.sub(compass.getAzimuth()).shorter().radians();
                 System.out.println("Course error: "+error);
+               
+                wheels.setSteer(pid.pidPeriodical(error));
 
-                integralSum = 0.9 * (integralSum + error);
-
-                wheels.setSteer(error * proportional +
-                        integralSum * integral +
-                        (error - previous) * derivative);
-
-                previous = error;
+//                integralSum = 0.9 * (integralSum + error);
+//
+//                wheels.setSteer(error * proportional +
+//                        integralSum * integral +
+//                        (error - previous) * derivative);
+//
+//                previous = error;
 
             } catch (MeasureException ex) {
                 Logger.getLogger(CourseHolder.class.getName()).log(Level.SEVERE, null, ex);

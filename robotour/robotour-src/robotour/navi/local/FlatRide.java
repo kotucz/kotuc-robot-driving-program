@@ -16,7 +16,7 @@ public class FlatRide {
     public static void main(String[] args) throws InterruptedException, MeasureException {
         RobotSystems systems = RobotSystems.getDefault();
         Compass compass = systems.getCompass();
-        Pilot pilot = new Pilot(systems.getWheels(), compass);
+        BlindPilot pilot = new BlindPilot(systems.getWheels(), compass);
         DistanceHolder disth = new DistanceHolder(systems.getCenterSonar(), systems.getWheels());
 
         System.out.println(compass.getAzimuth());
