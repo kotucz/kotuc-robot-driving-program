@@ -1,6 +1,6 @@
 package eurobot.kuba;
 
-import robotour.navi.local.odometry.DiffOdometry;
+import robot.navi.diff.DiffOdometry;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;

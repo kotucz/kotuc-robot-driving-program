@@ -38,15 +38,15 @@ public class MainBraitenbergOld implements Runnable {
 //        LocalMap.showMap(systems);
 
     }
-    private int targetAzimuth = 90;
+//    private int targetAzimuth = 90;
 
     public void run() {
 
-        try {
-            Thread.sleep(30 * 1000); // 30 s to start
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(30 * 1000); // 30 s to start
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
         long startt = System.currentTimeMillis(); // 90 s to end
         while ((System.currentTimeMillis() - startt) < 90 * 1000) {
 

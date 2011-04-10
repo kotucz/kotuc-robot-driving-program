@@ -11,9 +11,9 @@ import java.util.Iterator;
 public class PathDriver implements Runnable {
 
     private final LocalPath path;
-    private final Pilot pilot;
+    private final BlindPilot pilot;
 
-    public PathDriver(LocalPath path, Pilot pilot) {
+    public PathDriver(LocalPath path, BlindPilot pilot) {
         this.path = path;
         this.pilot = pilot;
     }

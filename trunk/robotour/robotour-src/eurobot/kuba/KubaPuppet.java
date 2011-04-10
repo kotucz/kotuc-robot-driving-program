@@ -1,7 +1,7 @@
 package eurobot.kuba;
 
 import eurobot.kuba.remote.Server;
-import robotour.navi.local.odometry.DiffOdometry;
+import robot.navi.diff.DiffOdometry;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import java.io.DataOutputStream;

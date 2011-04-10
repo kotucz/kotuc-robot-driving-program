@@ -1,7 +1,6 @@
 package robotour.navi.basic;
 
 import robotour.gui.map.LocalPoint;
-import robotour.navi.basic.Azimuth;
 
 /**
  * Is mutable.
@@ -57,6 +56,12 @@ public class RobotPose {
         //        shift(fwx, fwy, rotangleccw);
     }
 
+    /**
+     * Moves the point of this pose.
+     * @param azimuth
+     * @param dist
+     * @see LocalPoint.move
+     */
     public void move(Azimuth azimuth, double dist) {
         point.move(azimuth, dist);
     }       

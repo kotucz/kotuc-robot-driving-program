@@ -1,4 +1,6 @@
-package robotour.navi.local.odometry;
+package robot.navi.diff;
+
+import robotour.navi.local.odometry.OdometryBase;
 
 /**
  *
@@ -6,19 +8,22 @@ package robotour.navi.local.odometry;
  */
 public class DiffOdometry extends OdometryBase {
 
-    // distance between left and right wheel
-    private static final double WHEEL_GAUGE = 0.3;
 
-    private static final double tickspm = 10000;
-    private static final double mpticks = 1.0/tickspm;
+    final DiffWheelParameters params = new DiffWheelParameters();
 
     public void addEncoderDiff(int lticks, int rticks) {
-        odometry1(lticks*mpticks, rticks*mpticks);
+        odometryRough(lticks*params.mpticks, rticks*params.mpticks);
     }
 
-    void odometry1(double ldist, double rdist) {
+    /**
+     * Rough approximation of arc motion.
+     * Works fine for small amount of rotation or distance.
+     * @param ldist
+     * @param rdist
+     */
+    void odometryRough(double ldist, double rdist) {
 
-        double rotanglecw = ((ldist - rdist) / (WHEEL_GAUGE * Math.PI));
+        double rotanglecw = ((ldist - rdist) / (params.fullRevolution));
 
         double dist = (ldist + rdist) / 2.0;
 
@@ -38,7 +43,7 @@ public class DiffOdometry extends OdometryBase {
     }
 
     void odometry2(double ldist, double rdist) {
-        double rotanglecw = ((ldist - rdist) / (WHEEL_GAUGE * Math.PI));
+        double rotanglecw = ((ldist - rdist) / (params.fullRevolution));
 
         double dist1 = (ldist + rdist) / 2.0f;
         double dist = 0;
@@ -61,7 +66,9 @@ public class DiffOdometry extends OdometryBase {
 //        shift(fwx, fwy, rotangleccw);
     }
 
-    void shift(double fwx, double fxy, double radsccw) {
-        // TODO implement
-    }
+
+//    void shift(double fwx, double fxy, double radsccw) {
+//        // TODO implement
+//        // needed??
+//    }
 }

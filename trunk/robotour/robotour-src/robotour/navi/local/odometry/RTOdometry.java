@@ -10,20 +10,17 @@ import robotour.iface.Wheels;
  */
 public class RTOdometry  extends OdometryBase implements Wheels {
     
-    private static final int PERIOD = 30;
-    private static final double WHEEL_DIAMETER = 0.115; // metres
-    private static final double WHEEL_TRACK = 0.23; // metres
-    private static final double WHEEL_FRONT_BACK_DIST = 0.13; // metres
-    private static final double WHEEL_CIRCLE_RADIUS = Math.sqrt(Math.pow(WHEEL_TRACK / 2.0, 2) + Math.pow(WHEEL_FRONT_BACK_DIST / 2.0, 2));
+    
     /**
      * metres per sec when speed power is 1
      */
-    private static final double MAX_SPEED = 0.9; // mps
+    final double MAX_SPEED = 0.9; // mps
 //    private static final double MAX_SPEED = 1.5; // mps
     /**
      * radians per sec when steer power is 1
      */
-    private static final double MAX_ANGULAR_SPEED = 0.91 * (/*0.5 **/WHEEL_FRONT_BACK_DIST / WHEEL_CIRCLE_RADIUS) / WHEEL_CIRCLE_RADIUS; // rads per sec
+    final double MAX_ANGULAR_SPEED = 0.91;
+
 //    private List<LocalPoint> track = new LinkedList<LocalPoint>();
 //    private Azimuth azimuth = Azimuth.valueOfRadians(0.0);
     private double lastSteer = 0;
@@ -58,7 +55,7 @@ public class RTOdometry  extends OdometryBase implements Wheels {
      * @param power
      * @return speed in m/s of moving with motors power
      */
-    public static double powerToSpeed(double power) {
+    public double powerToSpeed(double power) {
         return MAX_SPEED * power;
     }
 
@@ -67,7 +64,7 @@ public class RTOdometry  extends OdometryBase implements Wheels {
      * @param steerPower
      * @return speed in m/s/s of moving with motors power
      */
-    public static double powerToAngularSpeed(double steerPower) {
+    public double powerToAngularSpeed(double steerPower) {
         return MAX_ANGULAR_SPEED * steerPower;
     }
     private long lastNano = System.nanoTime();
@@ -77,7 +74,7 @@ public class RTOdometry  extends OdometryBase implements Wheels {
         long nowNano = System.nanoTime();
         final double interval = (nowNano - lastNano) / 1.0e9;
 
-        double rotation = RTOdometry.powerToAngularSpeed(this.lastSteer) * interval;
+        double rotation = powerToAngularSpeed(this.lastSteer) * interval;
 
         this.lastNano = nowNano;
 

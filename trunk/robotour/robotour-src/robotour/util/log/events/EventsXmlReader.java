@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.parsers.SAXParserFactory;
-import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.io.UTFInputStreamReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -33,9 +31,11 @@ public class EventsXmlReader {
     /**
      * Parse the input stream and store the result in trackData and markerData
      *
+     * @param source
      */
     public EventsXmlReader(InputStream source) throws IOException {
-        this.inputSource = new InputSource(UTFInputStreamReader.create(source, "UTF-8"));
+//        this.inputSource = new InputSource(UTFInputStreamReader.create(source, "UTF-8"));
+        this.inputSource = new InputSource(source);
     }
 
     /**
@@ -71,11 +71,11 @@ public class EventsXmlReader {
             }
         }
 
-        private LatLon parseLatLon(Attributes atts) {
-            return new LatLon(
-                    parseCoord(atts.getValue("lat")),
-                    parseCoord(atts.getValue("lon")));
-        }
+//        private LatLon parseLatLon(Attributes atts) {
+//            return new LatLon(
+//                    parseCoord(atts.getValue("lat")),
+//                    parseCoord(atts.getValue("lon")));
+//        }
 
         @Override
         public void startElement(String namespaceURI, String qName, String rqName, Attributes atts) throws SAXException {

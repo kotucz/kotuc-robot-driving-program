@@ -20,7 +20,7 @@ import robotour.gui.map.MapView;
  *
  * @author Tomas
  */
-public class Explorer implements Runnable {
+public class OdometrySonarMapping implements Runnable {
 
     private LocalMap map = new LocalMap();
     private Sonars sonars;
@@ -28,7 +28,7 @@ public class Explorer implements Runnable {
     private RTOdometry odometry;
     final RobotImgLayer robotImgLayer = new RobotImgLayer();
 
-    public Explorer(RobotSystems systems) {
+    public OdometrySonarMapping(RobotSystems systems) {
         this.sonars = systems.getSonars();
         this.cmps = systems.getCompass();
         this.odometry = new RTOdometry(systems.getWheels());
@@ -81,6 +81,6 @@ public class Explorer implements Runnable {
     }
 
     public static void main(String[] args) {
-        new Thread(new Explorer(RobotSystems.getDefault())).start();
+        new Thread(new OdometrySonarMapping(RobotSystems.getDefault())).start();
     }
 }

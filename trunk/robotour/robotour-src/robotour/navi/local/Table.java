@@ -47,7 +47,7 @@ public class Table {
         
         view.addLayer(drivePath);
 
-        Pilot pilot = new Pilot(systems.getWheels(), systems.getCompass());
+        BlindPilot pilot = new BlindPilot(systems.getWheels(), systems.getCompass());
 //        pilot.travel(1, false);
 //        pilot.rotateTo(Azimuth.valueOfDegrees(135), false);
         PathDriver pathDriver = new PathDriver(drivePath, pilot);
