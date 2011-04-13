@@ -308,7 +308,7 @@ public class MapViewOld extends MapView {
 
     public JFrame showInFrame() {
         JFrame frame = new JFrame("Map");
-        frame.add(new MapPanel(this));
+        frame.add(new MapViewPanel(this));
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

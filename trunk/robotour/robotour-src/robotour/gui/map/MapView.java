@@ -323,15 +323,22 @@ public class MapView {
     }
 
     public void drawDot(LocalPoint center, double radius) {
-        graphics.fill(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, center.getX() + radius, center.getY() + radius));
 
+        Stroke stroke = graphics.getStroke();
+        graphics.setStroke(new BasicStroke((float) 0.001f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
+        graphics.fill(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius,2* radius, 2* radius));
+
+        graphics.setStroke(stroke);
     }
 
     public void drawOval(LocalPoint center, double radius) {
-        graphics.draw(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, center.getX() + radius, center.getY() + radius));
+        Stroke stroke = graphics.getStroke();
+        graphics.setStroke(new BasicStroke((float) 0.001f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-
+        graphics.draw(new Ellipse2D.Double(center.getX() - radius, center.getY() - radius, 2* radius, 2*radius));
+//        System.out.println("HERE");
+        graphics.setStroke(stroke);
     }
 
     public void drawTexture(Image texture, GPSPoint center, double scale, Angle azimuth) {
@@ -369,7 +376,7 @@ public class MapView {
 
     public JFrame showInFrame() {
         JFrame frame = new JFrame("Map");
-        frame.add(new MapPanel(this));
+        frame.add(new MapViewPanel(this));
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

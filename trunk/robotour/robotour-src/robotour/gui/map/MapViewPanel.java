@@ -15,13 +15,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 
-public class MapPanel extends JPanel {
+public class MapViewPanel extends JPanel {
 
     public final MapView map;
     private LocalPoint mousePoint = new LocalPoint(0, 0);
 
 
-    public MapPanel(MapView m) {
+    public MapViewPanel(MapView m) {
 
         if (m == null) {
             throw new NullPointerException("map");
@@ -122,8 +122,8 @@ public class MapPanel extends JPanel {
         map.paint(g);
 
         //                GPSPoint O = new GPSPoint();
-        g.setColor(Color.RED);
-        g.drawRect(-2, -2, 5, 5);
+//        g.setColor(Color.RED);
+//        g.drawRect(-2, -2, 5, 5);
 
         g.setColor(Color.WHITE);
 

@@ -39,7 +39,7 @@ class TrackManagerPanel extends JPanel {
 //        add(DeviceManager.getGps().getActiveLog());
 
     }
-    MapPanel mapPanel = new MapPanel(new MapView());
+    MapViewPanel mapPanel = new MapViewPanel(new MapView());
     List<Track> tracks = new ArrayList<Track>();
     Track selectedTrack;
 

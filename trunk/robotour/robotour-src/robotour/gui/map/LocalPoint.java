@@ -66,7 +66,6 @@ public class LocalPoint {
 //    public static LocalPoint valueOf(GPSPoint gps) {
 //        return new LocalPoint(gps.getLongMetres(), gps.getLatMetres());
 //    }
-
     public LocalPoint move(Azimuth azimuth, double distance) {
         double dx = distance * azimuth.sin();
         double dy = distance * azimuth.cos();
@@ -74,13 +73,13 @@ public class LocalPoint {
     }
 
     public Azimuth getAzimuthTo(LocalPoint point) {
-        return Azimuth.valueOfRadians(Math.PI/2-Math.atan2(point.y-this.y, point.x-this.x));
+        return Azimuth.valueOfRadians(Math.PI / 2 - Math.atan2(point.y - this.y, point.x - this.x));
 
 //        return Azimuth.valueOfRadians(Math.atan2(-(point.x-this.x), point.y-this.y));
     }
 
     public double getDistanceTo(LocalPoint point) {
-        return Math.hypot(point.x-this.x, point.y-this.y);
+        return Math.hypot(point.x - this.x, point.y - this.y);
     }
 
     public Point2d toPoint2d() {
@@ -91,4 +90,7 @@ public class LocalPoint {
         return new Point2D.Double(this.x, this.y);
     }
 
+    public LocalPoint add(LocalPoint that) {
+        return new LocalPoint(this.x + that.x, this.y + that.y);
+    }
 }
