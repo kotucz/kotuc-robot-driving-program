@@ -26,6 +26,9 @@ public class KubaOutProtocol {
 
     public void sendMessage(byte[] bytes) throws IOException {
         System.out.println("Quorra command: "+Arrays.toString(bytes));
+        if (bytes[2] == bytes.length+3) {
+            throw new IOException("Lengths does not match "+bytes[2]+"!="+bytes.length+"+3");
+        }
         dataOutStream.write(bytes);
 //        daaOutStream.write(bytes);
 //        for (int i = 0; i < bytes.length; i++) {
