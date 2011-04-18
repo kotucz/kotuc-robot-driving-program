@@ -166,6 +166,8 @@ public class KubaPuppet {
         Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
         server.start();
 
+        puppet.setEnabled(true);
+
         System.out.println("READY");
 
 
