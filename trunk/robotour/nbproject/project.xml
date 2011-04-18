@@ -6,6 +6,7 @@
             <name>robotour</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <source-roots>
+                <root id="src.java.dir"/>
                 <root id="src.robotour-src.dir"/>
             </source-roots>
             <test-roots>

@@ -30,7 +30,6 @@ public final class Ports {
             HashMap<String, CommPortIdentifier> map = new HashMap<String, CommPortIdentifier>();
             try {
 
-
                 logger.log(Level.INFO, "Ports: searching: ");
 
                 Enumeration portList = CommPortIdentifier.getPortIdentifiers();
@@ -60,4 +59,11 @@ public final class Ports {
     public static CommPortIdentifier getPortIdentifier(String portName) {
         return PortsHolder.portMap.get(portName);
     }
+
+    public static String getSomeName() {
+        return PortsHolder.portMap.keySet().iterator().next();
+//        return PortsHolder.portMap.get(portName);
+    }
+
+
 }

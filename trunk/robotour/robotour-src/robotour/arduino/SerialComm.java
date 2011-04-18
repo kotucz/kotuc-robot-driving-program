@@ -29,6 +29,7 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
     private SerialPort serialPort;
     private final DataInputStream dataInputStream;
 //    public SharpScanReader sharpReader;
+    private static final int DEFAULT_BAUD = 9600;
 
     public SerialComm(InputStream inputStream, OutputStream outputStream) {
         this.is = inputStream;
@@ -83,7 +84,7 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
     }
 
     public static SerialComm openSerialComm(String portName) throws PortInUseException, UnsupportedCommOperationException, IOException {
-        return openSerialComm(portName, 9600);
+        return openSerialComm(portName, DEFAULT_BAUD);
     }
 
     public static SerialComm openSerialComm(String portName, int speed) throws PortInUseException, UnsupportedCommOperationException, IOException {

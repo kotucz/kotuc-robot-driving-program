@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.arduino.SerialComm;
+import robotour.hardware.Ports;
 import robotour.iface.DiffWheels;
 import robotour.navi.basic.RobotPose;
 
@@ -36,7 +37,7 @@ public class KubaPuppet {
 //    public static final byte CMD_DRIVE_SET_AZIMUTH = 107;
 //    public static final byte CMD_CMPS_CALIBRATE = 97;
 
-    public static final byte ADDR_DRIVER = (byte)1;
+    public static final byte ADDR_DRIVER = 1;
 
 //    private final EventListener eventlog;
     public KubaPuppet(KubaOutProtocol kprotocol/*, EventListener eventlistener*/) {
@@ -154,7 +155,8 @@ public class KubaPuppet {
 
     public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException, InterruptedException {
 //        String port = "COM23";
-        String port = "/dev/ttyUSB0";
+//        String port = "/dev/ttyUSB0";
+        String port = Ports.getSomeName();
         int baud = 115200;
        
         final SerialComm serial = SerialComm.openSerialComm(port, baud);
