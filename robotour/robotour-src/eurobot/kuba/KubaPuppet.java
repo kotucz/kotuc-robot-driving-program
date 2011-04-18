@@ -36,7 +36,7 @@ public class KubaPuppet {
 //    public static final byte CMD_DRIVE_SET_AZIMUTH = 107;
 //    public static final byte CMD_CMPS_CALIBRATE = 97;
 
-    public static final byte ADDR_DRIVER = 0x42;
+    public static final byte ADDR_DRIVER = (byte)1;
 
 //    private final EventListener eventlog;
     public KubaPuppet(KubaOutProtocol kprotocol/*, EventListener eventlistener*/) {
@@ -81,6 +81,19 @@ public class KubaPuppet {
 //        }
     }
 
+    public void ping() {
+        try {
+//            DataOutputStream data =
+            System.out.println("ping: ");
+            protocol.createNewMessage(ADDR_DRIVER, 1, CMD_PING);
+            protocol.sendMessage();
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
+        } catch (IOException ex) {
+            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
     public void getInfo() {
         try {
 //            DataOutputStream data =
@@ -109,7 +122,7 @@ public class KubaPuppet {
     public void setEnabled(boolean enabled) {
         try {
             System.out.println("Set enabled: " + enabled);
-            DataOutputStream data = protocol.createNewMessage(ADDR_DRIVER, 2, CMD_DRIVE_LR);
+            DataOutputStream data = protocol.createNewMessage(ADDR_DRIVER, 2, CMD_ENABLE);
             data.writeByte((enabled)?1:0);            
             protocol.sendMessage();
 //            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
@@ -139,20 +152,43 @@ public class KubaPuppet {
         }
     }
 
-    public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException {
-        final SerialComm openSerialComm = SerialComm.openSerialComm("/dev/ttyUSB0");
-        KubaPuppet puppet = new KubaPuppet(new KubaOutProtocol(openSerialComm));
+    public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException, InterruptedException {
+        String port = "COM23";
+//        String port = "/dev/ttyUSB0";
+        int baud = 115200;
+        
 
-        KubaInputReader inreader = new KubaInputReader(openSerialComm.getDataInputStream(), puppet);
+
+        final SerialComm serial = SerialComm.openSerialComm(port, baud);
+        KubaPuppet puppet = new KubaPuppet(new KubaOutProtocol(serial));
+
+        KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
         inreader.startListening();
-        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
-        server.start();
 
-        puppet.setSpeediLR(100, 100);
+        
+
+//        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
+//        server.start();
+
+        puppet.ping();
+
+        Thread.sleep(1000);
 
         puppet.getInfo();
 
+        Thread.sleep(1000);
+
+        puppet.setEnabled(true);
+
+        Thread.sleep(1000);
+
+        puppet.setSpeediLR(100, 100);
+
+        Thread.sleep(1000);
+
         puppet.stopMotors();
+
+        Thread.sleep(1000);
 
 //        kubaPuppet.protocol.dataOutStream.write('K');
 //        kubaPuppet.protocol.dataOutStream.flush();
