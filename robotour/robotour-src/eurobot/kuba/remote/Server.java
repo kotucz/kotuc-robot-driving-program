@@ -38,7 +38,7 @@ public final class Server implements StringMessageListener {
     }
 
     public void start() {
-        Thread t = new Thread() {
+        Thread t = new Thread("Server Thread") {
             public void run() {
                 System.out.println("Listennint on " + socket.getLocalPort() + " " + socket.getLocalPort() + " " + socket.toString());
                 while (true) {
