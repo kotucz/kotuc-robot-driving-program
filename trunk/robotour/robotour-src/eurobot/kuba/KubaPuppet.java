@@ -153,47 +153,48 @@ public class KubaPuppet {
     }
 
     public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException, InterruptedException {
-        String port = "COM23";
-//        String port = "/dev/ttyUSB0";
+//        String port = "COM23";
+        String port = "/dev/ttyUSB0";
         int baud = 115200;
-        
-
-
+       
         final SerialComm serial = SerialComm.openSerialComm(port, baud);
         KubaPuppet puppet = new KubaPuppet(new KubaOutProtocol(serial));
 
         KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
         inreader.startListening();
+       
+        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
+        server.start();
+
+        System.out.println("READY");
+
+
+//        puppet.ping();
+//
+//        Thread.sleep(1000);
+//
+//        puppet.getInfo();
+//
+//        Thread.sleep(1000);
+//
+//        puppet.setEnabled(true);
+//
+//        Thread.sleep(1000);
+//
+//        puppet.setSpeediLR(100, 100);
+//
+//        Thread.sleep(1000);
+//
+//        puppet.stopMotors();
+//
+//        Thread.sleep(1000);
+//System.out.println("DONE");
 
         
-
-//        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
-//        server.start();
-
-        puppet.ping();
-
-        Thread.sleep(1000);
-
-        puppet.getInfo();
-
-        Thread.sleep(1000);
-
-        puppet.setEnabled(true);
-
-        Thread.sleep(1000);
-
-        puppet.setSpeediLR(100, 100);
-
-        Thread.sleep(1000);
-
-        puppet.stopMotors();
-
-        Thread.sleep(1000);
-
 //        kubaPuppet.protocol.dataOutStream.write('K');
 //        kubaPuppet.protocol.dataOutStream.flush();
 
-        System.out.println("DONE");
+        
 //        System.exit(0);
 
     }
