@@ -38,7 +38,7 @@ public final class Server implements StringMessageListener {
     }
 
     public void start() {
-        new Thread() {
+        Thread t = new Thread() {
             public void run() {
                 System.out.println("Listennint on " + socket.getLocalPort() + " " + socket.getLocalPort() + " " + socket.toString());
                 while (true) {
@@ -50,7 +50,9 @@ public final class Server implements StringMessageListener {
                     }
                 }
             }
-        }.start();
+        };
+        t.setDaemon(true);
+        t.start();
     }
     
     void addRemoteClient(Client client) {

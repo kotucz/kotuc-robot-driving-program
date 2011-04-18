@@ -54,7 +54,7 @@ class Client implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            System.out.println("Closing");
+            System.out.println("Closing "+this);
             close();
         }
     }
