@@ -56,7 +56,9 @@ class KubaInputReader implements Runnable {
 
     void startListening() {
         System.out.print("Listening ... ");
-        new Thread(this).start();
+        Thread t = new Thread(this, "Kuba Listener");
+        t.setDaemon(true);
+        t.start();
     }
 //    private void received(List<Byte> buffer) {
 //        messager.messageRecieved(Binary.toArray(buffer));

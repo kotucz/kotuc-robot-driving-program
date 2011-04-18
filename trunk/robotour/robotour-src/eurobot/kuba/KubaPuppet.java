@@ -153,8 +153,8 @@ public class KubaPuppet {
     }
 
     public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException, InterruptedException {
-//        String port = "COM23";
-        String port = "/dev/ttyUSB0";
+        String port = "COM23";
+//        String port = "/dev/ttyUSB0";
         int baud = 115200;
        
         final SerialComm serial = SerialComm.openSerialComm(port, baud);

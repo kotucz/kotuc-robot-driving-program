@@ -8,8 +8,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import robotour.util.ShutdownManager;
+import robotour.util.Shutdownable;
 
-class Client implements Runnable {
+class Client implements Runnable, Shutdownable {
 
     final BufferedReader in;
     final InputStream inputStream;
@@ -23,11 +25,13 @@ class Client implements Runnable {
         this.outputStream = outputStream;
         this.out = new PrintWriter(outputStream, true);
         this.in = new BufferedReader(new InputStreamReader(inputStream));
+        ShutdownManager.registerStutdown(this);
     }
 
     void close() {
 //        Server.clients.remove(this);
         if (out != null) {
+            sendMessage("Closing ... Bye.");
             out.close();
         }
         if (in != null) {
@@ -77,6 +81,10 @@ class Client implements Runnable {
 
     public void setListener(StringMessageListener listener) {
         this.listener = listener;
+    }
+
+    public void shutdown() {
+        close();
     }
 
     
