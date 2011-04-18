@@ -26,9 +26,10 @@ public class KubaPuppet {
     public static final byte CMD_PING = 0;
     public static final byte CMD_GET_INFO = 1;
     public static final byte CMD_CHANGE_ADDR = 2;
-    public static final byte CMD_RESET = 3;
-    public static final byte CMD_DRIVE_LR = 4;
-    public static final byte CMD_ENABLE = 5;
+    public static final byte CMD_CHANGE_BAUD = 3;
+    public static final byte CMD_RESET = 4;
+    public static final byte CMD_DRIVE_LR = 5;
+    public static final byte CMD_ENABLE = 6;
     
 //    public static final byte CMD_DRIVE_FT = 102;
 //    public static final byte CMD_DRIVE_SET_SPEED = 105;
