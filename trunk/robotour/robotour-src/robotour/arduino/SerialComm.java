@@ -37,8 +37,12 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
         ShutdownManager.registerStutdown(this);
     }
 
+//    SerialComm(CommPortIdentifier portId) throws IOException {
+//        this(portId, 9600);
+//    }
+
     /** Creates a new instance of GPSInput */
-    SerialComm(CommPortIdentifier portId) throws IOException {
+    SerialComm(CommPortIdentifier portId, int speed) throws IOException {
         try {
 
 // listening
@@ -48,7 +52,8 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
 
 //            serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 //            serialPort.setSerialPortParams(38400, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-            serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+//            serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+            serialPort.setSerialPortParams(speed, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
             serialPort.addEventListener(this);
             serialPort.notifyOnDataAvailable(true);
@@ -61,7 +66,7 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
 //            os = serialPort.getOutputStream();
             os = SerialLog.getLoggedOutputStream(serialPort.getOutputStream(), SerialLog.createLogFile("kuba-out"));
 
-            System.out.println(this + ": " + portId.getName() + " opened");
+            System.out.println(this + ": " + portId.getName() + " opened "+speed+" baud");
 
 // end listening part
 
@@ -78,13 +83,17 @@ public class SerialComm implements SerialPortEventListener, Shutdownable {
     }
 
     public static SerialComm openSerialComm(String portName) throws PortInUseException, UnsupportedCommOperationException, IOException {
+        return openSerialComm(portName, 9600);
+    }
+
+    public static SerialComm openSerialComm(String portName, int speed) throws PortInUseException, UnsupportedCommOperationException, IOException {
         CommPortIdentifier portId = Ports.getPortIdentifier(portName);
 
         if (portId == null) {
             throw new IllegalArgumentException("Port not found: " + portName);
         }
 
-        return new SerialComm(portId);
+        return new SerialComm(portId, speed);
     }
 
     @Override

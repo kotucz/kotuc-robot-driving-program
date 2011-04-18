@@ -41,7 +41,8 @@ class KubaInputReader implements Runnable {
                 System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
                 //                    received(array);
             } catch (EOFException ex) {
-                System.err.print("eof");
+//                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
+                System.out.print("eof");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex1) {
@@ -54,6 +55,7 @@ class KubaInputReader implements Runnable {
     }
 
     void startListening() {
+        System.out.print("Listening ... ");
         new Thread(this).start();
     }
 //    private void received(List<Byte> buffer) {

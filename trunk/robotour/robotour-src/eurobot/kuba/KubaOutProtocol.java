@@ -1,9 +1,11 @@
 package eurobot.kuba;
 
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import robotour.arduino.SerialComm;
 
 /**
@@ -18,12 +20,19 @@ public class KubaOutProtocol {
     final DataOutputStream dataOutStream;    
 
     public KubaOutProtocol(SerialComm serial) {
-        this.dataOutStream = new DataOutputStream(serial.getOutputStream());        
+        this.dataOutStream = new DataOutputStream(serial.getOutputStream());
+//        this.dataOutStream = new DataOutputStream(new BufferedOutputStream(serial.getOutputStream()));
         this.serial = serial;                
     }
-   
+
     public void sendMessage(byte[] bytes) throws IOException {
+        System.out.println("Quorra command: "+Arrays.toString(bytes));
         dataOutStream.write(bytes);
+//        daaOutStream.write(bytes);
+//        for (int i = 0; i < bytes.length; i++) {
+//            byte b = bytes[i];
+//            dataOutStream.write(b);
+//        }
         dataOutStream.flush();
     }
 
