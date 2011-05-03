@@ -21,7 +21,7 @@ public class MessageDecoder implements StringMessageListener {
             if ("lr".equals(split[0])) {
                 int left = Integer.parseInt(split[1]);
                 int right = Integer.parseInt(split[2]);
-                puppet.setSpeediLR(left, right);
+                puppet.out.setSpeediLR(left, right);
             }
         } catch (Exception e) {
             e.printStackTrace();

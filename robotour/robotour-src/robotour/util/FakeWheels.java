@@ -5,7 +5,7 @@ import robotour.iface.Wheels;
 import robotour.iface.Compass;
 import robotour.iface.Tachometer;
 import robotour.navi.basic.Azimuth;
-import robotour.navi.local.odometry.RTOdometry;
+import robotour.localization.odometry.RTOdometry;
 
 /**
  *

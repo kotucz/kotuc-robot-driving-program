@@ -2,8 +2,8 @@ package robotour.arduino;
 
 import javax.swing.JFrame;
 import robotour.behavior.Arbitrator;
-import robotour.behavior.Braitenberg;
-import robotour.behavior.KeyboardDriving;
+import robotour.behavior.impl.Braitenberg;
+import robotour.behavior.impl.KeyboardDriving;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
 import robotour.iface.Compass;

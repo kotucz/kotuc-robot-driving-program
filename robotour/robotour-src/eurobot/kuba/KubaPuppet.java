@@ -1,16 +1,12 @@
 package eurobot.kuba;
 
-import eurobot.kuba.remote.Server;
-import robot.navi.diff.DiffOdometry;
+import eurobot.kuba.remote.StringMessageListener;
+import robotour.pathing.simple.DiffOdometry;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import robotour.arduino.SerialComm;
 import robotour.hardware.Ports;
-import robotour.iface.DiffWheels;
 import robotour.navi.basic.RobotPose;
 
 /**
@@ -19,49 +15,34 @@ import robotour.navi.basic.RobotPose;
  */
 public class KubaPuppet {
 
-    final DiffWheels diffWheels;
+//    final DiffWheels diffWheels;
     final DiffOdometry diffOdometry;
 //    private final ArduinoSerial serial;
-    final KubaOutProtocol protocol;
-    
-    public static final byte CMD_PING = 0;
-    public static final byte CMD_GET_INFO = 1;
-    public static final byte CMD_CHANGE_ADDR = 2;
-    public static final byte CMD_CHANGE_BAUD = 3;
-    public static final byte CMD_RESET = 4;
-    public static final byte CMD_DRIVE_LR = 5;
-    public static final byte CMD_ENABLE = 6;
-    
-//    public static final byte CMD_DRIVE_FT = 102;
-//    public static final byte CMD_DRIVE_SET_SPEED = 105;
-//    public static final byte CMD_DRIVE_SET_AZIMUTH = 107;
-//    public static final byte CMD_CMPS_CALIBRATE = 97;
+    public final KubaOutProtocol out;
 
-    public static final byte ADDR_DRIVER = 1;
-
-//    private final EventListener eventlog;
+    //    private final EventListener eventlog;
     public KubaPuppet(KubaOutProtocol kprotocol/*, EventListener eventlistener*/) {
-        this.protocol = kprotocol;
+        this.out = kprotocol;
 //        this.eventlog = eventlistener;
 //        this.serial = serial;
         this.diffOdometry = new DiffOdometry();
 
-        this.diffWheels = new DiffWheels() {
-
-            public void setSpeedsLR(double leftSpeed, double rightSpeed) {
-                double left = checkRange(leftSpeed, "leftSpeed");
-                double right = checkRange(rightSpeed, "rightSpeed");
-                int ileft = (int) (left * 90);
-                int iright = (int) (right * 90);
-                long currentTimeMillis = System.currentTimeMillis();
-                setSpeediLR(ileft, iright);
-//                eventlog.eventRecieved(new WheelCommandEvent(left, right, currentTimeMillis));
-            }
-
-            public void stop() {
-                stopMotors();
-            }
-        };
+//        this.diffWheels = new DiffWheels() {
+//
+//            public void setSpeedsLR(double leftSpeed, double rightSpeed) {
+//                double left = checkRange(leftSpeed, "leftSpeed");
+//                double right = checkRange(rightSpeed, "rightSpeed");
+//                int ileft = (int) (left * 90);
+//                int iright = (int) (right * 90);
+//                long currentTimeMillis = System.currentTimeMillis();
+//                out.setSpeediLR(ileft, iright);
+////                eventlog.eventRecieved(new WheelCommandEvent(left, right, currentTimeMillis));
+//            }
+//
+//            public void stop() {
+//                stopMotors();
+//            }
+//        };
 
     }
 
@@ -73,65 +54,10 @@ public class KubaPuppet {
 //    public void setSpeedLR(double mpers) {
 //        slip.sendMessage(new int[]{CMD_DRIVE_FT,});
 //    }
-    public void stopMotors() {
-//        try {
-        setSpeediLR(0, 0);
-//            protocol.sendMessage(new byte[]{CMD_STOP});
-//        } catch (IOException ex) {
-//            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    public void stop() {
+        out.setEnabled(false);
+        out.setSpeediLR(0, 0);
     }
-
-    public void ping() {
-        try {
-//            DataOutputStream data =
-            System.out.println("ping: ");
-            protocol.createNewMessage(ADDR_DRIVER, 1, CMD_PING);
-            protocol.sendMessage();
-//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
-        } catch (IOException ex) {
-            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-
-    public void getInfo() {
-        try {
-//            DataOutputStream data =
-            System.out.println("Get info: ");
-            protocol.createNewMessage(ADDR_DRIVER, 1, CMD_GET_INFO);
-            protocol.sendMessage();
-//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
-        } catch (IOException ex) {
-            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void setSpeediLR(int left, int right) {
-        try {
-            System.out.println("Set speed int left: " + left + " right: " + right);
-            DataOutputStream data = protocol.createNewMessage(ADDR_DRIVER, 5, CMD_DRIVE_LR);
-            data.writeShort(left);
-            data.writeShort(right);
-            protocol.sendMessage();
-//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
-        } catch (IOException ex) {
-            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void setEnabled(boolean enabled) {
-        try {
-            System.out.println("Set enabled: " + enabled);
-            DataOutputStream data = protocol.createNewMessage(ADDR_DRIVER, 2, CMD_ENABLE);
-            data.writeByte((enabled)?1:0);            
-            protocol.sendMessage();
-//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
-        } catch (IOException ex) {
-            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
 
     public void incrementOdometry(int left, int right) {
         diffOdometry.addEncoderDiff(left, right);
@@ -145,11 +71,11 @@ public class KubaPuppet {
                 pose.getAzimuth().degrees());
     }
 
-    public Server server;
+    public StringMessageListener server;
 
     private void broadcastMessage(String message) {
         if (server!=null) {
-            server.broadcoastMessage(message);
+            server.message(message);
         }
     }
 
@@ -165,10 +91,10 @@ public class KubaPuppet {
         KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
         inreader.startListening();
        
-        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
-        server.start();
+//        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
+//        server.start();
 
-        puppet.setEnabled(true);
+        puppet.out.setEnabled(true);
 
         System.out.println("READY");
 
@@ -234,9 +160,9 @@ public class KubaPuppet {
 //            Logger.getLogger(KubaPuppet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-    public DiffWheels getDiffWheels() {
-        return diffWheels;
-    }
+//    public DiffWheels getDiffWheels() {
+//        return diffWheels;
+//    }
 
     static double checkRange(double val, String name) {
         if (Math.abs(val) > 1.0) {
