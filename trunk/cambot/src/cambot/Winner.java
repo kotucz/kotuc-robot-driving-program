@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import robotour.behavior.Arbitrator;
 import robotour.behavior.Behavior;
-import robotour.behavior.SonarCollisionAvoidance;
+import robotour.behavior.impl.SonarCollisionAvoidance;
 import robotour.hardware.SSC32;
 import robotour.iface.Compass;
 import robotour.iface.Wheels;

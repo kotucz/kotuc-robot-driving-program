@@ -1,20 +1,37 @@
 package eurobot.kuba;
 
-import robot.navi.diff.DiffOdometry;
+import robotour.pathing.simple.DiffOdometry;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import robotour.util.Binary;
 
 class KubaInputReader implements Runnable {
 
+    enum Event {
+        NOT_USED(0, 4),
+        COLOR(1, 4),
+        ENCODER(2, 4);
+
+        private Event(int cmd, int length) {
+            this.cmd = (byte)cmd;
+            this.length = (byte)length;
+        }
+
+        final byte cmd;
+        final byte length;
+    }
+
+    public static final byte EVENT_SENSOR = 3;
+    
     final DataInputStream dataInStream;
 //    final SerialComm serial;
 //    final BinaryMessageReceived messager;
     final DiffOdometry odometry = new DiffOdometry();
-    final KubaPuppet puppet;
+    private final KubaPuppet puppet;
 
     public KubaInputReader(DataInputStream dataInStream, KubaPuppet puppet) {
         this.dataInStream = dataInStream;
@@ -31,15 +48,14 @@ class KubaInputReader implements Runnable {
     public void run() {
         while (true) {
             try {
-                byte startBit = dataInStream.readByte();
+                byte startByte = dataInStream.readByte();
                 byte address = dataInStream.readByte();
                 byte length = dataInStream.readByte();
                 byte[] array = new byte[length];
                 for (int i = 0; i < length; i++) {
                     array[i] = dataInStream.readByte();
                 }
-                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
-                //                    received(array);
+                received(startByte, address, length, array);
             } catch (EOFException ex) {
 //                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
                 System.out.print("eof");
@@ -49,10 +65,40 @@ class KubaInputReader implements Runnable {
                     Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             } catch (IOException ex) {
-                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);                
+                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
+
+    void received(byte startByte, byte address, byte length, byte[] array) {
+        byte cmd = array[0];
+        System.out.println("Robot received: " + startByte + " " + address + " " + length + " " + Arrays.toString(array));
+
+        switch (cmd) {
+            case EVENT_SENSOR:
+                Binary.toInt16(array, 1);
+                Binary.toInt16(array, 3);
+                break;
+            default:
+                System.out.println("Not recognized!");
+        }
+
+
+    }
+
+    void colorSensor(byte id, short red, short green, short blue, short ir, short uv) {
+        
+    }
+
+    void button(byte id, byte state) {
+
+    }
+
+
+    void encoder(byte id, byte state) {
+
+    }
+
 
     void startListening() {
         System.out.print("Listening ... ");

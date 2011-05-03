@@ -9,7 +9,7 @@ import robotour.iface.Wheels;
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
 import robotour.navi.local.birdseye.BirdMap;
-import robotour.navi.local.odometry.PosePredictor;
+import robotour.localization.odometry.PosePredictor;
 
 /**
  *

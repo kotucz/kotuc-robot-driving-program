@@ -3,7 +3,7 @@ package robotour.tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.iface.MeasureException;
-import robotour.navi.local.BlindPilot;
+import robotour.behavior.pid.BlindPilot;
 import robotour.util.RobotSystems;
 import robotour.iface.Compass;
 import robotour.navi.basic.Angle;
