@@ -1,8 +1,8 @@
-package robotour.navi.local.slam;
+package experimental.slam;
 
 import java.util.Collection;
 import javax.vecmath.Vector2d;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.navi.basic.Azimuth;
 
 /**

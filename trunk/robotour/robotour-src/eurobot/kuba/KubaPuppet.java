@@ -7,6 +7,8 @@ import gnu.io.UnsupportedCommOperationException;
 import java.io.IOException;
 import robotour.arduino.SerialComm;
 import robotour.hardware.Ports;
+import robotour.iface.DiffWheels;
+import robotour.navi.basic.Angle;
 import robotour.navi.basic.RobotPose;
 
 /**
@@ -15,8 +17,8 @@ import robotour.navi.basic.RobotPose;
  */
 public class KubaPuppet {
 
-//    final DiffWheels diffWheels;
-    final DiffOdometry diffOdometry;
+    final DiffWheels diffWheels;
+    
 //    private final ArduinoSerial serial;
     public final KubaOutProtocol out;
 
@@ -24,25 +26,24 @@ public class KubaPuppet {
     public KubaPuppet(KubaOutProtocol kprotocol/*, EventListener eventlistener*/) {
         this.out = kprotocol;
 //        this.eventlog = eventlistener;
-//        this.serial = serial;
-        this.diffOdometry = new DiffOdometry();
+//        this.serial = serial        
 
-//        this.diffWheels = new DiffWheels() {
-//
-//            public void setSpeedsLR(double leftSpeed, double rightSpeed) {
-//                double left = checkRange(leftSpeed, "leftSpeed");
-//                double right = checkRange(rightSpeed, "rightSpeed");
-//                int ileft = (int) (left * 90);
-//                int iright = (int) (right * 90);
-//                long currentTimeMillis = System.currentTimeMillis();
-//                out.setSpeediLR(ileft, iright);
-////                eventlog.eventRecieved(new WheelCommandEvent(left, right, currentTimeMillis));
-//            }
-//
-//            public void stop() {
-//                stopMotors();
-//            }
-//        };
+        this.diffWheels = new DiffWheels() {
+
+            public void setSpeedsLR(double leftSpeed, double rightSpeed) {
+                double left = checkRange(leftSpeed, "leftSpeed");
+                double right = checkRange(rightSpeed, "rightSpeed");
+                int ileft = (int) (left * 90);
+                int iright = (int) (right * 90);
+                long currentTimeMillis = System.currentTimeMillis();
+                out.setSpeediLR(ileft, iright);
+//                eventlog.eventRecieved(new WheelCommandEvent(left, right, currentTimeMillis));
+            }
+
+            public void stop() {
+                out.setSpeediLR(0, 0);
+            }
+        };
 
     }
 
@@ -54,18 +55,22 @@ public class KubaPuppet {
 //    public void setSpeedLR(double mpers) {
 //        slip.sendMessage(new int[]{CMD_DRIVE_FT,});
 //    }
-    public void stop() {
-        out.setEnabled(false);
-        out.setSpeediLR(0, 0);
+//    public void stop() {
+//        out.setEnabled(false);
+//        out.setSpeediLR(0, 0);
+//    }
+
+    void forward(double dist) {
+
     }
 
-    public void incrementOdometry(int left, int right) {
-        diffOdometry.addEncoderDiff(left, right);
-        positionUpdated();
+    void turnR(Angle right) {
+
     }
 
-    private void positionUpdated() {
-                RobotPose pose = diffOdometry.getPose();
+
+
+    private void positionUpdated(RobotPose pose) {
         broadcastMessage("pos "+pose.getPoint().getX()*1000+" "+
                 pose.getPoint().getY()*1000+" "+
                 pose.getAzimuth().degrees());

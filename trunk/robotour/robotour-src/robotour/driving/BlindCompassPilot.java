@@ -1,4 +1,4 @@
-package robotour.behavior.pid;
+package robotour.driving;
 
 import robotour.iface.MeasureException;
 import robotour.iface.Wheels;
@@ -15,7 +15,7 @@ import robotour.navi.basic.Azimuth;
  *
  * @author Tomas
  */
-public class BlindPilot {
+public class BlindCompassPilot {
 
     private double power = 0.3;
     private double steerpower = 0.3;
@@ -25,7 +25,7 @@ public class BlindPilot {
     private volatile Double speed;
     private volatile Double steer;
 
-    public BlindPilot(Wheels wheels, Compass cmps) {
+    public BlindCompassPilot(Wheels wheels, Compass cmps) {
         this.wheels = wheels;
         this.cmps = cmps;
         new Thread(new Runnable() {
@@ -36,7 +36,7 @@ public class BlindPilot {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(BlindPilot.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(BlindCompassPilot.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -106,7 +106,7 @@ public class BlindPilot {
                 }
             }
         } catch (MeasureException ex) {
-            Logger.getLogger(BlindPilot.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlindCompassPilot.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class BlindPilot {
             }
             this.rotate(angle, immediateReturn);
         } catch (MeasureException ex) {
-            Logger.getLogger(BlindPilot.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlindCompassPilot.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     //private static final Object monitor = new Object();
@@ -144,13 +144,13 @@ public class BlindPilot {
                 try {
                     wait();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(BlindPilot.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BlindCompassPilot.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(BlindPilot.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BlindCompassPilot.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return;

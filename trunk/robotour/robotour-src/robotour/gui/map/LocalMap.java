@@ -1,5 +1,6 @@
 package robotour.gui.map;
 
+import robotour.navi.basic.LocalPoint;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;

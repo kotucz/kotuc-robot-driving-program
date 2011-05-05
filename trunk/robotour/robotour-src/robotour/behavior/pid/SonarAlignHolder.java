@@ -12,7 +12,7 @@ import robotour.util.RobotSystems;
  *
  * @author Tomas
  */
-public class AlignHolder implements Runnable {
+public class SonarAlignHolder implements Runnable {
 
     private final double proportional = 1;
     private final double integral = 0.3;
@@ -23,7 +23,7 @@ public class AlignHolder implements Runnable {
     private final Sonar rigtSonar;
     private final Wheels wheels;
 
-    public AlignHolder(Sonar leftSonar, Sonar rigtSonar, Wheels wheels) {
+    public SonarAlignHolder(Sonar leftSonar, Sonar rigtSonar, Wheels wheels) {
         this.leftSonar = leftSonar;
         this.rigtSonar = rigtSonar;
         this.wheels = wheels;
@@ -57,18 +57,18 @@ public class AlignHolder implements Runnable {
 
             } catch (MeasureException ex) {
                 wheels.stop();
-                Logger.getLogger(AlignHolder.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SonarAlignHolder.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
-                Logger.getLogger(AlignHolder.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SonarAlignHolder.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     public static void main(String[] args) {
         RobotSystems systems = RobotSystems.getDefault();
-        new AlignHolder(systems.getLeftSonar(), systems.getRightSonar(), systems.getWheels()).hold(0.5);
+        new SonarAlignHolder(systems.getLeftSonar(), systems.getRightSonar(), systems.getWheels()).hold(0.5);
     }
 }

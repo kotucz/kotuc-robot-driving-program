@@ -1,8 +1,9 @@
-package robotour.behavior.pid;
+package robotour.behavior.impl;
 
 import robotour.gui.map.LocalPath;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import java.util.Iterator;
+import robotour.driving.BlindCompassPilot;
 
 /**
  *
@@ -11,9 +12,9 @@ import java.util.Iterator;
 public class PathDriver implements Runnable {
 
     private final LocalPath path;
-    private final BlindPilot pilot;
+    private final BlindCompassPilot pilot;
 
-    public PathDriver(LocalPath path, BlindPilot pilot) {
+    public PathDriver(LocalPath path, BlindCompassPilot pilot) {
         this.path = path;
         this.pilot = pilot;
     }

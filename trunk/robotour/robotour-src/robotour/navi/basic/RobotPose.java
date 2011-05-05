@@ -1,7 +1,5 @@
 package robotour.navi.basic;
 
-import robotour.gui.map.LocalPoint;
-
 /**
  * Is mutable.
  * @author Kotuc
@@ -64,6 +62,11 @@ public class RobotPose {
      */
     public void move(Azimuth azimuth, double dist) {
         point.move(azimuth, dist);
-    }       
+    }
+
+    public Angle angleTo(LocalPoint t) {
+        return new Angle(this.point.getAzimuthTo(t).radians()-this.azimuth.radians()).shorter();
+    }
+
 
 }

@@ -1,7 +1,7 @@
 package robotour.arduino;
 
 import robotour.gui.map.LocalPath;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
 

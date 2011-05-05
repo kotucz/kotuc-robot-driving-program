@@ -1,10 +1,10 @@
-package robotour.navi.local.slam;
+package experimental.slam;
 
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
 import robotour.navi.basic.Azimuth;

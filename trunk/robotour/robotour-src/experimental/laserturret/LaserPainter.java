@@ -1,9 +1,9 @@
-package laserturret;
+package experimental.laserturret;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.gui.map.LocalPath;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.hardware.SSC32;
 import robotour.hardware.SSC32.SSCServo;
 

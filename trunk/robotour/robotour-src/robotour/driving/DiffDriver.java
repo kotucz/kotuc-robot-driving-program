@@ -1,4 +1,4 @@
-package robotour.pathing.simple;
+package robotour.driving;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,4 +106,9 @@ public class DiffDriver {
 
         }
     }
+
+    void waitForStop() {
+        
+    }
+
 }

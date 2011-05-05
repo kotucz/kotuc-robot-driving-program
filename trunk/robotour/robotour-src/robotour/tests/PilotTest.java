@@ -3,7 +3,7 @@ package robotour.tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.iface.MeasureException;
-import robotour.behavior.pid.BlindPilot;
+import robotour.driving.BlindCompassPilot;
 import robotour.util.RobotSystems;
 import robotour.iface.Compass;
 import robotour.navi.basic.Angle;
@@ -17,7 +17,7 @@ public class PilotTest {
 
     public static void main(String[] args) throws InterruptedException, MeasureException {
         RobotSystems system = RobotSystems.getDefault();
-        BlindPilot pilot = new BlindPilot(system.getWheels(), system.getCompass());
+        BlindCompassPilot pilot = new BlindCompassPilot(system.getWheels(), system.getCompass());
         Compass compas = system.getCompass();
 
         System.out.println(compas.getAzimuth());
@@ -37,7 +37,7 @@ public class PilotTest {
         System.exit(0);
     }
 
-    static void metreNback(BlindPilot pilot) {
+    static void metreNback(BlindCompassPilot pilot) {
         // forward
         pilot.travel(1.0, false);
         // right
@@ -56,7 +56,7 @@ public class PilotTest {
      *  ^|
      *  S^
      */
-    static void fwRtNback(BlindPilot pilot) {
+    static void fwRtNback(BlindCompassPilot pilot) {
         // forward
         pilot.travel(1.0, false);
         // right
@@ -74,7 +74,7 @@ public class PilotTest {
         pilot.rotate(Angle.valueOfDegrees(-180), false);
     }
 
-    static void rightSquare(BlindPilot pilot) {
+    static void rightSquare(BlindCompassPilot pilot) {
         double side = 1.0;
 
         for (int i = 0; i < 4; i++) {
@@ -98,7 +98,7 @@ public class PilotTest {
 
     }
 
-    private static void compassSquare(BlindPilot pilot, Compass compass) {
+    private static void compassSquare(BlindCompassPilot pilot, Compass compass) {
         try {
             final double side = 1.0;
             Azimuth azimuth0 = compass.getAzimuth();
@@ -146,7 +146,7 @@ public class PilotTest {
      *
      * @param pilot
      */
-    static void eight(BlindPilot pilot) {
+    static void eight(BlindCompassPilot pilot) {
         final double side = 0.5;
         pilot.rotateTo(Azimuth.valueOfDegrees(180), false);
 
