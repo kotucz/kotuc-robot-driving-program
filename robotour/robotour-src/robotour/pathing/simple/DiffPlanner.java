@@ -1,6 +1,6 @@
 package robotour.pathing.simple;
 
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.navi.basic.Angle;
 import robotour.navi.basic.RobotPose;
 
@@ -16,12 +16,16 @@ public class DiffPlanner {
         
     }
 
+    public double oneWheelOnPlaceRotateDist(Angle angle) {
+        return angle.arcLengthRadius(params.oneWheelGauge);
+    }
+
     /**
      * @param rightTurn angle clockwise.
      * @param centerx right from robot center.
      * @return
      */
-    void distsArc(Angle rightTurn, double centerx) {
+    public void distsArc(Angle rightTurn, double centerx) {
 
         double leftRadius = centerx+params.oneWheelGauge;
         double rightRadius = centerx-params.oneWheelGauge;

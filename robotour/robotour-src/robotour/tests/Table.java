@@ -1,10 +1,11 @@
-package robotour.behavior.pid;
+package robotour.tests;
 
+import robotour.behavior.impl.PathDriver;
 import robotour.localization.odometry.PassiveOdometry;
 import robotour.gui.map.LocalPath;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import java.awt.Color;
-import robotour.navi.basic.Azimuth;
+import robotour.driving.BlindCompassPilot;
 import robotour.gui.map.MapView;
 import robotour.util.RobotSystems;
 
@@ -47,7 +48,7 @@ public class Table {
         
         view.addLayer(drivePath);
 
-        BlindPilot pilot = new BlindPilot(systems.getWheels(), systems.getCompass());
+        BlindCompassPilot pilot = new BlindCompassPilot(systems.getWheels(), systems.getCompass());
 //        pilot.travel(1, false);
 //        pilot.rotateTo(Azimuth.valueOfDegrees(135), false);
         PathDriver pathDriver = new PathDriver(drivePath, pilot);

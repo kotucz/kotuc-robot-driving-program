@@ -1,5 +1,6 @@
 package robotour.gui.map;
 
+import robotour.navi.basic.LocalPoint;
 import java.awt.Image;
 import java.awt.Toolkit;
 import robotour.navi.basic.Azimuth;

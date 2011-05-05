@@ -1,6 +1,6 @@
 package robotour.behavior.impl;
 
-import robotour.behavior.pid.BlindPilot;
+import robotour.driving.BlindCompassPilot;
 import robotour.util.RobotSystems;
 import robotour.iface.MeasureException;
 import robotour.iface.Wheels;
@@ -23,7 +23,7 @@ public class OrthoXPadDriving implements Runnable {
     private final Controller gamepad;
     private final Wheels wheels;
     private final Compass cmps;
-    private final BlindPilot pilot;
+    private final BlindCompassPilot pilot;
 
     public OrthoXPadDriving(RobotSystems systems) {
         this(systems, ControllerTools.getActiveGamePad());
@@ -39,7 +39,7 @@ public class OrthoXPadDriving implements Runnable {
         this.gamepad = gamepad;
         this.wheels = systems.getWheels();
         this.cmps = systems.getCompass();
-        this.pilot = new BlindPilot(wheels, cmps);
+        this.pilot = new BlindCompassPilot(wheels, cmps);
     }
     private Azimuth compassOffset;
     private Azimuth direction;

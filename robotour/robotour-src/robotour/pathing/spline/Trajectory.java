@@ -2,7 +2,7 @@ package robotour.pathing.spline;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
 

@@ -1,5 +1,7 @@
-package robotour.behavior.pid;
+package robotour.tests;
 
+import robotour.driving.BlindCompassPilot;
+import robotour.behavior.pid.DistanceHolder;
 import robotour.iface.Compass;
 import robotour.iface.MeasureException;
 import robotour.navi.basic.Azimuth;
@@ -14,7 +16,7 @@ public class FlatRide {
     public static void main(String[] args) throws InterruptedException, MeasureException {
         RobotSystems systems = RobotSystems.getDefault();
         Compass compass = systems.getCompass();
-        BlindPilot pilot = new BlindPilot(systems.getWheels(), compass);
+        BlindCompassPilot pilot = new BlindCompassPilot(systems.getWheels(), compass);
         DistanceHolder disth = new DistanceHolder(systems.getCenterSonar(), systems.getWheels());
 
         System.out.println(compass.getAzimuth());

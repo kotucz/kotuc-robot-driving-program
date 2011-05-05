@@ -1,8 +1,7 @@
-package robotour.gui.map;
+package robotour.navi.basic;
 
 import java.awt.geom.Point2D;
 import javax.vecmath.Point2d;
-import robotour.navi.basic.Azimuth;
 
 /**
  *
@@ -93,4 +92,7 @@ public class LocalPoint {
     public LocalPoint add(LocalPoint that) {
         return new LocalPoint(this.x + that.x, this.y + that.y);
     }
+
+    
+    
 }

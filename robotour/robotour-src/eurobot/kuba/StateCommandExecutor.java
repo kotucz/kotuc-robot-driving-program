@@ -1,6 +1,9 @@
 package eurobot.kuba;
 
-import robotour.gui.map.LocalPoint;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import robotour.navi.basic.Angle;
+import robotour.navi.basic.LocalPoint;
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
 import state.State;
@@ -10,8 +13,6 @@ import state.State;
  * @author Kotuc
  */
 public class StateCommandExecutor implements Runnable {
-
-    
 
     final State st = new State();
     final RobotPose pose = new RobotPose(new LocalPoint(0, 0), Azimuth.valueOfDegrees(100));
@@ -29,9 +30,23 @@ public class StateCommandExecutor implements Runnable {
         READY, TAKE;
     }
 
+    void goTo(LocalPoint dest) {
+        double dist = pose.getPoint().getDistanceTo(dest);
+        if (dist>0.01) {
+            Angle angleR = pose.angleTo(dest);
+            if (angleR.degrees()>5) {
+                puppet.turnR(angleR);
+                return;
+            }
+            puppet.forward(dist);
+            return;
+        }
+    }
+
     public void run() {
         try {
             while (true) {
+                readCommand();
                 switch (cmd) {
                     case READY:
                         break;
@@ -41,16 +56,21 @@ public class StateCommandExecutor implements Runnable {
                         System.out.println("Undefined command: " + cmd);
                 }
 
-//            if (st.query("test")) {
-//                System.out.println(st.get());
-//            }
-//
-//            st.set("test", "value");
-//            st.set("test", 0.32);
-//
-//            if (st.query("test")) {
-//                System.out.println(st.get());
-//            }
+                    //            if (st.query("test")) {
+                    //                System.out.println(st.get());
+                    //            }
+                    //
+                    //            st.set("test", "value");
+                    //            st.set("test", 0.32);
+                    //
+                    //            if (st.query("test")) {
+                    //                System.out.println(st.get());
+                    //            }
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(StateCommandExecutor.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         } finally {

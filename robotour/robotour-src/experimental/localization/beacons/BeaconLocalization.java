@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package robotour.localization.beacons;
+package experimental.localization.beacons;
 
 import robotour.navi.basic.RobotPose;
 import java.awt.Color;
@@ -11,7 +11,7 @@ import java.util.List;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 import javax.vecmath.Vector3d;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;

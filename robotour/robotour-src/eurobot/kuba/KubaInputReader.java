@@ -25,12 +25,11 @@ class KubaInputReader implements Runnable {
         final byte length;
     }
 
-    public static final byte EVENT_SENSOR = 3;
-    
+    public static final byte EVENT_SENSOR = 3;    
     final DataInputStream dataInStream;
 //    final SerialComm serial;
 //    final BinaryMessageReceived messager;
-    final DiffOdometry odometry = new DiffOdometry();
+    private final DiffOdometry odometry = new DiffOdometry();
     private final KubaPuppet puppet;
 
     public KubaInputReader(DataInputStream dataInStream, KubaPuppet puppet) {
@@ -94,11 +93,14 @@ class KubaInputReader implements Runnable {
 
     }
 
-
     void encoder(byte id, byte state) {
 
     }
 
+    public void incrementOdometry(int left, int right) {
+        odometry.addEncoderDiff(left, right);
+//        positionUpdated();
+    }
 
     void startListening() {
         System.out.print("Listening ... ");

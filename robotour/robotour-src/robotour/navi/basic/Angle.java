@@ -128,4 +128,13 @@ public class Angle implements Serializable {
         }
         return new Angle(rads);
     }
+
+    public double sign() {
+        return Math.signum(radians);
+    }
+
+    public double arcLengthRadius(double radius) {
+        return radius*radians;
+    }
+
 }
