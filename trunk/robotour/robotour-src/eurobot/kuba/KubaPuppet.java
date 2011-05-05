@@ -1,11 +1,12 @@
 package eurobot.kuba;
 
+import eurobot.kuba.remote.Server;
 import eurobot.kuba.remote.StringMessageListener;
-import robotour.pathing.simple.DiffOdometry;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import java.io.IOException;
 import robotour.arduino.SerialComm;
+import robotour.driving.DiffPilot;
 import robotour.hardware.Ports;
 import robotour.iface.DiffWheels;
 import robotour.navi.basic.Angle;
@@ -21,6 +22,8 @@ public class KubaPuppet {
     
 //    private final ArduinoSerial serial;
     public final KubaOutProtocol out;
+
+    final DiffPilot pilot;
 
     //    private final EventListener eventlog;
     public KubaPuppet(KubaOutProtocol kprotocol/*, EventListener eventlistener*/) {
@@ -45,6 +48,8 @@ public class KubaPuppet {
             }
         };
 
+        this.pilot = new DiffPilot(diffWheels);
+
     }
 
 
@@ -61,11 +66,11 @@ public class KubaPuppet {
 //    }
 
     void forward(double dist) {
-
+        pilot.forward(dist, true);
     }
 
     void turnR(Angle right) {
-
+        pilot.rotate(right, true);
     }
 
 
@@ -96,8 +101,8 @@ public class KubaPuppet {
         KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
         inreader.startListening();
        
-//        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
-//        server.start();
+        Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
+        server.start();
 
         puppet.out.setEnabled(true);
 

@@ -11,21 +11,26 @@ import robotour.util.Binary;
 
 class KubaInputReader implements Runnable {
 
-    enum Event {
+    private enum Event {
         NOT_USED(0, 4),
         COLOR(1, 4),
         ENCODER(2, 4);
 
         private Event(int cmd, int length) {
-            this.cmd = (byte)cmd;
+            this.id = (byte)cmd;
             this.length = (byte)length;
         }
 
-        final byte cmd;
+        final byte id;
         final byte length;
+
+        static Event parse(byte cmdid) {
+            return values()[cmdid];
+        }
+
     }
 
-    public static final byte EVENT_SENSOR = 3;    
+//    public static final byte EVENT_SENSOR = 3;
     final DataInputStream dataInStream;
 //    final SerialComm serial;
 //    final BinaryMessageReceived messager;
@@ -59,7 +64,7 @@ class KubaInputReader implements Runnable {
 //                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
                 System.out.print("eof");
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex1) {
                     Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
                 }
@@ -70,11 +75,11 @@ class KubaInputReader implements Runnable {
     }
 
     void received(byte startByte, byte address, byte length, byte[] array) {
-        byte cmd = array[0];
+        Event cmd = Event.parse(array[0]);
         System.out.println("Robot received: " + startByte + " " + address + " " + length + " " + Arrays.toString(array));
 
         switch (cmd) {
-            case EVENT_SENSOR:
+            case ENCODER:
                 Binary.toInt16(array, 1);
                 Binary.toInt16(array, 3);
                 break;
