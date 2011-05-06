@@ -11,7 +11,7 @@ import robotour.navi.basic.RobotPose;
 import robotour.util.Binary;
 import state.State;
 
-class KubaInputReader /*implements Runnable*/ {
+class KubaInputReader {
 
     final State state = new State();
 
@@ -62,24 +62,6 @@ class KubaInputReader /*implements Runnable*/ {
 ////        this.serial = serial;
 ////        this.messager = messager;
 //    }
-    public void run() {
-        while (true) {
-            try {
-                readMessage();
-            } catch (EOFException ex) {
-//                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
-                System.out.print("eof");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex1) {
-                    Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     void received(byte startByte, byte address, byte length, byte[] array) {
 //        Event cmd = Event.parse(array[0]);
         System.out.println("Robot received: " + startByte + " " + address + " " + length + " " + Arrays.toString(array));
@@ -96,10 +78,10 @@ class KubaInputReader /*implements Runnable*/ {
                     }
                     {
                         int starti = 9;
-                        byte error = array[1+starti];
-                        int dist = Binary.toInt32Little(array, 2+starti);
-                        short v = Binary.toInt16Little(array, 6+starti);
-                        short a = Binary.toInt16Little(array, 8+starti);
+                        byte error = array[1 + starti];
+                        int dist = Binary.toInt32Little(array, 2 + starti);
+                        short v = Binary.toInt16Little(array, 6 + starti);
+                        short a = Binary.toInt16Little(array, 8 + starti);
                         encoder(KubaOutProtocol.ADDR_ENCODER_RIGHT, error, dist, v, a);
                     }
                     break;
@@ -177,14 +159,32 @@ class KubaInputReader /*implements Runnable*/ {
         state.set("oposa", pose.getAzimuth().radians());
         state.set("oposid", oposid++);
     }
-    /*
+
     void startListening() {
-    System.out.print("Listening ... ");
-    Thread t = new Thread(this, "Kuba Listener");
+        System.out.print("Listening ... ");
+        Thread t = new Thread("Kuba Listener") {
+
+            public void run() {
+                while (true) {
+                    try {
+                        readMessage();
+                    } catch (EOFException ex) {
+//                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
+                        System.out.print("eof");
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex1) {
+                            Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
     t.setDaemon(true);
-    t.start();
+        t.start();
     }
-     */
 //    private void received(List<Byte> buffer) {
 //        messager.messageRecieved(Binary.toArray(buffer));
 //    }

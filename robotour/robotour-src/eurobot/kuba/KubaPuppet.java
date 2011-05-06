@@ -103,8 +103,8 @@ public class KubaPuppet {
 
         puppet.out.setEnabled(true);
         
-        System.out.println("Starting state command executor");
-        new Thread(new StateCommandExecutor(puppet)).start();
+//        System.out.println("Starting state command executor");
+//        new Thread(new StateCommandExecutor(puppet)).start();
         
 
         System.out.println("READY");
