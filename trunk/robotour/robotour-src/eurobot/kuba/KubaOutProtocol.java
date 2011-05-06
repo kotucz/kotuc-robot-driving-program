@@ -72,6 +72,7 @@ public class KubaOutProtocol {
     public KubaOutProtocol(SerialComm serial) {
         this.dataOutStream = new DataOutputStream(serial.getOutputStream());
         in = new KubaInputReader(serial.getDataInputStream());
+        in.startListening();
 //        this.dataOutStream = new DataOutputStream(new BufferedOutputStream(serial.getOutputStream()));
         this.serial = serial;
     }
