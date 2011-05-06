@@ -55,6 +55,7 @@ public class StateCommandExecutor implements Runnable {
                     default:
                         System.out.println("Undefined command: " + cmd);
                 }
+                puppet.out.readOdometry();
 
                     //            if (st.query("test")) {
                     //                System.out.println(st.get());

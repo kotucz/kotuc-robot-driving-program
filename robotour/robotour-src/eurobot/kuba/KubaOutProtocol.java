@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import robotour.arduino.SerialComm;
 
 /**
@@ -37,6 +39,7 @@ public class KubaOutProtocol {
 
     }
 
+    KubaInputReader in;
 
 //    static final byte CMD_PING = 0;
 //    static final byte CMD_GET_INFO = 1;
@@ -66,6 +69,7 @@ public class KubaOutProtocol {
 
     public KubaOutProtocol(SerialComm serial) {
         this.dataOutStream = new DataOutputStream(serial.getOutputStream());
+        in = new KubaInputReader(serial.getDataInputStream());
 //        this.dataOutStream = new DataOutputStream(new BufferedOutputStream(serial.getOutputStream()));
         this.serial = serial;
     }
@@ -83,6 +87,15 @@ public class KubaOutProtocol {
 //            dataOutStream.write(b);
 //        }
             dataOutStream.flush();
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            in.readMessage();
+
         } catch (IOException ex) {
             ioex(ex);
         }
@@ -154,6 +167,19 @@ public class KubaOutProtocol {
         } catch (IOException ex) {
             ioex(ex);
         }
+    }
+
+    public void readOdometry() {
+        readEncoder(ADDR_ENCODER_LEFT);
+        readEncoder(ADDR_ENCODER_RIGHT);
+        in.updateOdometry();
+    }
+
+    public void readEncoder(byte address) {        
+        System.out.println("Read encoder: " + address);
+        DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.READ_ENCODER);            
+        sendMessage();
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});        
     }
 
     void ioex(IOException ex) {

@@ -20,6 +20,10 @@ public class Binary {
         return toInt16(bytes[pos + 0], bytes[pos + 1]);
     }
 
+    public static short toInt16Little(byte[] bytes, int pos) {
+        return toInt16(bytes[pos + 1], bytes[pos + 0]);
+    }
+
     public static short toInt16(byte high, byte low) {
         return (short) (((0xFF & high) << 8) | ((0xFF & low) << 0));
     }
