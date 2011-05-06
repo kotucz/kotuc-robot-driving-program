@@ -81,11 +81,29 @@ class KubaInputReader /*implements Runnable*/ {
     }
 
     void received(byte startByte, byte address, byte length, byte[] array) {
-        Event cmd = Event.parse(array[0]);
+//        Event cmd = Event.parse(array[0]);
         System.out.println("Robot received: " + startByte + " " + address + " " + length + " " + Arrays.toString(array));
 
         switch (address) {
             case KubaOutProtocol.ADDR_DRIVER:
+                if (length > 13) {
+                    {
+                        byte error = array[1];
+                        int dist = Binary.toInt32Little(array, 2);
+                        short v = Binary.toInt16Little(array, 6);
+                        short a = Binary.toInt16Little(array, 8);
+                        encoder(KubaOutProtocol.ADDR_ENCODER_LEFT, error, dist, v, a);
+                    }
+                    {
+                        int starti = 9;
+                        byte error = array[1+starti];
+                        int dist = Binary.toInt32Little(array, 2+starti);
+                        short v = Binary.toInt16Little(array, 6+starti);
+                        short a = Binary.toInt16Little(array, 8+starti);
+                        encoder(KubaOutProtocol.ADDR_ENCODER_RIGHT, error, dist, v, a);
+                    }
+                    break;
+                }
 //                Binary.toInt16(array, 1);
 //                Binary.toInt16(array, 3);
                 break;
@@ -119,8 +137,6 @@ class KubaInputReader /*implements Runnable*/ {
 
     void button(byte id, byte state) {
     }
-
-    
     private int leftEncoderNew, rightEncoderNew;
     private int leftEncoderPrev, rightEncoderPrev;
 
@@ -129,10 +145,10 @@ class KubaInputReader /*implements Runnable*/ {
             // ok
             if (address == KubaOutProtocol.ADDR_ENCODER_LEFT) {
                 leftEncoderNew = dist;
-                System.out.println("Left encoder "+dist);
+                System.out.println("Left encoder " + dist);
             } else if (address == KubaOutProtocol.ADDR_ENCODER_RIGHT) {
                 rightEncoderNew = dist;
-                System.out.println("Right encoder "+dist);
+                System.out.println("Right encoder " + dist);
             } else {
                 System.out.println("WTF encoder");
             }
@@ -149,7 +165,7 @@ class KubaInputReader /*implements Runnable*/ {
 
     public void incrementOdometry(int left, int right) {
         odometry.addEncoderDiff(left, right);
-        System.out.println("Encoders "+left+" "+right);
+        System.out.println("Encoders " + left + " " + right);
         positionUpdated(odometry.getPose());
     }
     private int oposid = 0;
@@ -161,14 +177,14 @@ class KubaInputReader /*implements Runnable*/ {
         state.set("oposa", pose.getAzimuth().radians());
         state.set("oposid", oposid++);
     }
-/*
+    /*
     void startListening() {
-        System.out.print("Listening ... ");
-        Thread t = new Thread(this, "Kuba Listener");
-        t.setDaemon(true);
-        t.start();
+    System.out.print("Listening ... ");
+    Thread t = new Thread(this, "Kuba Listener");
+    t.setDaemon(true);
+    t.start();
     }
-    */
+     */
 //    private void received(List<Byte> buffer) {
 //        messager.messageRecieved(Binary.toArray(buffer));
 //    }

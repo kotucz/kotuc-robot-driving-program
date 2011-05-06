@@ -22,6 +22,8 @@ public class KubaOutProtocol {
         RESET(4, 1),
         DRIVE_LR(5, 5),
         ENABLE(6, 2),
+        SET_SERVO(7, 4),
+        READ_INT(8, 1),
         READ_COLOR(5, 1),
         READ_ENCODER(5, 1),;
 
@@ -157,6 +159,23 @@ public class KubaOutProtocol {
         }
     }
 
+    /**
+     * pos -8000 .. 8000
+     */
+    public void setServo(byte id, short pos) {
+        try {
+            System.out.println("Set servo id: " + id + " pos: " + pos);
+            DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.SET_SERVO);
+            data.writeByte(id);
+            data.writeShort(pos);
+            sendMessage();
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
+        } catch (IOException ex) {
+            ioex(ex);
+        }
+    }
+
+
     public void setEnabled(boolean enabled) {
         try {
             System.out.println("Set enabled: " + enabled);
@@ -170,17 +189,26 @@ public class KubaOutProtocol {
     }
 
     public void readOdometry() {
-        readEncoder(ADDR_ENCODER_LEFT);
-        readEncoder(ADDR_ENCODER_RIGHT);
+        readEncoders();
+//        readEncoder(ADDR_ENCODER_LEFT);
+//        readEncoder(ADDR_ENCODER_RIGHT);
         in.updateOdometry();
     }
 
-    public void readEncoder(byte address) {        
-        System.out.println("Read encoder: " + address);
-        DataOutputStream data = createNewMessage(address, Command.READ_ENCODER);
+
+    public void readEncoders() {
+        System.out.println("Read encoders: ");
+        DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.READ_INT);
         sendMessage();
-//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});        
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
     }
+//
+//    public void readEncoder(byte address) {
+//        System.out.println("Read encoder: " + address);
+//        DataOutputStream data = createNewMessage(address, Command.READ_ENCODER);
+//        sendMessage();
+////            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
+//    }
 
     void ioex(IOException ex) {
         System.out.println(""+ex.getMessage());
