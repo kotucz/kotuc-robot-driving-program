@@ -68,7 +68,7 @@ public class StateCommandExecutor implements Runnable {
                     //                System.out.println(st.get());
                     //            }
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(StateCommandExecutor.class.getName()).log(Level.SEVERE, null, ex);
                 }
