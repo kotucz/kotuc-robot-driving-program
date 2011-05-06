@@ -89,7 +89,7 @@ public class KubaOutProtocol {
             dataOutStream.flush();
 
             try {
-                Thread.sleep(1);
+                Thread.sleep(2);
             } catch (InterruptedException ex) {
                 Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -183,7 +183,8 @@ public class KubaOutProtocol {
     }
 
     void ioex(IOException ex) {
-        ex.printStackTrace();
+        System.out.println(""+ex.getMessage());
+//        ex.printStackTrace();
     }
 
 

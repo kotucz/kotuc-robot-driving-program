@@ -129,8 +129,10 @@ class KubaInputReader implements Runnable {
             // ok
             if (address == KubaOutProtocol.ADDR_ENCODER_LEFT) {
                 leftEncoderNew = dist;
+                System.out.println("Left encoder "+dist);
             } else if (address == KubaOutProtocol.ADDR_ENCODER_RIGHT) {
                 rightEncoderNew = dist;
+                System.out.println("Right encoder "+dist);
             } else {
                 System.out.println("WTF encoder");
             }
@@ -147,6 +149,7 @@ class KubaInputReader implements Runnable {
 
     public void incrementOdometry(int left, int right) {
         odometry.addEncoderDiff(left, right);
+        System.out.println("Encoders "+left+" "+right);
         positionUpdated(odometry.getPose());
     }
     private int oposid = 0;
