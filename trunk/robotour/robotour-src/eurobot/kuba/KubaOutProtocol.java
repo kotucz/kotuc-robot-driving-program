@@ -96,7 +96,7 @@ public class KubaOutProtocol {
                 Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            in.readMessage();
+//            in.readMessage();
 
         } catch (IOException ex) {
             ioex(ex);
