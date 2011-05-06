@@ -19,7 +19,9 @@ public class KubaOutProtocol {
         CHANGE_BAUD(3, -1),
         RESET(4, 1),
         DRIVE_LR(5, 5),
-        ENABLE(6, 2);
+        ENABLE(6, 2),
+        READ_COLOR(5, 1),
+        READ_ENCODER(5, 1),;
 
         private Command(int cmd, int length) {
             this.id = (byte)cmd;
@@ -44,8 +46,20 @@ public class KubaOutProtocol {
 //    static final byte CMD_DRIVE_LR = 5;
 //    static final byte CMD_ENABLE = 6;
     
-    static final byte ADDR_DRIVER = 1;
+    static final byte ADDR_DRIVER = 0;
 
+    static final byte ADDR_PWR_MANAGER = 1;
+
+    static final byte ADDR_COLOR_LEFT = 2;
+    static final byte ADDR_COLOR_RIGHT = 3;
+
+    static final byte ADDR_ENCODER_LEFT = 4;
+    static final byte ADDR_ENCODER_RIGHT = 5;
+
+    static final byte ADDR_ENCODER_WLEFT = 6;
+    static final byte ADDR_ENCODER_WRIGHT = 7;
+
+    static final byte ADDR_BUTTONS = 8;
 
     private final SerialComm serial;
     final DataOutputStream dataOutStream;

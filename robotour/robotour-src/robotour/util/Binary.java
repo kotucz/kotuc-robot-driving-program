@@ -28,6 +28,10 @@ public class Binary {
         return toInt32(bytes[pos + 0], bytes[pos + 1], bytes[pos + 2], bytes[pos + 3]);
     }
 
+    public static int toInt32Little(byte[] bytes, int pos) {
+        return toInt32(bytes[pos + 3], bytes[pos + 2], bytes[pos + 1], bytes[pos + 0]);
+    }
+
     public static int toInt32(byte b3, byte b2, byte b1, byte b0) {
         return ((0xFF & b3) << 24) | ((0xFF & b2) << 16) | ((0xFF & b1) << 8) | ((0xFF & b0) << 0);
     }
