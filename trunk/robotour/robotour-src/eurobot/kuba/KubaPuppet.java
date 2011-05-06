@@ -75,12 +75,9 @@ public class KubaPuppet {
 
 
 
-    private void positionUpdated(RobotPose pose) {
-        broadcastMessage("pos "+pose.getPoint().getX()*1000+" "+
-                pose.getPoint().getY()*1000+" "+
-                pose.getAzimuth().degrees());
-    }
+    
 
+//    public Server server;
     public StringMessageListener server;
 
     private void broadcastMessage(String message) {

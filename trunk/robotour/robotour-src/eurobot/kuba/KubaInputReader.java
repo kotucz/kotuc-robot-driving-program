@@ -7,29 +7,42 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import robotour.navi.basic.RobotPose;
 import robotour.util.Binary;
+import state.State;
 
 class KubaInputReader implements Runnable {
 
+    final State state = new State();
+
+    void readMessage() throws IOException {
+        byte startByte = dataInStream.readByte();
+        byte address = dataInStream.readByte();
+        byte length = dataInStream.readByte();
+        byte[] array = new byte[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = dataInStream.readByte();
+        }
+        received(startByte, address, length, array);
+    }
+
     private enum Event {
+
         NOT_USED(0, 4),
-        COLOR(1, 4),
+        COLOR(1, 13),
         ENCODER(2, 4);
 
         private Event(int cmd, int length) {
-            this.id = (byte)cmd;
-            this.length = (byte)length;
+            this.id = (byte) cmd;
+            this.length = (byte) length;
         }
-
         final byte id;
         final byte length;
 
         static Event parse(byte cmdid) {
             return values()[cmdid];
         }
-
     }
-
 //    public static final byte EVENT_SENSOR = 3;
     final DataInputStream dataInStream;
 //    final SerialComm serial;
@@ -52,14 +65,7 @@ class KubaInputReader implements Runnable {
     public void run() {
         while (true) {
             try {
-                byte startByte = dataInStream.readByte();
-                byte address = dataInStream.readByte();
-                byte length = dataInStream.readByte();
-                byte[] array = new byte[length];
-                for (int i = 0; i < length; i++) {
-                    array[i] = dataInStream.readByte();
-                }
-                received(startByte, address, length, array);
+                readMessage();
             } catch (EOFException ex) {
 //                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
                 System.out.print("eof");
@@ -78,11 +84,29 @@ class KubaInputReader implements Runnable {
         Event cmd = Event.parse(array[0]);
         System.out.println("Robot received: " + startByte + " " + address + " " + length + " " + Arrays.toString(array));
 
-        switch (cmd) {
-            case ENCODER:
-                Binary.toInt16(array, 1);
-                Binary.toInt16(array, 3);
+        switch (address) {
+            case KubaOutProtocol.ADDR_DRIVER:
+//                Binary.toInt16(array, 1);
+//                Binary.toInt16(array, 3);
                 break;
+            case KubaOutProtocol.ADDR_COLOR_LEFT:
+                short dark = Binary.toInt16(array, 1);
+                short ir = Binary.toInt16(array, 3);
+                short r = Binary.toInt16(array, 5);
+                short g = Binary.toInt16(array, 7);
+                short b = Binary.toInt16(array, 9);
+                short uv = Binary.toInt16(array, 11);
+                colorSensor(address, dark, ir, r, g, b, uv);
+                break;
+            case KubaOutProtocol.ADDR_ENCODER_LEFT:
+            case KubaOutProtocol.ADDR_ENCODER_RIGHT:
+                byte error = array[1];
+                int dist = Binary.toInt32Little(array, 2);
+                int v = Binary.toInt32Little(array, 6);
+                int a = Binary.toInt32Little(array, 10);
+                encoder(address, error, dist, v, a);
+                break;
+
             default:
                 System.out.println("Not recognized!");
         }
@@ -90,21 +114,32 @@ class KubaInputReader implements Runnable {
 
     }
 
-    void colorSensor(byte id, short red, short green, short blue, short ir, short uv) {
-        
+    void colorSensor(byte id, short dark, short ir, short red, short green, short blue, short uv) {
     }
 
     void button(byte id, byte state) {
-
     }
 
-    void encoder(byte id, byte state) {
-
+    void encoder(byte id, byte error, int dist, int v, int a) {
+        if ((((byte)0xC0)&error) == 0) {
+            // ok
+        } else {
+            System.out.println("encoder "+id+" error: "+error);
+        }
     }
 
     public void incrementOdometry(int left, int right) {
         odometry.addEncoderDiff(left, right);
-//        positionUpdated();
+        positionUpdated(odometry.getPose());
+    }
+    int oposid = 0;
+
+    private void positionUpdated(RobotPose pose) {
+        state.set("oposid", oposid++);
+        state.set("oposx", pose.getPoint().getX() * 1000);
+        state.set("oposy", pose.getPoint().getY() * 1000);
+        state.set("oposa", pose.getAzimuth().radians());
+        state.set("oposid", oposid++);
     }
 
     void startListening() {
