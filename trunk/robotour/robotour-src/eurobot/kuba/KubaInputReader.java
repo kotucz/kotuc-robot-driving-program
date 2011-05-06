@@ -11,7 +11,7 @@ import robotour.navi.basic.RobotPose;
 import robotour.util.Binary;
 import state.State;
 
-class KubaInputReader implements Runnable {
+class KubaInputReader /*implements Runnable*/ {
 
     final State state = new State();
 
@@ -161,13 +161,14 @@ class KubaInputReader implements Runnable {
         state.set("oposa", pose.getAzimuth().radians());
         state.set("oposid", oposid++);
     }
-
+/*
     void startListening() {
         System.out.print("Listening ... ");
         Thread t = new Thread(this, "Kuba Listener");
         t.setDaemon(true);
         t.start();
     }
+    */
 //    private void received(List<Byte> buffer) {
 //        messager.messageRecieved(Binary.toArray(buffer));
 //    }

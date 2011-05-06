@@ -177,7 +177,7 @@ public class KubaOutProtocol {
 
     public void readEncoder(byte address) {        
         System.out.println("Read encoder: " + address);
-        DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.READ_ENCODER);            
+        DataOutputStream data = createNewMessage(address, Command.READ_ENCODER);
         sendMessage();
 //            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});        
     }
