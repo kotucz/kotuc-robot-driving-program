@@ -10,7 +10,6 @@ import robotour.driving.DiffPilot;
 import robotour.hardware.Ports;
 import robotour.iface.DiffWheels;
 import robotour.navi.basic.Angle;
-import robotour.navi.basic.RobotPose;
 
 /**
  *
@@ -95,13 +94,18 @@ public class KubaPuppet {
         final SerialComm serial = SerialComm.openSerialComm(port, baud);
         KubaPuppet puppet = new KubaPuppet(new KubaOutProtocol(serial));
 
-        KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
-        inreader.startListening();
-       
+//        KubaInputReader inreader = new KubaInputReader(serial.getDataInputStream(), puppet);
+//        inreader.startListening();
+
+        System.out.println("Starting server");
         Server server = Server.createServer(puppet, Server.DEFAULT_PORT);
         server.start();
 
         puppet.out.setEnabled(true);
+        
+        System.out.println("Starting state command executor");
+        new Thread(new StateCommandExecutor(puppet)).start();
+        
 
         System.out.println("READY");
 

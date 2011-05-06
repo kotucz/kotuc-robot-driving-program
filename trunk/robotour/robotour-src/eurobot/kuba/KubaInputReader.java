@@ -48,11 +48,11 @@ class KubaInputReader implements Runnable {
 //    final SerialComm serial;
 //    final BinaryMessageReceived messager;
     private final DiffOdometry odometry = new DiffOdometry();
-    private final KubaPuppet puppet;
+//    private final KubaPuppet puppet;
 
-    public KubaInputReader(DataInputStream dataInStream, KubaPuppet puppet) {
+    public KubaInputReader(DataInputStream dataInStream/*, KubaPuppet puppet*/) {
         this.dataInStream = dataInStream;
-        this.puppet = puppet;
+//        this.puppet = puppet;
     }
 
 //    public KubaInputReader(DataInputStream dataInStream
@@ -102,8 +102,8 @@ class KubaInputReader implements Runnable {
             case KubaOutProtocol.ADDR_ENCODER_RIGHT:
                 byte error = array[1];
                 int dist = Binary.toInt32Little(array, 2);
-                int v = Binary.toInt32Little(array, 6);
-                int a = Binary.toInt32Little(array, 10);
+                short v = Binary.toInt16Little(array, 6);
+                short a = Binary.toInt16Little(array, 8);
                 encoder(address, error, dist, v, a);
                 break;
 
@@ -120,19 +120,36 @@ class KubaInputReader implements Runnable {
     void button(byte id, byte state) {
     }
 
-    void encoder(byte id, byte error, int dist, int v, int a) {
-        if ((((byte)0xC0)&error) == 0) {
+    
+    private int leftEncoderNew, rightEncoderNew;
+    private int leftEncoderPrev, rightEncoderPrev;
+
+    void encoder(byte address, byte error, int dist, short v, short a) {
+        if ((((byte) 0xC0) & error) == 0) {
             // ok
+            if (address == KubaOutProtocol.ADDR_ENCODER_LEFT) {
+                leftEncoderNew = dist;
+            } else if (address == KubaOutProtocol.ADDR_ENCODER_RIGHT) {
+                rightEncoderNew = dist;
+            } else {
+                System.out.println("WTF encoder");
+            }
         } else {
-            System.out.println("encoder "+id+" error: "+error);
+            System.out.println("encoder " + address + " error: " + error);
         }
+    }
+
+    public void updateOdometry() {
+        incrementOdometry(leftEncoderNew - leftEncoderPrev, rightEncoderNew - rightEncoderPrev);
+        leftEncoderPrev = leftEncoderNew;
+        rightEncoderPrev = rightEncoderNew;
     }
 
     public void incrementOdometry(int left, int right) {
         odometry.addEncoderDiff(left, right);
         positionUpdated(odometry.getPose());
     }
-    int oposid = 0;
+    private int oposid = 0;
 
     private void positionUpdated(RobotPose pose) {
         state.set("oposid", oposid++);
