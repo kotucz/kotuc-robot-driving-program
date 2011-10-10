@@ -9,11 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.navi.basic.RobotPose;
 import robotour.util.Binary;
-import state.State;
+//import state.State;
 
 class KubaInputReader {
 
-    final State state = new State();
+//    final State state = new State();
 
     void readMessage() throws IOException {
         byte startByte = dataInStream.readByte();
@@ -148,17 +148,17 @@ class KubaInputReader {
     public void incrementOdometry(int left, int right) {
         odometry.addEncoderDiff(left, right);
         System.out.println("Encoders " + left + " " + right);
-        positionUpdated(odometry.getPose());
+//        positionUpdated(odometry.getPose());
     }
     private int oposid = 0;
 
-    private void positionUpdated(RobotPose pose) {
-        state.set("oposid", oposid++);
-        state.set("oposx", pose.getPoint().getX() * 1000);
-        state.set("oposy", pose.getPoint().getY() * 1000);
-        state.set("oposa", pose.getAzimuth().radians());
-        state.set("oposid", oposid++);
-    }
+//    private void positionUpdated(RobotPose pose) {
+//        state.set("oposid", oposid++);
+//        state.set("oposx", pose.getPoint().getX() * 1000);
+//        state.set("oposy", pose.getPoint().getY() * 1000);
+//        state.set("oposa", pose.getAzimuth().radians());
+//        state.set("oposid", oposid++);
+//    }
 
     void startListening() {
         System.out.print("Listening ... ");
