@@ -11,7 +11,7 @@ import robotour.arduino.SLIP;
 import robotour.arduino.SerialComm;
 import robotour.behavior.Arbitrator;
 import robotour.behavior.impl.KeyboardDriving;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
 import robotour.iface.Wheels;

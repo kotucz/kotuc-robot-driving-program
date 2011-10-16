@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import cambot.ArduinoEventRobot;
 import robotour.arduino.SerialComm;
 import robotour.navi.basic.Azimuth;

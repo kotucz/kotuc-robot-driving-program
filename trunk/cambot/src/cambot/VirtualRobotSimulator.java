@@ -2,7 +2,7 @@ package cambot;
 
 import cambot.DrivingThread;
 import java.awt.Color;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
 import robotour.iface.Wheels;
