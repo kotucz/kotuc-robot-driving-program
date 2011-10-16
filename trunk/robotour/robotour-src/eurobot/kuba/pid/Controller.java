@@ -61,14 +61,15 @@ class Controller extends Thread {
                 MotorRegulator[] motors = activeMotors;
                 now += delta;
                 for (MotorRegulator m : motors) {
-                    m.reg.tachoCnt = m.getTachoCount();
+                    m.reg.tachoCnt = 0; // TODO getTachoCount();
                 }
                 for (MotorRegulator m : motors) {
                     m.reg.regulateMotor(delta);
                 }
-                for (MotorRegulator m : motors) {
-                    m.controlMotor(m.reg.power, m.reg.mode);
-                }
+//                for (MotorRegulator m : motors) {
+                    // TODO setPower / mode
+//                    m.controlMotor(m.reg.power, m.reg.mode);
+//                }
 
             }
 
