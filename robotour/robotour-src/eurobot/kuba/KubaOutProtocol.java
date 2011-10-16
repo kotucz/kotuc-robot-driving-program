@@ -14,7 +14,10 @@ import robotour.arduino.SerialComm;
  */
 public class KubaOutProtocol {
 
+    static final boolean ACTIVE_READING = false;
+
     private enum Command {
+
         PING(0, 1),
         GET_INFO(1, 1),
         CHANGE_ADDR(2, -1),
@@ -28,21 +31,17 @@ public class KubaOutProtocol {
         READ_ENCODER(5, 1),;
 
         private Command(int cmd, int length) {
-            this.id = (byte)cmd;
-            this.length = (byte)length;
+            this.id = (byte) cmd;
+            this.length = (byte) length;
         }
-
         final byte id;
         final byte length;
 
         static Command parse(byte cmdid) {
             return values()[cmdid];
         }
-
     }
-
     KubaInputReader in;
-
 //    static final byte CMD_PING = 0;
 //    static final byte CMD_GET_INFO = 1;
 //    static final byte CMD_CHANGE_ADDR = 2;
@@ -50,29 +49,24 @@ public class KubaOutProtocol {
 //    static final byte CMD_RESET = 4;
 //    static final byte CMD_DRIVE_LR = 5;
 //    static final byte CMD_ENABLE = 6;
-    
     static final byte ADDR_DRIVER = 0;
-
     static final byte ADDR_PWR_MANAGER = 1;
-
     static final byte ADDR_COLOR_LEFT = 2;
     static final byte ADDR_COLOR_RIGHT = 3;
-
     static final byte ADDR_ENCODER_LEFT = 4;
     static final byte ADDR_ENCODER_RIGHT = 5;
-
     static final byte ADDR_ENCODER_WLEFT = 6;
     static final byte ADDR_ENCODER_WRIGHT = 7;
-
     static final byte ADDR_BUTTONS = 8;
-
     private final SerialComm serial;
     final DataOutputStream dataOutStream;
 
     public KubaOutProtocol(SerialComm serial) {
         this.dataOutStream = new DataOutputStream(serial.getOutputStream());
         in = new KubaInputReader(serial.getDataInputStream());
-        in.startListening();
+        if (!ACTIVE_READING) {
+            in.startListening();
+        }
 //        this.dataOutStream = new DataOutputStream(new BufferedOutputStream(serial.getOutputStream()));
         this.serial = serial;
     }
@@ -97,7 +91,9 @@ public class KubaOutProtocol {
                 Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-//            in.readMessage();
+            if (ACTIVE_READING) {
+                in.readMessage();
+            }
 
         } catch (IOException ex) {
             ioex(ex);
@@ -176,7 +172,6 @@ public class KubaOutProtocol {
         }
     }
 
-
     public void setEnabled(boolean enabled) {
         try {
             System.out.println("Set enabled: " + enabled);
@@ -196,7 +191,6 @@ public class KubaOutProtocol {
         in.updateOdometry();
     }
 
-
     public void readEncoders() {
         System.out.println("Read encoders: ");
         DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.READ_INT);
@@ -212,9 +206,7 @@ public class KubaOutProtocol {
 //    }
 
     void ioex(IOException ex) {
-        System.out.println(""+ex.getMessage());
+        System.out.println("" + ex.getMessage());
 //        ex.printStackTrace();
     }
-
-
 }
