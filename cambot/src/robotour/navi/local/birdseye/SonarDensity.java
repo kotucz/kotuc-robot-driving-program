@@ -2,7 +2,7 @@ package robotour.navi.local.birdseye;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import robotour.gui.map.LocalPoint;
+import robotour.navi.basic.LocalPoint;
 import robotour.arduino.ArdOdometry;
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
