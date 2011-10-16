@@ -1,4 +1,4 @@
-package eurobot.kuba;
+package eurobot.kuba.pid;
 
 /**
  * Abstraction for a NXT motor.
@@ -53,23 +53,18 @@ public class MotorRegulator {
     public final static int MAX_POWER = 100;
     
     protected static final int NO_LIMIT = 0x7fffffff;
-    protected final Regulator reg;
+    final Regulator reg;
 //    protected TachoMotorPort tachoPort;
     protected boolean stalled = false;
 //    protected RegulatedMotorListener listener = null;
-    protected float speed = 360;
+    protected int speed = 360;
     protected int acceleration = 6000;
     protected int limitAngle = 0;
     protected int stallLimit = 50;
     protected int stallCnt = 0;
-    protected static final Controller cont = new Controller();
+//    protected static final Controller cont = new Controller();
 
-    static {
-        // Start the single controller thread
-        cont.setPriority(Thread.MAX_PRIORITY);
-        cont.setDaemon(true);
-        cont.start();
-    }
+
 
     /**
      * Use this constructor to assign a variable of type motor connected to a particular port.
@@ -162,7 +157,7 @@ public class MotorRegulator {
      * be used instead.
      * @param speed value in degrees/sec
      */
-    public void setSpeed(float speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
         reg.adjustSpeed(speed);
     }
@@ -250,7 +245,8 @@ public class MotorRegulator {
         return Math.round(reg.curVelocity);
     }
 
-    private void controlMotor(int power, int mode) {        
+    void controlMotor(int power, int mode) {
+        // send power to motor..and set mode??
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -291,18 +287,18 @@ public class MotorRegulator {
         float basePower = 0; //used to calculate power
         float err1 = 0; // used in smoothing
         float err2 = 0; // used in smoothing
-        float curVelocity = 0;
-        float baseVelocity = 0;
-        float baseCnt = 0;
-        float curCnt = 0;
-        float curAcc = 0;
-        float curTargetVelocity = 0;
-        int curLimit = NO_LIMIT;
-        boolean curHold = true;
-        float accCnt = 0;
-        long baseTime = 0;
-        long now = 0;
-        long accTime = 0;
+        float curVelocity = 0; // expected velocity now
+        float baseVelocity = 0; // velocity at the begining of acceleration phase
+        float baseCnt = 0; // start of acceleration tachometer count
+        float curCnt = 0; // expected current tachometer count
+        float curAcc = 0; // current acceleration
+        float curTargetVelocity = 0; // end of acceleration velocity
+        int curLimit = NO_LIMIT; // target tacometer count
+        boolean curHold = true; // flag if should hold
+        float accCnt = 0; // distance of current acceleration phase
+        long baseTime = 0; // start time of acceleration phase
+        long now = 0; // now
+        long accTime = 0; // end of acceleration phase
         boolean moving = false;
         boolean pending = false;
         boolean checkLimit = false;
@@ -526,71 +522,7 @@ public class MotorRegulator {
         }
     }
 
-    /**
-     * This class provides a single thread that drives all of the motor regulation
-     * process. Only active motors will be regulated. To try and keep motors
-     * as closely synchronized as possible tach counts for all motors are gathered
-     * as close as possible to the same time. Similarly new power levels for each
-     * motor are also set at the same time.
-     */
-    protected static class Controller extends Thread {
-
-        static final int UPDATE_PERIOD = 4;
-        MotorRegulator[] activeMotors = new MotorRegulator[0];
-
-        /**
-         * Add a motor to the set of active motors.
-         * @param m
-         */
-        synchronized void addMotor(MotorRegulator m) {
-            MotorRegulator[] newMotors = new MotorRegulator[activeMotors.length + 1];
-            System.arraycopy(activeMotors, 0, newMotors, 0, activeMotors.length);
-            newMotors[activeMotors.length] = m;
-            m.reg.reset();
-            activeMotors = newMotors;
-        }
-
-        /**
-         * Remove a motor from the set of active motors.
-         * @param m
-         */
-        synchronized void removeMotor(MotorRegulator m) {
-            MotorRegulator[] newMotors = new MotorRegulator[activeMotors.length - 1];
-            int j = 0;
-            for (int i = 0; i < activeMotors.length; i++) {
-                if (activeMotors[i] != m) {
-                    newMotors[j++] = activeMotors[i];
-                }
-            }
-            activeMotors = newMotors;
-        }
-
-        @Override
-        public void run() {
-            long now = System.currentTimeMillis();
-            for (;;) {
-                long delta;
-                synchronized (this) {
-                    delta = System.currentTimeMillis() - now;
-                    MotorRegulator[] motors = activeMotors;
-                    now += delta;
-                    for (MotorRegulator m : motors) {
-                        m.reg.tachoCnt = m.getTachoCount();
-                    }
-                    for (MotorRegulator m : motors) {
-                        m.reg.regulateMotor(delta);
-                    }
-                    for (MotorRegulator m : motors) {
-                        m.controlMotor(m.reg.power, m.reg.mode);
-                    }
-
-                }
-                
-//                Delay.msDelay(now + UPDATE_PERIOD - System.currentTimeMillis());
-                
-            }	// end keep going loop
-        }
-    }
+  
 
     public float getMaxSpeed() {
         // It is generally assumed, that the maximum accurate speed of Motor is
