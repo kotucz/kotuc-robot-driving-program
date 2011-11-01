@@ -28,7 +28,8 @@ public class KubaOutProtocol {
         SET_SERVO(7, 4),
         READ_INT(8, 1),
         READ_COLOR(5, 1),
-        READ_ENCODER(5, 1),;
+        READ_ENCODER(5, 1),
+        SEND_INTS(9, 100);
 
         private Command(int cmd, int length) {
             this.id = (byte) cmd;
@@ -149,6 +150,19 @@ public class KubaOutProtocol {
             DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.DRIVE_LR);
             data.writeShort(left);
             data.writeShort(right);
+            sendMessage();
+//            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
+        } catch (IOException ex) {
+            ioex(ex);
+        }
+    }
+    
+    public void sendInts(int ... ints) {
+        try {
+            System.out.println("Send ints: " + ints);
+            DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.SEND_INTS);
+            data.writeInt(ints[0]);
+            data.writeInt(ints[1]);
             sendMessage();
 //            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
         } catch (IOException ex) {
