@@ -86,9 +86,9 @@ public class KubaPuppet {
     }
     
     public static void main(String[] args) throws IOException, PortInUseException, UnsupportedCommOperationException, InterruptedException {
-//        String port = "COM23";
+        String port = "COM7";
 //        String port = "/dev/ttyUSB0";
-        String port = Ports.getSomeName();
+//        String port = Ports.getSomeName();
         int baud = 115200;
        
         final SerialComm serial = SerialComm.openSerialComm(port, baud);
@@ -113,11 +113,12 @@ public class KubaPuppet {
         System.out.println("Testing: ");
 
         int itry = 0;
-        while (true) {
+//        while (true) {
             System.out.println("try "+itry);
-            puppet.out.setSpeediLR(0, 0);
+            puppet.out.sendInts(4, 44, 432);
+//            puppet.out.setSpeediLR(0, 0);
             Thread.sleep(1000);
-        }
+//        }
 
 //        puppet.ping();
 //
