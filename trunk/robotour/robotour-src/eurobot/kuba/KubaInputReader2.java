@@ -1,47 +1,49 @@
 package eurobot.kuba;
 
+import eurobot.plot.Graph;
+import eurobot.plot.PlotPanel;
+import java.io.BufferedReader;
 import robotour.pathing.simple.DiffOdometry;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.util.Binary;
 //import state.State;
 
-class KubaInputReader {
+class KubaInputReader2 {
 
 //    final State state = new State();
-
-    void readMessage() throws IOException {
-        byte startByte = dataInStream.readByte();
-        byte address = dataInStream.readByte();
-        byte length = dataInStream.readByte();
-        byte[] array = new byte[length];
-        for (int i = 0; i < length; i++) {
-            array[i] = dataInStream.readByte();
-        }
-        received(startByte, address, length, array);
-    }
-
-    private enum Event {
-
-        NOT_USED(0, 4),
-        COLOR(1, 13),
-        ENCODER(2, 4);
-
-        private Event(int cmd, int length) {
-            this.id = (byte) cmd;
-            this.length = (byte) length;
-        }
-        final byte id;
-        final byte length;
-
-        static Event parse(byte cmdid) {
-            return values()[cmdid];
-        }
-    }
+//    void readMessage() throws IOException {
+//        byte startByte = dataInStream.readByte();
+//        byte address = dataInStream.readByte();
+//        byte length = dataInStream.readByte();
+//        byte[] array = new byte[length];
+//        for (int i = 0; i < length; i++) {
+//            array[i] = dataInStream.readByte();
+//        }
+//        received(startByte, address, length, array);
+//    }
+//    private enum Event {
+//
+//        NOT_USED(0, 4),
+//        COLOR(1, 13),
+//        ENCODER(2, 4);
+//
+//        private Event(int cmd, int length) {
+//            this.id = (byte) cmd;
+//            this.length = (byte) length;
+//        }
+//        final byte id;
+//        final byte length;
+//
+//        static Event parse(byte cmdid) {
+//            return values()[cmdid];
+//        }
+//    }
 //    public static final byte EVENT_SENSOR = 3;
     final DataInputStream dataInStream;
 //    final SerialComm serial;
@@ -49,7 +51,7 @@ class KubaInputReader {
     private final DiffOdometry odometry = new DiffOdometry();
 //    private final KubaPuppet puppet;
 
-    public KubaInputReader(DataInputStream dataInStream/*, KubaPuppet puppet*/) {
+    public KubaInputReader2(DataInputStream dataInStream/*, KubaPuppet puppet*/) {
         this.dataInStream = dataInStream;
 //        this.puppet = puppet;
     }
@@ -158,30 +160,50 @@ class KubaInputReader {
 //        state.set("oposa", pose.getAzimuth().radians());
 //        state.set("oposid", oposid++);
 //    }
-
     void startListening() {
         System.out.print("Listening ... ");
         Thread t = new Thread("Kuba Listener") {
 
             public void run() {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInStream));
+                String line = null;
+                Graph g = new Graph();
+                new PlotPanel(g).showInFrame();
+
                 while (true) {
                     try {
-                        readMessage();
-                    } catch (EOFException ex) {
-//                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
-                        System.out.print("eof");
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex1) {
-                            Logger.getLogger(KubaInputReader.class.getName()).log(Level.SEVERE, null, ex1);
+                        if ((line = reader.readLine()) != null) {
+                            System.out.println("In: " + line);
+                            g.parseLine(line);
+//                        try {
+//                            readMessage();
+//                        } catch (EOFException ex) {
+//    //                System.out.println("Robot received: " + startBit + " " + address + " " + length + " " + Arrays.toString(array));
+//                            System.out.print("eof");
+//                            try {
+//                                Thread.sleep(100);
+//                            } catch (InterruptedException ex1) {
+//                                Logger.getLogger(KubaInputReader2.class.getName()).log(Level.SEVERE, null, ex1);
+//                            }
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+                            
+                        } else {
+                            //System.out.println("BR null");
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(KubaInputReader2.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         };
-    t.setDaemon(true);
+        t.setDaemon(
+                true);
         t.start();
     }
 //    private void received(List<Byte> buffer) {

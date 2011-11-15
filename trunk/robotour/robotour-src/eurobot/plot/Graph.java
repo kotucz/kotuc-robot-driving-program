@@ -20,16 +20,20 @@ import javax.vecmath.Color3b;
 public class Graph {
 
     Color[] cols = new Color[]{Color.black, Color.red, Color.green, Color.blue, Color.cyan, Color.magenta, Color.yellow};
-    
 //    Variable time = new Variable(Color.black, "Time");
     List<Variable> vars = new ArrayList<Variable>();
 
     public Graph() {
 //            vars.add(new Variable(Color.black, "Time"));
-//        vars.add(new Variable(Color.red, "curCnt"));
-//        vars.add(new Variable(Color.green, "encoder"));
-//        vars.add(new Variable(Color.yellow, "power"));
-        //vars.add(new Variable(Color.yellow, "curr", 0, 0));        
+        vars.add(new Variable(Color.red, "curCnt"));
+        vars.add(new Variable(Color.green, "encoder"));
+        vars.add(new Variable(Color.yellow, "power"));
+        vars.add(new Variable(Color.blue, "curr"));
+
+        vars.add(new Variable(Color.red, "curCnt"));
+        vars.add(new Variable(Color.green, "encoder"));
+        vars.add(new Variable(Color.yellow, "power"));
+        vars.add(new Variable(Color.blue, "curr"));
     }
 
     void newData(double... vals) {
@@ -54,7 +58,7 @@ public class Graph {
         }
 
         void update(double newval) {
-            vals.add(newval);            
+            vals.add(newval);
         }
 
         public void paint(Graphics2D g) {
@@ -82,29 +86,38 @@ public class Graph {
             vars.add(new Variable(cols[vars.size()], string));
         }
         while ((line = reader.readLine()) != null) {
-            split = line.split(",");         
-            for (int i = 0; i < split.length; i++) {
-                vars.get(i).update(Double.valueOf(split[i]));
-            }
+            parseLine(line);
         }
         reader.close();
     }
 
+    public void parseLine(String line) {
+        String[] split = line.split(",");
+        for (int i = 0; i < split.length; i++) {
+            try {
+                vars.get(i).update(Double.valueOf(split[i]));
+            } catch (Exception exception) {
+                try {
+                    vars.get(i).update(0);
+                } catch (Exception excefption) {
+                }
+            }
+
+        }
+    }
+
     void writeCSV(File file) throws IOException {
-        CVSWriter writer = new CVSWriter(new FileWriter(file));       
-        for (Variable variable : vars) {            
+        CVSWriter writer = new CVSWriter(new FileWriter(file));
+        for (Variable variable : vars) {
             writer.writeField(variable.name);
         }
-        writer.newLine();        
-        for (int i = 0; i < vars.get(0).vals.size(); i++) {            
-            for (Variable variable : vars) {                
+        writer.newLine();
+        for (int i = 0; i < vars.get(0).vals.size(); i++) {
+            for (Variable variable : vars) {
                 writer.writeField(String.valueOf(variable.vals.get(i)));
             }
             writer.newLine();
         }
         writer.close();
     }
-    
-    
-
 }

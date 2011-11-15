@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.arduino.SerialComm;
+import robotour.util.Binary;
 
 /**
  *
@@ -42,7 +43,7 @@ public class KubaOutProtocol {
             return values()[cmdid];
         }
     }
-    KubaInputReader in;
+    KubaInputReader2 in;
 //    static final byte CMD_PING = 0;
 //    static final byte CMD_GET_INFO = 1;
 //    static final byte CMD_CHANGE_ADDR = 2;
@@ -64,7 +65,9 @@ public class KubaOutProtocol {
 
     public KubaOutProtocol(SerialComm serial) {
         this.dataOutStream = new DataOutputStream(serial.getOutputStream());
-        in = new KubaInputReader(serial.getDataInputStream());
+        in = new KubaInputReader2(serial.getDataInputStream());
+        /// TODO FIX
+        in.startListening();
         if (!ACTIVE_READING) {
             in.startListening();
         }
@@ -75,9 +78,12 @@ public class KubaOutProtocol {
     public void sendMessage(byte[] bytes) {
         try {
             System.out.println("Quorra command: " + Arrays.toString(bytes));
-            if (bytes[2] == bytes.length + 3) {
-                throw new IOException("Lengths does not match " + bytes[2] + "!=" + bytes.length + "+3");
-            }
+            assert (bytes[2] == bytes.length - 3);
+//            if (bytes[2] != bytes.length + 3) {
+//                throw new IOException("Lengths does not match " + bytes[2] + "!=" + bytes.length + "+3");
+//            }
+            bytes[2] = (byte)(bytes.length - 3);
+            System.out.println("Quorra command: " + Arrays.toString(bytes));
             dataOutStream.write(bytes);
 //        daaOutStream.write(bytes);
 //        for (int i = 0; i < bytes.length; i++) {
@@ -92,9 +98,10 @@ public class KubaOutProtocol {
                 Logger.getLogger(KubaOutProtocol.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (ACTIVE_READING) {
-                in.readMessage();
-            }
+            // TODO debug
+//            if (ACTIVE_READING) {
+//                in.readMessage();
+//            }
 
         } catch (IOException ex) {
             ioex(ex);
@@ -158,18 +165,29 @@ public class KubaOutProtocol {
     }
     
     public void sendInts(int ... ints) {
-        try {
-            System.out.println("Send ints: " + ints);
+//        try {
+            System.out.println("Send ints: " + Arrays.toString(ints));
             DataOutputStream data = createNewMessage(ADDR_DRIVER, Command.SEND_INTS);
-            data.writeInt(ints[0]);
-            data.writeInt(ints[1]);
+            // use little endian
+//            data = 
+
+            for (int i = 0; i < ints.length; i++) {
+//                data.writeInt(ints[i]);  
+                putInt32LE(ints[i]);
+            }
             sendMessage();
 //            protocol.sendMessage(new byte[]{CMD_DRIVE_LR, (byte) left, (byte) right});
-        } catch (IOException ex) {
-            ioex(ex);
-        }
+//        } catch (IOException ex) {
+//            ioex(ex);
+//        }
     }
 
+    void putInt32LE(int val) {
+        for (int i = 0; i < 4; i++) {
+            byteArrayOutputStream.write(Binary.getByte(val, i));
+        }
+    }
+    
     /**
      * pos -8000 .. 8000
      */

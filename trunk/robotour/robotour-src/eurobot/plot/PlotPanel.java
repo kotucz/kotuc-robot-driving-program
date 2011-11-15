@@ -12,8 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 
 /**
@@ -52,17 +52,30 @@ public class PlotPanel extends javax.swing.JPanel {
         paint(g);
     }
 
-    public static void main(String[] args) throws IOException {
-
-        JFrame frame = new JFrame("Graph");
+    public void showInFrame() {
+         JFrame frame = new JFrame("Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final Graph graph1 = new Graph();
-        graph1.readCSV(new File("./data1.csv"));
-        final PlotPanel plotPanel = new PlotPanel(graph1);
-        frame.add(plotPanel);
+         frame.add(this);
         
         frame.pack();
         frame.setVisible(true);
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                repaint();
+            }
+            
+        }, 100, 50);
+    }
+    
+    public static void main(String[] args) throws IOException {
+
+        final Graph graph1 = new Graph();
+        graph1.readCSV(new File("./data1.csv"));
+        final PlotPanel plotPanel = new PlotPanel(graph1);
+        plotPanel.showInFrame();
+      
         
 //        new Thread() {
 //
