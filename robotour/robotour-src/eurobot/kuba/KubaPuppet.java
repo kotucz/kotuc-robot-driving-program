@@ -115,7 +115,8 @@ public class KubaPuppet {
         int itry = 0;
 //        while (true) {
             System.out.println("try "+itry);
-            puppet.out.sendInts(4, 44, 432);
+//            puppet.out.sendInts(3, 44, 432);
+            puppet.out.sendInts(10, 55,     100, 10, 1000, 0,   100, 20, 500, 0);
 //            puppet.out.setSpeediLR(0, 0);
             Thread.sleep(1000);
 //        }
