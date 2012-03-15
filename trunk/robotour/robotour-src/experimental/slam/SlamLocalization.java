@@ -1,5 +1,6 @@
 package experimental.slam;
 
+import robotour.gui.map.Paintable;
 import robotour.navi.basic.RobotPose;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -68,30 +69,29 @@ public class SlamLocalization implements MapLayer, Runnable {
 
 //        view.addLayer(tracer = new ScanTracer(pose, new double[1]));
 
-        view.zoomTo(
-                new LocalPoint(0, 1), 25);
+//   TODO     view.zoomTo(
+//                new LocalPoint(0, 1), 25);
         view.showInFrame().setSize(640, 480);
 
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
-        map.getGraphics().setColor(Color.ORANGE);
+        map.setColor(Color.ORANGE);
 
-        map.getGraphics().setColor(Color.RED);
+        map.setColor(Color.RED);
 
         robotImg.paint(map);
 
-        map.getGraphics().setColor(Color.YELLOW);
+        map.setColor(Color.YELLOW);
 
-        visializeScan(
-                map, pose);
+        visializeScan(map, pose);
 
-        map.getGraphics().setColor(Color.CYAN);
+        map.setColor(Color.CYAN);
 
 //        visializeScan(map, sol);
 
-        map.getGraphics().setColor(Color.RED);
+        map.setColor(Color.RED);
 
 
 
@@ -99,7 +99,7 @@ public class SlamLocalization implements MapLayer, Runnable {
 
     }
 
-    void visializeScan(MapView map, RobotPose pose) {
+    void visializeScan(Paintable map, RobotPose pose) {
     }
 
     public void run() {

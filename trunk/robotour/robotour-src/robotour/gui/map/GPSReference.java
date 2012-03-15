@@ -31,7 +31,7 @@ public class GPSReference {
         metersPerLongitudeRadian = zeroGPS.latitude().cos()*EARTH_RADIUS;
     }
 
-    LocalPoint toLocal(GPSPoint p) {
+    public LocalPoint toLocal(GPSPoint p) {
         return new LocalPoint(
                 metersPerLongitudeRadian * (p.longitude().radians() - zeroGPS.longitude().radians()),
                 metersPerLatitudeRadian * (p.latitude().radians() - zeroGPS.latitude().radians()));

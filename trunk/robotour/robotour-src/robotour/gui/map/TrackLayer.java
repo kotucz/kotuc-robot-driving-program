@@ -11,6 +11,7 @@ import robotour.navi.gps.TrackPoint;
 /**
  *
  * @author PC
+ * @deprecated
  */
 public class TrackLayer implements MapLayer {
 
@@ -30,7 +31,7 @@ public class TrackLayer implements MapLayer {
         this.track = track;
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
         List<TrackPoint> points = track.track();
 
         if (points.isEmpty()) {
@@ -50,7 +51,7 @@ public class TrackLayer implements MapLayer {
 //        g.setStroke(new BasicStroke((int)(1*map.dpm/map.getScale()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
         for (TrackPoint pt : points) { //track
-            map.drawLine(pt.getPoint(), pt0.getPoint(), 1); // 1 meter line
+ // TODO           map.drawLine(pt.getPoint(), pt0.getPoint(), 1); // 1 meter line
 
 //            g.fillOval(map.getX(pt)-2, map.getY(pt)-2, 4, 4);
             pt0 = pt;
@@ -61,7 +62,7 @@ public class TrackLayer implements MapLayer {
         }
 
         for (TrackPoint pt : points) {// track
-            map.drawDot(pt.getPoint(), 0.5); // 0.5 meter dot
+// TODO            map.fillOval(pt.getPoint(), 0.5); // 0.5 meter dot
         }
 
         {

@@ -2,6 +2,8 @@ package robotour.pathing.spline;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import robotour.gui.map.Paintable;
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
@@ -131,16 +133,16 @@ public class Trajectory implements MapLayer {
         return defs.size();
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
         
         for (PointDef pd : defs) {
-            map.getGraphics().setColor(Color.red);
+            map.setColor(Color.red);
             map.drawOval(pd.p, 0.1);
-            map.getGraphics().setColor(Color.yellow);
+            map.setColor(Color.yellow);
             map.drawLine(pd.p, pd.p.add(pd.v), 0.02);
         }
 
-        map.getGraphics().setColor(Color.white);
+        map.setColor(Color.white);
         double t = 0;
         LocalPoint p = interpolate(t);
         while (t < 1) {

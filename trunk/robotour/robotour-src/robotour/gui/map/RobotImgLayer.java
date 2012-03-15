@@ -1,8 +1,9 @@
 package robotour.gui.map;
 
 import robotour.navi.basic.LocalPoint;
-import java.awt.Image;
-import java.awt.Toolkit;
+
+import java.awt.*;
+
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
 
@@ -43,7 +44,7 @@ public class RobotImgLayer implements MapLayer {
         this.pose.setPoint(point);
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
 
 

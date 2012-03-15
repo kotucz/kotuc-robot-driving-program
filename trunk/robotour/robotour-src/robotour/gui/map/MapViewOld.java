@@ -18,6 +18,7 @@ import robotour.navi.basic.RobotPose;
 /**
  *
  * @author Tomas Kotula
+ * @deprecated
  */
 public class MapViewOld extends MapView {
 

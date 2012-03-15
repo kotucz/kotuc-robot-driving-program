@@ -4,6 +4,7 @@
  */
 package experimental.localization.beacons;
 
+import robotour.gui.map.Paintable;
 import robotour.navi.basic.RobotPose;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -66,14 +67,14 @@ public class BeaconLocalization implements MapLayer {
         return angles;
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
         map.getGraphics().setColor(Color.ORANGE);
 
         map.getGraphics().setColor(Color.RED);
 
         for (LocalPoint localPoint : beacons) {
-            map.drawDot(localPoint, 0.04);
+            map.fillOval(localPoint, 0.04);
         }
 
         robotImg.paint(map);
@@ -93,14 +94,14 @@ public class BeaconLocalization implements MapLayer {
 
         int i = 0;
         for (LocalPoint localPoint : beacons) {
-            map.drawText(localPoint, "" + solvdists[i]);
+            map.drawString("" + solvdists[i], localPoint);
             i++;
         }
 
 
     }
 
-    void visializeAngleCircles(MapView map, RobotPose pose) {
+    void visializeAngleCircles(Paintable map, RobotPose pose) {
 
         Point2d pos = pose.getPoint().toPoint2d();
 
@@ -146,7 +147,7 @@ public class BeaconLocalization implements MapLayer {
     }
     double[] solvdists = new double[4];
 
-    void visializeScan(MapView map, RobotPose pose) {
+    void visializeScan(Paintable map, RobotPose pose) {
 
         LocalPoint center = pose.getPoint();
         Azimuth azim = pose.getAzimuth();
@@ -167,7 +168,7 @@ public class BeaconLocalization implements MapLayer {
         }
     }
 
-    void visializeScan(MapView map, RobotPose pose, double[] angles) {
+    void visializeScan(Paintable map, RobotPose pose, double[] angles) {
 
         LocalPoint center = pose.getPoint();
         Azimuth azim = pose.getAzimuth();
@@ -216,7 +217,7 @@ public class BeaconLocalization implements MapLayer {
         view.addLayer(localization);
         view.addLayer(new RobotImgLayer(solver.sol));
 
-        view.zoomTo(new LocalPoint(0, 1), 25);
+//TOOD        view.zoomTo(new LocalPoint(0, 1), 25);
         view.showInFrame().setSize(640, 480);
 
         new Thread(solver).start();

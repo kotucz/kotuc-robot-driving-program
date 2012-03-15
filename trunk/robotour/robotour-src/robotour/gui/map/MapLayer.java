@@ -14,5 +14,5 @@ package robotour.gui.map;
  * @author Kotuc
  */
 public interface MapLayer {
-    public void paint(MapView map);
+    public void paint(Paintable map);
 }

@@ -25,7 +25,7 @@ public class GPSIconLayer implements MapLayer {
      *
      * @param map
      */
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
         //         g.setColor(Color.RED);
 //                int gx = (int)map.getX(Device.gps.point);
 //                int gy = (int)map.getY(Device.gps.point);
@@ -34,7 +34,7 @@ public class GPSIconLayer implements MapLayer {
 
         trackLayer.paint(map);
 
-        map.drawTexture(compassIcon, gps.getPosition(), map.getScale(), gps.getAzimuth());
+//        map.drawTexture(compassIcon, gps.getPosition(), map.getScale(), gps.getAzimuth());
 
     //                g.translate(gx, gy);
 //                g.rotate(Math.toRadians(Device.gps.azimuth));
