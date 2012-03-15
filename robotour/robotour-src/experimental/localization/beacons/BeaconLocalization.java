@@ -5,16 +5,16 @@
 package experimental.localization.beacons;
 
 import robotour.gui.map.Paintable;
+import robotour.gui.map.gps.MapView;
 import robotour.navi.basic.RobotPose;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
-import javax.vecmath.Vector3d;
+
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
 import robotour.navi.basic.Azimuth;
 

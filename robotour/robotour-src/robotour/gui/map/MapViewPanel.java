@@ -1,5 +1,6 @@
 package robotour.gui.map;
 
+import robotour.gui.map.gps.MapView;
 import robotour.navi.basic.LocalPoint;
 import robotour.navi.basic.RobotPose;
 

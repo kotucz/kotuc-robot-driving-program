@@ -3,9 +3,9 @@ package robotour.navi.gps.rndf;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import robotour.gui.map.MapTextureManager;
-import robotour.gui.map.MapView;
-import robotour.gui.map.TrackLayer;
+
+import robotour.gui.map.gps.MapView;
+import robotour.gui.map.gps.TrackLayer;
 import robotour.navi.gps.Track;
 
 /**

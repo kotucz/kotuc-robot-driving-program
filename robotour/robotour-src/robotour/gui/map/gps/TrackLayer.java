@@ -1,9 +1,12 @@
-package robotour.gui.map;
+package robotour.gui.map.gps;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.List;
+
+import robotour.gui.map.MapLayer;
+import robotour.gui.map.Paintable;
 import robotour.navi.gps.GPSPoint;
 import robotour.navi.gps.Track;
 import robotour.navi.gps.TrackPoint;

@@ -3,9 +3,9 @@ package robotour.navi.gps.rndf;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+
+import robotour.gui.map.gps.MapView;
 import robotour.navi.gps.GPSPoint;
-import robotour.gui.map.MapView;
 
 public class Segment {
 

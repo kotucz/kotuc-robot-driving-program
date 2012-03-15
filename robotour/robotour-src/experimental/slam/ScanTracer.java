@@ -8,7 +8,6 @@ import java.util.List;
 import robotour.gui.map.Paintable;
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
 

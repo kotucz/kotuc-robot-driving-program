@@ -1,7 +1,7 @@
 package robotour.pathing.spline;
 
+import robotour.gui.map.gps.MapView;
 import robotour.navi.basic.LocalPoint;
-import robotour.gui.map.MapView;
 
 /**
  *

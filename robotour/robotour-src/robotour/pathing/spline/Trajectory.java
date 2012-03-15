@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import robotour.gui.map.Paintable;
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
 
 /**
  *

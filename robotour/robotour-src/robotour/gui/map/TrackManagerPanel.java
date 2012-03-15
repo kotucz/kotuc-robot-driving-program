@@ -1,5 +1,6 @@
 package robotour.gui.map;
 
+import robotour.gui.map.gps.MapView;
 import robotour.util.Setup;
 import java.io.File;
 import java.util.ArrayList;

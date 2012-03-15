@@ -1,5 +1,7 @@
-package robotour.gui.map;
+package robotour.gui.map.gps;
 
+import robotour.gui.map.LocalMapView;
+import robotour.gui.map.gps.GPSReference;
 import robotour.navi.basic.LocalPoint;
 
 import java.awt.Image;
