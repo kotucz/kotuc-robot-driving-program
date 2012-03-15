@@ -21,7 +21,7 @@ public class LocalPath implements MapLayer {
         this.color = color;
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
         if (waypoints.isEmpty()) {
             return;

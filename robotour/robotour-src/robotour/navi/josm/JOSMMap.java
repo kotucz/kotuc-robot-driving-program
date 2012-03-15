@@ -17,14 +17,17 @@ import org.openstreetmap.josm.gui.progress.NullProgressMonitor;
 import org.openstreetmap.josm.io.IllegalDataException;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.tools.Pair;
+import robotour.gui.map.GPSReference;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
+import robotour.gui.map.Paintable;
 
 /**
  *
  * @author Kotuc
  */
-public class JOSMMap implements MapLayer {
+
+public class JOSMMap  implements MapLayer{
 
     HashMap<Node, MyNode> mynodes = new HashMap<Node, MyNode>();
 
@@ -58,9 +61,11 @@ public class JOSMMap implements MapLayer {
         }
     }
 
-    public void paint(MapView map) {
+//    TODO
+    GPSReference gpsref;
+    
+    public void paint(Paintable g) {
 
-        Graphics2D g = map.getGraphics();
 
         g.setColor(Color.GREEN);
 
@@ -68,14 +73,14 @@ public class JOSMMap implements MapLayer {
 
         for (MyNode myNode : mynodes.values()) {
             for (MyNode m : myNode.neighs) {
-                map.drawLine(myNode.gps, m.gps, 1); // 1 meter line
+                g.drawLine(gpsref.toLocal(myNode.gps), gpsref.toLocal(m.gps), 1); // 1 meter line
             }
         }
 
         g.setColor(Color.YELLOW);
 
         for (MyNode myNode : mynodes.values()) {
-            map.drawDot(myNode.gps, 0.5); // 0.5 meter dot
+            g.fillOval(gpsref.toLocal(myNode.gps), 0.5); // 0.5 meter dot
         }
 
         g.setColor(Color.RED);

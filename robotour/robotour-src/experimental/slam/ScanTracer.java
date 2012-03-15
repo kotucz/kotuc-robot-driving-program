@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import robotour.gui.map.Paintable;
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.MapView;
@@ -161,7 +163,7 @@ public class ScanTracer implements MapLayer {
         return end;
     }
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
         map.getGraphics().setColor(Color.red);
 
@@ -173,7 +175,7 @@ public class ScanTracer implements MapLayer {
 
 //            map.drawLine(end, end0, 0.001);
 
-            map.drawDot(end, 0.01);
+            map.fillOval(end, 0.01);
 
             end0 = end;
         }

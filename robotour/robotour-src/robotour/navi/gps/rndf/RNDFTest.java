@@ -16,10 +16,11 @@ public class RNDFTest {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         MapView view = new MapView();
-        view.addLayer(new MapTextureManager());
+
+//TODO        view.addLayer(new MapTextureManager());
 //        view.addLayer(RNDFMap.load(new File("./Luzanky.rnd")));
         RNDFMap map = new RNDFLoader().load(new File("./luzanky-ver2-rndf.txt"));
-        view.addLayer(map);
+//  T      view.addLayer(map);
         Track track = map.createTrack("BQPONAR");
         view.addLayer(new TrackLayer(track));
 //        view.addLayer(RNDFMap.load(new File("./stromovka-rndf.txt")));

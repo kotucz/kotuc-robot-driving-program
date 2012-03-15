@@ -44,12 +44,11 @@ class MapTexture {
 //                    Longitude.valueOf(Angle.parseDMS(longitude)));
 //            this.tscale = scale;
 //        }
-    public void paint(Graphics g, MapView map) {
-        int w = (int) (texture.getWidth(null) * tscale / map.getScale());
-        int h = (int) (texture.getHeight(null) * tscale / map.getScale());
+    public void paint(Graphics2D g2, MapView map) {
+        int w = (int) (texture.getWidth(null) * tscale);
+        int h = (int) (texture.getHeight(null) * tscale);
 //        Point toPoint = map.toPoint(point);
         Point2D toPoint = map.toLocal(point).toAwtPoint();
-        Graphics2D g2 = (Graphics2D)g;
         g2.drawImage(texture, (int)toPoint.getX() - w / 2, (int)toPoint.getY() - h / 2, w, h, null);
 //        g.drawString("+", toPoint.getX(), toPoint.getY());
         System.err.println("TO DO texture drawing");

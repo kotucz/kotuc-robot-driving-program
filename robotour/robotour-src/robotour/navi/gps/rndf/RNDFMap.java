@@ -18,7 +18,7 @@ import robotour.navi.gps.TrackPoint;
  * Once using this class consider remaking it totally
  * @author PC
  */
-public class RNDFMap implements MapLayer {
+public class RNDFMap {
 
     /** Creates a new instance of RNDFMap */
     RNDFMap() {
@@ -63,9 +63,9 @@ public class RNDFMap implements MapLayer {
 //    public void println(String s) {
 ////        System.out.println(s);
 //    }
-    /**
+    /*
      *
-     *   @param file
+     *   @param
      * @deprecated use getCheckpoints()
      */
 //    private void loadMDF(String file) {

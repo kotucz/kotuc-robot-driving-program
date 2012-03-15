@@ -33,17 +33,17 @@ public class PlotPanel extends javax.swing.JPanel {
     @Override
     public void paint(Graphics g) {
 //        super.paint(g);
-               
+
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.translate(0, 200);
-        g2.scale(1, -0.1);        
+        g2.scale(1, -0.1);
         g2.setColor(Color.black);
         g2.drawLine(0, 0, 1000, 0);
         graph.paint(g2);
 
-        
-        
+
+
     }
 
     @Override
@@ -53,10 +53,10 @@ public class PlotPanel extends javax.swing.JPanel {
     }
 
     public void showInFrame() {
-         JFrame frame = new JFrame("Graph");
+        JFrame frame = new JFrame("Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         frame.add(this);
-        
+        frame.add(this);
+
         frame.pack();
         frame.setVisible(true);
         new Timer().schedule(new TimerTask() {
@@ -65,18 +65,18 @@ public class PlotPanel extends javax.swing.JPanel {
             public void run() {
                 repaint();
             }
-            
+
         }, 100, 50);
     }
-    
+
     public static void main(String[] args) throws IOException {
 
         final Graph graph1 = new Graph();
         graph1.readCSV(new File("./data1.csv"));
         final PlotPanel plotPanel = new PlotPanel(graph1);
         plotPanel.showInFrame();
-      
-        
+
+
 //        new Thread() {
 //
 //            @Override
@@ -116,12 +116,12 @@ public class PlotPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

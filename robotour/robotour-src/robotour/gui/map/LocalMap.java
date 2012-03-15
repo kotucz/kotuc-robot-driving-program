@@ -14,11 +14,10 @@ public class LocalMap implements MapLayer {
 
     private List<LocalObject> objects = new ArrayList<LocalObject>();
 
-    public void paint(MapView map) {
+    public void paint(Paintable map) {
 
-        Graphics2D g = map.getGraphics();
 
-        g.setColor(Color.BLACK);
+        map.setColor(Color.BLACK);
 
         map.drawLine(new LocalPoint(-1000, 0), new LocalPoint(1000, 0), 0.01);
         map.drawLine(new LocalPoint(0, -1000), new LocalPoint(0, 1000), 0.01);
@@ -33,12 +32,12 @@ public class LocalMap implements MapLayer {
 
 
         for (LocalObject localObject : new ArrayList<LocalObject>(objects)) {
-            g.setColor(localObject.getColor());
-            map.drawDot(localObject.getPoint(), localObject.getSize());
+            map.setColor(localObject.getColor());
+            map.fillOval(localObject.getPoint(), localObject.getSize());
         }
 
-        g.setColor(Color.YELLOW);
-        g.drawString("HI!", 0, 0);
+        map.setColor(Color.YELLOW);
+        map.drawString("HI!", new LocalPoint(0, 0));
 
     }
 
