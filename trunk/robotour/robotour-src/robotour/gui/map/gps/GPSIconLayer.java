@@ -1,7 +1,10 @@
-package robotour.gui.map;
+package robotour.gui.map.gps;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+
+import robotour.gui.map.MapLayer;
+import robotour.gui.map.Paintable;
 import robotour.navi.gps.input.GPSInput;
 
 /**

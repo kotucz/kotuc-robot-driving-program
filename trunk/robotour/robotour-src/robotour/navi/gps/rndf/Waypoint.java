@@ -3,10 +3,10 @@ package robotour.navi.gps.rndf;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import javax.vecmath.Point3f;
+
+import robotour.gui.map.gps.MapView;
 import robotour.navi.gps.GPSPoint;
-import robotour.gui.map.MapView;
 
 /**
  * single waypoint

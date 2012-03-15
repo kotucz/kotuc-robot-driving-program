@@ -1,6 +1,7 @@
 package experimental.slam;
 
 import robotour.gui.map.Paintable;
+import robotour.gui.map.gps.MapView;
 import robotour.navi.basic.RobotPose;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -11,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
 import robotour.gui.map.RobotImgLayer;
 import robotour.arduino.SerialComm;
 import robotour.arduino.SharpScanReader;

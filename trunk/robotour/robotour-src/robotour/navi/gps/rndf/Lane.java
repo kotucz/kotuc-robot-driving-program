@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+
+import robotour.gui.map.gps.MapView;
 import robotour.navi.gps.GPSPoint;
-import robotour.gui.map.MapView;
 import robotour.navi.gps.Track;
 import robotour.navi.gps.TrackPoint;
 

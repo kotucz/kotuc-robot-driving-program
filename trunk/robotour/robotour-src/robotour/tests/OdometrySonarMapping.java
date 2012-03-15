@@ -1,5 +1,6 @@
 package robotour.tests;
 
+import robotour.gui.map.gps.MapView;
 import robotour.localization.odometry.RTOdometry;
 import robotour.gui.map.RobotImgLayer;
 import robotour.gui.map.LocalObject;
@@ -14,7 +15,6 @@ import robotour.iface.Sonar;
 import robotour.util.Sonars;
 import robotour.behavior.impl.XPadDriving;
 import robotour.navi.basic.Azimuth;
-import robotour.gui.map.MapView;
 
 /**
  *

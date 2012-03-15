@@ -7,9 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import robotour.gui.map.gps.MapView;
 import robotour.util.Setup;
-import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
 import robotour.navi.gps.Track;
 import robotour.navi.gps.TrackPoint;
 

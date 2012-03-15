@@ -1,4 +1,4 @@
-package robotour.gui.map;
+package robotour.gui.map.gps;
 
 import robotour.navi.basic.LocalPoint;
 import robotour.navi.gps.GPSPoint;

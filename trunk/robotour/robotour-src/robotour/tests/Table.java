@@ -1,12 +1,12 @@
 package robotour.tests;
 
 import robotour.behavior.impl.PathDriver;
+import robotour.gui.map.gps.MapView;
 import robotour.localization.odometry.PassiveOdometry;
 import robotour.gui.map.LocalPath;
 import robotour.navi.basic.LocalPoint;
 import java.awt.Color;
 import robotour.driving.BlindCompassPilot;
-import robotour.gui.map.MapView;
 import robotour.util.RobotSystems;
 
 /**

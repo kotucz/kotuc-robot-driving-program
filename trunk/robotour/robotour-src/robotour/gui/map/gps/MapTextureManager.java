@@ -1,4 +1,6 @@
-package robotour.gui.map;
+package robotour.gui.map.gps;
+
+import robotour.gui.map.MapViewPanel;
 
 import java.awt.Graphics2D;
 import java.util.LinkedList;

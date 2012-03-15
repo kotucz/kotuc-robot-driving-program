@@ -1,7 +1,6 @@
 package robotour.navi.josm;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,13 +12,12 @@ import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.projection.Mercator;
-import org.openstreetmap.josm.gui.progress.NullProgressMonitor;
 import org.openstreetmap.josm.io.IllegalDataException;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.tools.Pair;
-import robotour.gui.map.GPSReference;
+import robotour.gui.map.gps.GPSReference;
 import robotour.gui.map.MapLayer;
-import robotour.gui.map.MapView;
+import robotour.gui.map.gps.MapView;
 import robotour.gui.map.Paintable;
 
 /**
