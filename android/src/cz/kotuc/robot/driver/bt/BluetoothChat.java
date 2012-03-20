@@ -85,7 +85,10 @@ public class BluetoothChat extends Activity {
 	private Button mRightButton;
 	private Button mLeftButton;
 	private Button mStopButton;
-	
+
+    private JoyStickView leftJSV;
+    private JoyStickView rightJSV;
+
 	private ToggleButton mAccToogleButton;
 	//
 //	private LinearLayout mKeyPad;
@@ -128,6 +131,9 @@ public class BluetoothChat extends Activity {
 		mRightButton = (Button) findViewById(R.id.rightButton);
 		mLeftButton = (Button) findViewById(R.id.leftButton);
 		mStopButton = (Button) findViewById(R.id.stopButton);
+
+        leftJSV = (JoyStickView) findViewById(R.id.leftJS);
+        rightJSV = (JoyStickView) findViewById(R.id.rightJS);
 
 		mAccToogleButton = (ToggleButton) findViewById(R.id.acceleratorToogle);
 		
@@ -342,7 +348,7 @@ public class BluetoothChat extends Activity {
 	 * Sends a message.
 	 *            A string of text to send.
 	 */
-	void sendSpeedCommand(float speed, float turnr) {
+	void sendSpeedCommandSpeedTurn(float speed, float turnr) {
 		// Check that we're actually connected before trying anything
 		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
 			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
@@ -350,19 +356,23 @@ public class BluetoothChat extends Activity {
 			return;
 		}
 
-		float left = Math.max(-1f, Math.min(speed + turnr, 1f));
-		float right = Math.max(-1f, Math.min(speed - turnr, 1f));
-
-		byte leftByte = (byte) Math.round(100 * left);
-		byte rightByte = (byte) Math.round(100 * right);
-
-		byte[] send = new byte[] { 0x7f, leftByte, rightByte };
-
-		mChatService.write(send);
+        sendSpeedCommandLeftRight(speed+turnr, speed-turnr);
 
 	}
 
-	// The action listener for the EditText widget, to listen for the return key
+    private void sendSpeedCommandLeftRight(float left, float right) {
+        left = Math.max(-1f, Math.min(left, 1f));
+        right = Math.max(-1f, Math.min(right, 1f));
+
+        byte leftByte = (byte) Math.round(100 * left);
+        byte rightByte = (byte) Math.round(100 * right);
+
+        byte[] send = new byte[] { 0x7f, leftByte, rightByte };
+
+        mChatService.write(send);
+    }
+
+    // The action listener for the EditText widget, to listen for the return key
 	private TextView.OnEditorActionListener mWriteListener = new TextView.OnEditorActionListener() {
 		public boolean onEditorAction(TextView view, int actionId,
 				KeyEvent event) {
@@ -602,7 +612,7 @@ public class BluetoothChat extends Activity {
 			canvas.drawText("y: " + sy, w / 2f, h / 2f + 200, fontp);
 
 			if (mAccToogleButton.isChecked()) {
-				sendSpeedCommand(speed, turnr);
+				sendSpeedCommandSpeedTurn(speed, turnr);
 				return;
 			}
 			
@@ -690,11 +700,19 @@ public class BluetoothChat extends Activity {
 
 					canvas.drawText(astring, 100, 100, fontp);
 
-					sendSpeedCommand(speed, turnr);
+					sendSpeedCommandSpeedTurn(speed, turnr);
 
 				}
 
+
+
 			}
+
+
+            // joystick driving
+            {
+                sendSpeedCommandLeftRight(leftJSV.setX/100f, rightJSV.setX/100f);
+            }
 
 			// and make sure to redraw asap
 			invalidate();
