@@ -15,33 +15,50 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <ListView android:id="@+id/in"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        android:layout_weight="1"
-    />
-    <include android:id="@+id/keypadCell" layout="@layout/keypad" />    
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
         >
-        <EditText android:id="@+id/edit_text_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <cz.kotuc.robot.driver.bt.JoyStickView android:layout_width="match_parent"
+                                           android:layout_height="100dip" android:background="#555555"
+                                           android:id="@+id/leftJS"
+            />
+    <ListView
+            android:visibility="gone"
+            android:id="@+id/in"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll"
             android:layout_weight="1"
-            android:layout_gravity="bottom"
-        />
-        <Button android:id="@+id/button_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send"
-        />
+            />
+    <FrameLayout android:layout_width="match_parent" android:id="@+id/cursorFrame" android:layout_height="fill_parent" android:layout_weight="1"></FrameLayout>
+
+    <LinearLayout android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/left" android:id="@+id/leftButton" android:onClick="onButtonClick"></Button>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/forward" android:id="@+id/forwardButton" android:onClick="onButtonClick"></Button>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/right" android:id="@+id/rightButton" android:onClick="onButtonClick"></Button>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/stop" android:id="@+id/stopButton" android:onClick="onButtonClick"></Button>
+        <ToggleButton android:text="ToggleButton" android:id="@+id/acceleratorToogle" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textOn="On" android:textOff="Off" android:checked="false" android:onClick="onButtonClick"></ToggleButton>
     </LinearLayout>
+    <LinearLayout   android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+        <EditText android:id="@+id/edit_text_out"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_gravity="bottom"
+                />
+        <Button android:id="@+id/button_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send"
+                />
+    </LinearLayout>
+    <cz.kotuc.robot.driver.bt.JoyStickView
+            android:layout_width="match_parent"
+            android:id="@+id/rightJS" android:layout_height="100dip" android:background="#555555"/>
 </LinearLayout>

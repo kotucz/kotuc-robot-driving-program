@@ -340,8 +340,6 @@ public class BluetoothChat extends Activity {
 
 	/**
 	 * Sends a message.
-	 * 
-	 * @param message
 	 *            A string of text to send.
 	 */
 	void sendSpeedCommand(float speed, float turnr) {
@@ -675,8 +673,10 @@ public class BluetoothChat extends Activity {
 
 				if (touched) {
 					// p.setColor(0xffAC7423);
-					float px = motionEvent.getX();
-					float py = motionEvent.getY();
+                    int[] xy0 =  new int[2];
+                    getLocationOnScreen(xy0);
+					float px = motionEvent.getX() - xy0[0];
+					float py = motionEvent.getY() - xy0[1];
 
 					p.setColor(0xffaaff22);
 					canvas.drawOval(new RectF(px - size1, py - size1, px
