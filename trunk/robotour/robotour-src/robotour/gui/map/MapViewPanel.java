@@ -15,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +36,7 @@ public class MapViewPanel extends JPanel {
     /**
      *  how many dots (pixels) in map with scale 1:1 is one meter in real
      */
-    static double DPM = DPI * 100.0 / 2.54;
+    public static double DPM = DPI * 100.0 / 2.54;
 
 
     double mets = 0.01;
@@ -127,12 +129,19 @@ public class MapViewPanel extends JPanel {
 
 
     LocalPoint clickToLocal(Point click) {
-        LocalPoint lp = new LocalPoint(
-                eye.getX() + (scale2 * (click.x- getWidth() / 2) / DPM),
-                eye.getY() - (scale2 * (click.y - getHeight() / 2) / DPM));
+//        LocalPoint lp = new LocalPoint(
+//                eye.getX() + (scale2 * (click.x- getWidth() / 2) / DPM),
+//                eye.getY() - (scale2 * (click.y - getHeight() / 2) / DPM));
 
 
-        return lp;
+        try {
+            return LocalPoint.fromPoint2D(transform.inverseTransform(click, null));
+        } catch (NoninvertibleTransformException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
+        }
+
+//        return lp;
 
 
     }
@@ -166,8 +175,10 @@ public class MapViewPanel extends JPanel {
                 this.setEye(eyelock.getPoint());
             }
         }
+
+        g2.scale(DPM / scale2, -DPM / scale2);
         g2.translate(-eye.getX(), -eye.getY());
-        g2.scale(DPM / scale2, DPM / scale2);
+
 
 
 
@@ -261,31 +272,49 @@ public class MapViewPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             requestFocus();
-            if (e.getButton() == MouseEvent.BUTTON1) {
-                eyelockon = false;
-                setEye(clickToLocal(e.getPoint()));
-            }
+//            if (e.getButton() == MouseEvent.BUTTON1) {
+//                eyelockon = false;
+//                setEye(clickToLocal(e.getPoint()));
+//            }
 
-            if (e.getButton() == MouseEvent.BUTTON3) {
-                eyelockon = true;
-//                    eyelock++;
-//                    if ((eyelock == 1) && (DeviceManager.getGps() != null)) {
-//
-//                        map.setScale(100);
-//                    }
-////  TODO                  if ((eyelock==2)&&(DeviceManager.getBody()!=null)) {
+//            if (e.getButton() == MouseEvent.BUTTON3) {
+//                eyelockon = true;
+////                    eyelock++;
+////                    if ((eyelock == 1) && (DeviceManager.getGps() != null)) {
 ////
-////                        map.setScale(30);
+////                        map.setScale(100);
 ////                    }
-////                    if ((eyelock==3)&&(DeviceManager.getBody()!=null)) {
-////                        map.zoomTo(DeviceManager.getBody().track);
-////
+//////  TODO                  if ((eyelock==2)&&(DeviceManager.getBody()!=null)) {
+//////
+//////                        map.setScale(30);
+//////                    }
+//////                    if ((eyelock==3)&&(DeviceManager.getBody()!=null)) {
+//////                        map.zoomTo(DeviceManager.getBody().track);
+//////
+//////                    }
+////                    if (eyelock > 3) {
+////                        eyelock = 0;
 ////                    }
-//                    if (eyelock > 3) {
-//                        eyelock = 0;
-//                    }
-            }
+//            }
             repaint();
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+//            System.out.println("dragged ");
+            LocalPoint localPoint = clickToLocal(e.getPoint());
+
+//            System.out.println(""+localPoint+" "+mousePoint);
+
+            eye = eye.add(localPoint.vectorTo(mousePoint));
+//            eye = eye.add(mousePoint.vectorTo(localPoint));
+
+//            mousePoint = localPoint;
+
+            repaint();
+
+
+
         }
     };
 
@@ -343,6 +372,8 @@ public class MapViewPanel extends JPanel {
         for (int i = -10; i
                 < 10; i++) {
 
+            // TODO FIXME rounding by mets! not by 1!
+
             LocalPoint px1 = new LocalPoint(-1000, Math.round(eye.getY()) + i * mets);
             LocalPoint px2 = new LocalPoint(1000, Math.round(eye.getY()) + i * mets);
 
@@ -368,3 +399,4 @@ public class MapViewPanel extends JPanel {
 
     }
 }
+

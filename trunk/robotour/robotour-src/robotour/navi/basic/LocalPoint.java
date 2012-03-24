@@ -2,9 +2,9 @@ package robotour.navi.basic;
 
 import java.awt.geom.Point2D;
 import javax.vecmath.Point2d;
+import javax.vecmath.Vector2d;
 
 /**
- *
  * @author Tomas
  */
 public class LocalPoint {
@@ -62,7 +62,7 @@ public class LocalPoint {
         return "LP(" + x + "," + y + ")";
     }
 
-//    public static LocalPoint valueOf(GPSPoint gps) {
+    //    public static LocalPoint valueOf(GPSPoint gps) {
 //        return new LocalPoint(gps.getLongMetres(), gps.getLatMetres());
 //    }
     public LocalPoint move(Azimuth azimuth, double distance) {
@@ -93,6 +93,18 @@ public class LocalPoint {
         return new LocalPoint(this.x + that.x, this.y + that.y);
     }
 
-    
-    
+    public LocalPoint add(LocalVector vec) {
+        return new LocalPoint(this.x + vec.x, this.y + vec.y);
+    }
+
+    public static LocalPoint fromPoint2D(Point2D p) {
+        return new LocalPoint(p.getX(), p.getY());
+    }
+
+    public LocalVector vectorTo(LocalPoint other) {
+        return new LocalVector(other.x - this.x, other.y - this.y);
+    }
+
+
+
 }
