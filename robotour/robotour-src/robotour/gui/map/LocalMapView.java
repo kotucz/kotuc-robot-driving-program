@@ -30,7 +30,8 @@ public class LocalMapView implements Paintable {
 
     public void paint(Graphics g) {
 
-
+        this.graphics = (Graphics2D)g;
+        
         synchronized (layers) {
             for (MapLayer mapLayer : layers) {
                 mapLayer.paint(this);
@@ -119,7 +120,14 @@ public class LocalMapView implements Paintable {
     }
 
     public void drawString(String text, LocalPoint p1) {
+        AffineTransform transform = graphics.getTransform();
+        AffineTransform transform2 = (AffineTransform)transform.clone();
+        double scaleX = transform2.getScaleX();
+        graphics.setTransform(transform2);
+        graphics.scale(1/scaleX, -1/scaleX);
         graphics.drawString(text, (float) p1.getX(), (float) p1.getY());
+//        graphics.scale(10, -10);
+        graphics.setTransform(transform);
     }
 
     @Override
