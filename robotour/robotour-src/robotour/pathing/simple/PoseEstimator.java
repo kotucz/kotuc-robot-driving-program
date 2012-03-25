@@ -1,4 +1,4 @@
-package robotour.localization.odometry;
+package robotour.pathing.simple;
 
 import robotour.navi.basic.Azimuth;
 import robotour.navi.basic.RobotPose;
