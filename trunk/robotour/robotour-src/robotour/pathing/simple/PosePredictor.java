@@ -1,4 +1,4 @@
-package robotour.localization.odometry;
+package robotour.pathing.simple;
 
 import java.awt.Color;
 import robotour.gui.map.LocalPath;

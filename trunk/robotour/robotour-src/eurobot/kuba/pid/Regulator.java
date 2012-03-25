@@ -91,7 +91,7 @@ class Regulator {
     /**
      * The variable, where encoder position is stored
      */
-    int tachoCnt;
+    public int tachoCnt;
     /**
      * After update step power for the motors to be set is stored in this variable
      */

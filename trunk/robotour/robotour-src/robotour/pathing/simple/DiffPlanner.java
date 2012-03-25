@@ -21,7 +21,7 @@ public class DiffPlanner {
     }
 
     /**
-     * @param rightTurn angle clockwise.
+     * @param rightTurn angular clockwise.
      * @param centerx right from robot center.
      * @return
      */
