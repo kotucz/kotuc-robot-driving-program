@@ -10,9 +10,10 @@ import robotour.navi.basic.RobotPose;
  * To change this template use File | Settings | File Templates.
  *
  *
+ * @deprecated
  *
  */
-class DiffMovement extends Movement {
+class DiffMovement {
 
 
     final double leftspeed;

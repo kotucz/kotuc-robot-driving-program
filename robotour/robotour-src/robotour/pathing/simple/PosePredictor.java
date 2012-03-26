@@ -9,6 +9,7 @@ import robotour.util.log.events.WheelCommandEvent;
 /**
  *
  * @author Kotuc
+ * @deprecated
  */
 public class PosePredictor extends RobotPose implements Wheels {
 

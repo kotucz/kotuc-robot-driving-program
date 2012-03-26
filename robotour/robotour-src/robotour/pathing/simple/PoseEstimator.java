@@ -6,6 +6,7 @@ import robotour.navi.basic.RobotPose;
 /**
  *
  * @author Kotuc
+ * @deprecated use movement
  */
 public class PoseEstimator {
 
@@ -41,6 +42,8 @@ public class PoseEstimator {
         return pose;
     }
 
-    
+
+
+
 
 }
