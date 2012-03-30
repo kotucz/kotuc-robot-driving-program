@@ -70,10 +70,23 @@ public class Point {
      * @param azimuth
      * @param distance
      * @return
+     * @deprecated see azimuth
      */
     public Point move(Azimuth azimuth, double distance) {
         double dx = distance * azimuth.sin();
         double dy = distance * azimuth.cos();
+        return new Point(this.x + dx, this.y + dy);
+    }
+
+    /**
+     *
+     * @param heading
+     * @param distance
+     * @return
+     */
+    public Point move(Heading heading, double distance) {
+        double dx = distance * heading.cos();
+        double dy = distance * heading.sin();
         return new Point(this.x + dx, this.y + dy);
     }
 
