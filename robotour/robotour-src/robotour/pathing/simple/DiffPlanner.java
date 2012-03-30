@@ -1,8 +1,9 @@
 package robotour.pathing.simple;
 
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.navi.basic.Angle;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
+import robotour.navi.local.Transforms;
 
 /**
  *
@@ -35,8 +36,9 @@ public class DiffPlanner {
 
     }
     
-    void arc(RobotPose from, LocalPoint to) {
-        
+    void arc(Pose from, Point globalTo) {
+        Point to = Transforms.globalToLocal(from, globalTo);
+
     }
 
     

@@ -1,11 +1,5 @@
 package eurobot.kuba;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import robotour.navi.basic.Angle;
-import robotour.navi.basic.LocalPoint;
-import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
 //simport state.State;
 
 /**
@@ -15,8 +9,8 @@ import robotour.navi.basic.RobotPose;
 public class StateCommandExecutor /*implements Runnable*/ {
 //
 ////    final State st = new State();
-//    final RobotPose pose = new RobotPose(new LocalPoint(0, 0), Azimuth.valueOfDegrees(100));
-//    LocalPoint dest = new LocalPoint(0, 0);
+//    final Pose pose = new Pose(new Point(0, 0), Azimuth.valueOfDegrees(100));
+//    Point dest = new Point(0, 0);
 //    Command cmd = Command.READY;
 //
 //    final KubaPuppet puppet;
@@ -30,7 +24,7 @@ public class StateCommandExecutor /*implements Runnable*/ {
 //        READY, TAKE;
 //    }
 //
-//    void goTo(LocalPoint dest) {
+//    void goTo(Point dest) {
 //        double dist = pose.getPoint().getDistanceTo(dest);
 //        if (dist>0.01) {
 //            Angle angleR = pose.angleTo(dest);

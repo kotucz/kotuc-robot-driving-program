@@ -1,7 +1,5 @@
 package robotour.pathing.simple;
 
-import robotour.navi.basic.RobotPose;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Kotuc

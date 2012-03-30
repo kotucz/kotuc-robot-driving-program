@@ -21,7 +21,7 @@ public class RTOdometry  extends OdometryBase implements Wheels {
      */
     final double MAX_ANGULAR_SPEED = 0.91;
 
-//    private List<LocalPoint> track = new LinkedList<LocalPoint>();
+//    private List<Point> track = new LinkedList<Point>();
 //    private Azimuth azimuth = Azimuth.valueOfRadians(0.0);
     private double lastSteer = 0;
     private double lastSpeed = 0;

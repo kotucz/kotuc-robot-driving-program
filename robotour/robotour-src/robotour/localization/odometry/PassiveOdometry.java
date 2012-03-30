@@ -52,7 +52,7 @@ public class PassiveOdometry extends OdometryBase implements Runnable {
 
 //            double dx = speed * azimuth.sin() * ms / 1000.0;
 //            double dy = speed * azimuth.cos() * ms / 1000.0;
-//            point = new LocalPoint(point.getX() + dx, point.getY() + dy);
+//            point = new Point(point.getX() + dx, point.getY() + dy);
 
         double dist = speed * seconds;
 

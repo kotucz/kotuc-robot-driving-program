@@ -3,7 +3,7 @@ package robotour.pathing.simple;
 import java.awt.Color;
 import robotour.gui.map.LocalPath;
 import robotour.iface.Wheels;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 import robotour.util.log.events.WheelCommandEvent;
 
 /**
@@ -11,13 +11,13 @@ import robotour.util.log.events.WheelCommandEvent;
  * @author Kotuc
  * @deprecated
  */
-public class PosePredictor extends RobotPose implements Wheels {
+public class PosePredictor extends Pose implements Wheels {
 
     public LocalPath track = new LocalPath();
     PoseEstimator estimator = new PoseEstimator();
     WheelCommandEvent lastCommand;
 
-    public PosePredictor(RobotPose pose) {
+    public PosePredictor(Pose pose) {
         super(pose);
         track.setColor(Color.MAGENTA);
     }

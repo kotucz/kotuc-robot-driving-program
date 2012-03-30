@@ -1,6 +1,7 @@
 package robotour.gui.map;
 
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
+
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class LocalPath implements MapLayer {
 
-    private final List<LocalPoint> waypoints = new LinkedList<LocalPoint>();
+    private final List<Point> waypoints = new LinkedList<Point>();
     private Color color = Color.GREEN;
 
     public LocalPath() {
@@ -30,22 +31,22 @@ public class LocalPath implements MapLayer {
         map.getGraphics().setColor(color);
 
         synchronized (waypoints) {
-            LocalPoint p1 = waypoints.get(0);
-            for (LocalPoint localPoint : waypoints) {
-                map.drawLine(p1, localPoint, 0.03);
-                p1 = localPoint;
+            Point p1 = waypoints.get(0);
+            for (Point point : waypoints) {
+                map.drawLine(p1, point, 0.03);
+                p1 = point;
             }
         }
 
     }
 
-    public void append(LocalPoint point) {
+    public void append(Point point) {
         synchronized (waypoints) {
             waypoints.add(point);
         }
     }
 
-    public List<LocalPoint> getWaypoints() {
+    public List<Point> getWaypoints() {
         return waypoints;
     }
 }

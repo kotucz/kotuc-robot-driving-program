@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import robotour.gui.map.Paintable;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.gui.map.MapLayer;
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  *
@@ -17,14 +17,14 @@ import robotour.navi.basic.RobotPose;
  */
 public class ScanTracer implements MapLayer {
 
-    RobotPose pose;
+    Pose pose;
     double[] scan;
-    LocalPoint[] absolute;
+    Point[] absolute;
     double startAngle = -Math.PI / 2;
     double endAngle = +Math.PI / 2;
     List<LineSegment> findLines;
 
-    public ScanTracer(RobotPose pose, double[] scan) {
+    public ScanTracer(Pose pose, double[] scan) {
         this.pose = pose;
 //        this.scan = scan;
 //        this.scan = medif(scan);
@@ -64,7 +64,7 @@ public class ScanTracer implements MapLayer {
 
     List<LineSegment> findLinesIterative2() {
         List<LineSegment> lines = new LinkedList<LineSegment>();
-        List<LocalPoint> linepoints = new LinkedList<LocalPoint>();
+        List<Point> linepoints = new LinkedList<Point>();
         int border = 2;
         int starti = border;
         LineSegment line = null;
@@ -73,7 +73,7 @@ public class ScanTracer implements MapLayer {
                 continue;
             }
 
-            LocalPoint localPoint = absolute[endi];
+            Point point = absolute[endi];
 
             if (linepoints.size() > 5) {
                 if (line == null) {
@@ -82,8 +82,8 @@ public class ScanTracer implements MapLayer {
 //                    line.totalLeastSquaresOptimize(linepoints);
                 }
 //            System.out.println(""+endi);
-                if (line.distanceTo(localPoint) < 0.15) {
-                    linepoints.add(localPoint);
+                if (line.distanceTo(point) < 0.15) {
+                    linepoints.add(point);
                     line.totalLeastSquaresOptimize(linepoints);
                 } else {
                     line = null;
@@ -91,7 +91,7 @@ public class ScanTracer implements MapLayer {
                     starti = endi;
                 }
             } else {
-                linepoints.add(localPoint);
+                linepoints.add(point);
             }
 
 
@@ -104,7 +104,7 @@ public class ScanTracer implements MapLayer {
 
     List<LineSegment> findLinesIterative1() {
         List<LineSegment> lines = new LinkedList<LineSegment>();
-        LinkedList<LocalPoint> linepoints = new LinkedList<LocalPoint>();
+        LinkedList<Point> linepoints = new LinkedList<Point>();
         int border = 2;
         int starti = border;
         for (int endi = starti; endi < absolute.length - border; endi++) {
@@ -112,8 +112,8 @@ public class ScanTracer implements MapLayer {
             if (scan[endi] > 0.8) { // probably not precise scan
                 continue;
             }
-            LocalPoint localPoint = absolute[endi];
-            linepoints.add(localPoint);
+            Point point = absolute[endi];
+            linepoints.add(point);
             if (starti + 5 < endi) {
                 LineSegment line = LineSegment.createSegment(absolute[starti], absolute[endi]);
                 line.totalLeastSquaresOptimize(linepoints);
@@ -129,7 +129,7 @@ public class ScanTracer implements MapLayer {
                         lines.add(prevline);
                     }
                     linepoints.clear();
-                    linepoints.add(localPoint);
+                    linepoints.add(point);
                     starti = endi;
                 }
             }
@@ -141,10 +141,10 @@ public class ScanTracer implements MapLayer {
     }
 
     void toAbsolute() {
-        LocalPoint center = pose.getPoint();
+        Point center = pose.getPoint();
         Azimuth azim = pose.getAzimuth();
 
-        absolute = new LocalPoint[scan.length];
+        absolute = new Point[scan.length];
 
         for (int i = 0; i < scan.length; i++) {
             absolute[i] = absolutePos(
@@ -156,8 +156,8 @@ public class ScanTracer implements MapLayer {
 
     }
 
-    private LocalPoint absolutePos(LocalPoint center, Azimuth azim, int i, double d) {
-        LocalPoint end = center.move(Azimuth.valueOfRadians(azim.radians() + startAngle + ((endAngle - startAngle) * i / scan.length)), d);
+    private Point absolutePos(Point center, Azimuth azim, int i, double d) {
+        Point end = center.move(Azimuth.valueOfRadians(azim.radians() + startAngle + ((endAngle - startAngle) * i / scan.length)), d);
         //                    Azimuth.valueOfRadians(azim.radians() - (2 * Math.PI * i / scan.length)), d);
         return end;
     }
@@ -166,10 +166,10 @@ public class ScanTracer implements MapLayer {
 
         map.getGraphics().setColor(Color.red);
 
-        LocalPoint end0 = absolute[0];
+        Point end0 = absolute[0];
 
         for (int i = 0; i < scan.length; i++) {
-            LocalPoint end = absolute[i];
+            Point end = absolute[i];
 //                    Azimuth.valueOfRadians(azim.radians() - (2 * Math.PI * i / scan.length)), d);
 
 //            map.drawLine(end, end0, 0.001);
@@ -184,7 +184,7 @@ public class ScanTracer implements MapLayer {
         map.getGraphics().setColor(Color.green);
 
 //        for (int i = 0; i < scan.length; i += 200) {
-//            LocalPoint end = absolute[i];
+//            Point end = absolute[i];
 //            //                    Azimuth.valueOfRadians(azim.radians() - (2 * Math.PI * i / scan.length)), d);
 //            LineSegment segment = LineSegment.createSegment(end0, end);
 //

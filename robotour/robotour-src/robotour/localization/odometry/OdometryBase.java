@@ -1,8 +1,8 @@
 package robotour.localization.odometry;
 
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  *
@@ -10,12 +10,12 @@ import robotour.navi.basic.RobotPose;
  */
 public class OdometryBase {
 
-    final protected RobotPose pose = new RobotPose(new LocalPoint(1, 1), Azimuth.NORTH);
+    final protected Pose pose = new Pose(new Point(1, 1), Azimuth.NORTH);
 
     public OdometryBase() {
     }
     
-    public RobotPose getPose() {
+    public Pose getPose() {
         return pose;
     }    
 
@@ -23,11 +23,11 @@ public class OdometryBase {
         return pose.getAzimuth();
     }
 
-    public LocalPoint getPoint() {
+    public Point getPoint() {
         return pose.getPoint();
     }
 
-    public void setPoint(LocalPoint point) {
+    public void setPoint(Point point) {
         pose.setPoint(point);
     }
 

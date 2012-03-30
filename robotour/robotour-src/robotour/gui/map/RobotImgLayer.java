@@ -1,11 +1,11 @@
 package robotour.gui.map;
 
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 
 import java.awt.*;
 
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  *
@@ -13,24 +13,24 @@ import robotour.navi.basic.RobotPose;
  */
 public class RobotImgLayer implements MapLayer {
 
-    private final RobotPose pose;
+    private final Pose pose;
 //    private final double scale = 0.01 * MapView.DPM;
     private final double scale = 1.4;
 
-    public RobotImgLayer(RobotPose pose) {
+    public RobotImgLayer(Pose pose) {
         this.pose = pose;
     }
 
 //    private final Odometry odometry;
 //    private final Compass cmps;
 //    private Azimuth azimuth;
-//    private LocalPoint point;
+//    private Point point;
 //    public RobotImgLayer(Odometry odometry, Compass cmps) {
 //        this.odometry = odometry;
 //        this.cmps = cmps;
 //    }
     public RobotImgLayer() {
-        this.pose = new RobotPose(new LocalPoint(0, 0),
+        this.pose = new Pose(new Point(0, 0),
                 Azimuth.valueOfDegrees(0));
     }
 //    private Image robotImg = Toolkit.getDefaultToolkit().createImage("./robot.png");
@@ -40,7 +40,7 @@ public class RobotImgLayer implements MapLayer {
         this.pose.setAzimuth(azimuth);
     }
 
-    public void setPoint(LocalPoint point) {
+    public void setPoint(Point point) {
         this.pose.setPoint(point);
     }
 

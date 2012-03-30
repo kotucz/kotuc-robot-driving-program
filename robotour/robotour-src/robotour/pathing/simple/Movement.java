@@ -1,8 +1,8 @@
 package robotour.pathing.simple;
 
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.LocalPoint;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Point;
+import robotour.navi.basic.Pose;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +14,7 @@ import robotour.navi.basic.RobotPose;
  * Class describing movement of a robot.
  * TODO make more abstract for different robots
  * <p/>
- * Is change of Position (RobotPose) - i.e. its derivation
+ * Is change of Position (Pose) - i.e. its derivation
  */
 public class Movement {
 
@@ -33,12 +33,12 @@ public class Movement {
         return new Movement(velocity.getSpeedAt(time), angular.getSpeedAt(time));
     }
 
-    public RobotPose transformation(final RobotPose start, final double time) {
+    public Pose transformation(final Pose start, final double time) {
 
         // numerical calculation
 
         // TODO iterate by max angle steps rather than time steps
-        RobotPose pose = new RobotPose(start);
+        Pose pose = new Pose(start);
 
         final double startazimrads = start.getAzimuth().radians();
 
@@ -46,7 +46,7 @@ public class Movement {
 
         final double dt = 0.1;
 
-        LocalPoint loc = pose.getPoint();
+        Point loc = pose.getPoint();
 
 
         while (t1 < time) {
@@ -78,7 +78,7 @@ public class Movement {
 
 
 
-        pose = new RobotPose(
+        pose = new Pose(
                 loc, Azimuth.valueOfRadians(startazimrads+angular.getDistanceAt(time)));
 
 //        pose.setAzimuth(start.getAzimuth().radians());

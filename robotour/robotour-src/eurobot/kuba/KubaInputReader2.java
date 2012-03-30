@@ -153,7 +153,7 @@ class KubaInputReader2 {
     }
     private int oposid = 0;
 
-//    private void positionUpdated(RobotPose pose) {
+//    private void positionUpdated(Pose pose) {
 //        state.set("oposid", oposid++);
 //        state.set("oposx", pose.getPoint().getX() * 1000);
 //        state.set("oposy", pose.getPoint().getY() * 1000);

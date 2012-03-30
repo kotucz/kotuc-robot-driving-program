@@ -1,14 +1,13 @@
 package robotour.gui.map;
 
 import robotour.gui.map.gps.MapView;
-import robotour.navi.basic.LocalPoint;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Point;
+import robotour.navi.basic.Pose;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -16,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,7 +23,7 @@ import javax.swing.JPanel;
 public class MapViewPanel extends JPanel {
 
     public final LocalMapView map;
-    private LocalPoint mousePoint = new LocalPoint(0, 0);
+    private Point mousePoint = new Point(0, 0);
 
     private static final int MAX_SCALE = 10000;//1024 * 1024 * 1024;
     private static final int MIN_SCALE = 1;
@@ -43,7 +41,7 @@ public class MapViewPanel extends JPanel {
 
 
 
-    public RobotPose eyelock = null;
+    public Pose eyelock = null;
 
     public boolean eyelockon = true;
 
@@ -54,7 +52,7 @@ public class MapViewPanel extends JPanel {
 
 
     //    private GPSPoint eye = GPSPoint.fromDegrees(0, 0);
-    protected LocalPoint eye = new LocalPoint(0, 0);
+    protected Point eye = new Point(0, 0);
     private AffineTransform transform;
 
 
@@ -128,14 +126,14 @@ public class MapViewPanel extends JPanel {
     }
 
 
-    LocalPoint clickToLocal(Point click) {
-//        LocalPoint lp = new LocalPoint(
+    Point clickToLocal(java.awt.Point click) {
+//        Point lp = new Point(
 //                eye.getX() + (scale2 * (click.x- getWidth() / 2) / DPM),
 //                eye.getY() - (scale2 * (click.y - getHeight() / 2) / DPM));
 
 
         try {
-            return LocalPoint.fromPoint2D(transform.inverseTransform(click, null));
+            return Point.fromPoint2D(transform.inverseTransform(click, null));
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             throw new RuntimeException(e);
@@ -302,14 +300,14 @@ public class MapViewPanel extends JPanel {
         @Override
         public void mouseDragged(MouseEvent e) {
 //            System.out.println("dragged ");
-            LocalPoint localPoint = clickToLocal(e.getPoint());
+            Point point = clickToLocal(e.getPoint());
 
-//            System.out.println(""+localPoint+" "+mousePoint);
+//            System.out.println(""+point+" "+mousePoint);
 
-            eye = eye.add(localPoint.vectorTo(mousePoint));
-//            eye = eye.add(mousePoint.vectorTo(localPoint));
+            eye = eye.add(point.vectorTo(mousePoint));
+//            eye = eye.add(mousePoint.vectorTo(point));
 
-//            mousePoint = localPoint;
+//            mousePoint = point;
 
             repaint();
 
@@ -318,7 +316,7 @@ public class MapViewPanel extends JPanel {
         }
     };
 
-    public void setEye(LocalPoint neweye) {
+    public void setEye(Point neweye) {
         this.eye = neweye;
     } //    /**
 
@@ -343,7 +341,7 @@ public class MapViewPanel extends JPanel {
 
     }
 
-    public void zoomTo(LocalPoint center, double scale) {
+    public void zoomTo(Point center, double scale) {
         setEye(center);
         setScale(
                 scale);
@@ -374,11 +372,11 @@ public class MapViewPanel extends JPanel {
 
             // TODO FIXME rounding by mets! not by 1!
 
-            LocalPoint px1 = new LocalPoint(-1000, Math.round(eye.getY()) + i * mets);
-            LocalPoint px2 = new LocalPoint(1000, Math.round(eye.getY()) + i * mets);
+            Point px1 = new Point(-1000, Math.round(eye.getY()) + i * mets);
+            Point px2 = new Point(1000, Math.round(eye.getY()) + i * mets);
 
-            LocalPoint py1 = new LocalPoint(Math.round(eye.getX()) + i * mets, -1000);
-            LocalPoint py2 = new LocalPoint(Math.round(eye.getX()) + i * mets, 1000);
+            Point py1 = new Point(Math.round(eye.getX()) + i * mets, -1000);
+            Point py2 = new Point(Math.round(eye.getX()) + i * mets, 1000);
 
             map.drawLine(px1, px2, 0.001);
             map.drawLine(py1, py2, 0.001);
@@ -393,7 +391,7 @@ public class MapViewPanel extends JPanel {
         }
     }
 
-    public LocalPoint getEye() {
+    public Point getEye() {
         return eye;
 
 

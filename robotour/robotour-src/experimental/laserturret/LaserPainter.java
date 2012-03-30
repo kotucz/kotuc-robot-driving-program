@@ -3,7 +3,7 @@ package experimental.laserturret;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robotour.gui.map.LocalPath;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.hardware.SSC32;
 import robotour.hardware.SSC32.SSCServo;
 
@@ -35,11 +35,11 @@ public class LaserPainter {
             this.servoy = servo;
         }
 
-        LocalPoint a = new LocalPoint(-0.5, 0.5);
-        LocalPoint b = new LocalPoint(0.5, 0.5);
-        LocalPoint c = new LocalPoint(-0.5, -0.5);
-        LocalPoint d = new LocalPoint(0.5, -0.5);
-        LocalPoint t = new LocalPoint(0, 1);
+        Point a = new Point(-0.5, 0.5);
+        Point b = new Point(0.5, 0.5);
+        Point c = new Point(-0.5, -0.5);
+        Point d = new Point(0.5, -0.5);
+        Point t = new Point(0, 1);
 
         path.append(c);
         path.append(a);
@@ -52,15 +52,15 @@ public class LaserPainter {
         path.append(d);
 //        path.append(c);
     }
-    LocalPoint lastPoint = new LocalPoint(0, 0);
+    Point lastPoint = new Point(0, 0);
 
     public void run() {
 
 //        goToXY(1, 0);
         while (true) {
-            for (LocalPoint localPoint : path.getWaypoints()) {
-//            {                LocalPoint localPoint = new LocalPoint(Math.random() - Math.random(), Math.random() - Math.random());
-                goToXY(localPoint);
+            for (Point point : path.getWaypoints()) {
+//            {                Point point = new Point(Math.random() - Math.random(), Math.random() - Math.random());
+                goToXY(point);
             }
         }
     }
@@ -69,7 +69,7 @@ public class LaserPainter {
     // half width, half height; i.e. one side amplitude
     double hw, hh;
 
-    void goToXY(LocalPoint dest) {
+    void goToXY(Point dest) {
 
         int millis = (int) (250 * lastPoint.getDistanceTo(dest));
 

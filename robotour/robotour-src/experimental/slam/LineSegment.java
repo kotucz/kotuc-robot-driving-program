@@ -2,7 +2,7 @@ package experimental.slam;
 
 import java.util.Collection;
 import javax.vecmath.Vector2d;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.navi.basic.Azimuth;
 
 /**
@@ -36,7 +36,7 @@ public class LineSegment {
      * @return
      * @see http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
      */
-    double distanceTo(LocalPoint p) {
+    double distanceTo(Point p) {
         Vector2d normal = getNormal();
         Vector2d pvec = new Vector2d(p.toPoint2d());
 
@@ -47,24 +47,24 @@ public class LineSegment {
     }
 
     private Vector2d getNormal() {
-        Vector2d normal = new Vector2d(new LocalPoint(0, 0).move(phi, 1).toPoint2d());
+        Vector2d normal = new Vector2d(new Point(0, 0).move(phi, 1).toPoint2d());
         return normal;
     }
 
     private Vector2d getParallel() {
-        Vector2d parallel = new Vector2d(new LocalPoint(0, 0).move(Azimuth.valueOfRadians(phi.radians() + Math.PI / 2), 1).toPoint2d());
+        Vector2d parallel = new Vector2d(new Point(0, 0).move(Azimuth.valueOfRadians(phi.radians() + Math.PI / 2), 1).toPoint2d());
         return parallel;
     }
 
-    double totalLeastSquaresSum(Collection<LocalPoint> points) {
+    double totalLeastSquaresSum(Collection<Point> points) {
         double sum = 0;
-        for (LocalPoint localPoint : points) {
-            sum += Math.pow(this.distanceTo(localPoint), 2);
+        for (Point point : points) {
+            sum += Math.pow(this.distanceTo(point), 2);
         }
         return sum;
     }
 
-    void totalLeastSquaresOptimize(Collection<LocalPoint> points) {
+    void totalLeastSquaresOptimize(Collection<Point> points) {
 
         for (int i = 0; i < 20; i++) {
 
@@ -100,7 +100,7 @@ public class LineSegment {
         }
     }
 
-    public static LineSegment createSegment(LocalPoint pointa, LocalPoint pointb) {
+    public static LineSegment createSegment(Point pointa, Point pointb) {
         Vector2d pavec = new Vector2d(pointa.toPoint2d());
         Vector2d pbvec = new Vector2d(pointb.toPoint2d());
 
@@ -114,7 +114,7 @@ public class LineSegment {
         // shortest distance in phi direction - projection on normal
         double d = normal.dot(pavec);
 
-        Azimuth phi = new LocalPoint(0, 0).getAzimuthTo(new LocalPoint(normal.x, normal.y));
+        Azimuth phi = new Point(0, 0).getAzimuthTo(new Point(normal.x, normal.y));
 
         double start = parallel.dot(pavec);
         double end = parallel.dot(pbvec);
@@ -127,7 +127,7 @@ public class LineSegment {
 
     }
 
-    LocalPoint getPoint(double t) {
+    Point getPoint(double t) {
         Vector2d normal = getNormal();
 
         Vector2d parallel = getParallel();
@@ -138,14 +138,14 @@ public class LineSegment {
         Vector2d point = new Vector2d();
         point.add(normal, parallel);
 
-        return new LocalPoint(point.x, point.y);
+        return new Point(point.x, point.y);
     }
 
-    LocalPoint getEndPoint() {
+    Point getEndPoint() {
         return getPoint(end);
     }
 
-    LocalPoint getStartPoint() {
+    Point getStartPoint() {
         return getPoint(start);
     }
 }

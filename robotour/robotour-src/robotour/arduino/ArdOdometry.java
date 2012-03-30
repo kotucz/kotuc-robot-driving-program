@@ -1,24 +1,24 @@
 package robotour.arduino;
 
 import robotour.gui.map.LocalPath;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  * Uses compass (Azimuzh) and Encoder to evaluate position
  * @author Kotuc
  */
-public class ArdOdometry extends RobotPose {
+public class ArdOdometry extends Pose {
 
     public ArdOdometry() {
-        super(new LocalPoint(0, 0), Azimuth.NORTH);
+        super(new Point(0, 0), Azimuth.NORTH);
     }
 
 
-//    RobotPose pose = new RobotPose(new LocalPoint(0, 0), Azimuth.NORTH);
+//    Pose pose = new Pose(new Point(0, 0), Azimuth.NORTH);
     //private Azimuth azimuth = Azimuth.NORTH;
-    //private LocalPoint point = new LocalPoint(0, 0);
+    //private Point point = new Point(0, 0);
 
     private double metresPerTick = 1.0/92; // cca 1 cm
     LocalPath track = new LocalPath();
@@ -27,11 +27,11 @@ public class ArdOdometry extends RobotPose {
         return track;
     }    
 
-    public void setTo(LocalPoint point) {
+    public void setTo(Point point) {
         this.point = point;
     }
 
-//    public LocalPoint getPoint() {
+//    public Point getPoint() {
 //        return this.point;
 //    }
 
@@ -44,7 +44,7 @@ public class ArdOdometry extends RobotPose {
 
 //            double dx = speed * azimuth.sin() * ms / 1000.0;
 //            double dy = speed * azimuth.cos() * ms / 1000.0;
-//            point = new LocalPoint(point.getX() + dx, point.getY() + dy);
+//            point = new Point(point.getX() + dx, point.getY() + dy);
 
             double dist = metresPerTick * change;
 

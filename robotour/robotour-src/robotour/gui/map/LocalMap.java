@@ -1,7 +1,8 @@
 package robotour.gui.map;
 
 import robotour.gui.map.gps.MapView;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ public class LocalMap implements MapLayer {
 
         map.setColor(Color.BLACK);
 
-        map.drawLine(new LocalPoint(-1000, 0), new LocalPoint(1000, 0), 0.01);
-        map.drawLine(new LocalPoint(0, -1000), new LocalPoint(0, 1000), 0.01);
+        map.drawLine(new Point(-1000, 0), new Point(1000, 0), 0.01);
+        map.drawLine(new Point(0, -1000), new Point(0, 1000), 0.01);
 
 //        g.setColor(Color.GRAY);
 //        g.drawLine(-1000, 100, 1000, 100);
@@ -37,7 +38,7 @@ public class LocalMap implements MapLayer {
         }
 
         map.setColor(Color.YELLOW);
-        map.drawString("HI!", new LocalPoint(0, 0));
+        map.drawString("HI!", new Point(0, 0));
 
     }
 
