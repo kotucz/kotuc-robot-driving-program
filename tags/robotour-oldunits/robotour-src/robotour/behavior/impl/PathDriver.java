@@ -1,0 +1,38 @@
+package robotour.behavior.impl;
+
+import robotour.gui.map.LocalPath;
+import robotour.navi.basic.LocalPoint;
+import java.util.Iterator;
+import robotour.driving.BlindCompassPilot;
+
+/**
+ *
+ * @author Tomas
+ */
+public class PathDriver implements Runnable {
+
+    private final LocalPath path;
+    private final BlindCompassPilot pilot;
+
+    public PathDriver(LocalPath path, BlindCompassPilot pilot) {
+        this.path = path;
+        this.pilot = pilot;
+    }
+
+    public void run() {
+        Iterator<LocalPoint> iterator = path.getWaypoints().iterator();
+        LocalPoint last = iterator.next();
+        for (; iterator.hasNext();) {
+            LocalPoint next = iterator.next();
+
+            pilot.rotateTo(last.getAzimuthTo(next), false);
+            pilot.travel(last.getDistanceTo(next), false);
+
+            last = next;
+        }
+    }
+
+    public void drive() {
+        run();
+    }
+}

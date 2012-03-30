@@ -1,0 +1,45 @@
+﻿Jméno týmu: Propeler
+Vedoucí týmu: Tomáš Kotula
+Kontaktní e-mail: tomaskotula@seznam.cz
+Kontaktní telefon (pro případ změn na poslední chvili): 737 454 791
+Poštovní adresa: Olšinky 14a, 747 21, Kravaře
+
+URL týmu:
+
+http://sites.google.com/site/kotucz/robotour2009
+
+Počet členů týmu: 4
+Jména, e-mailové adresy členů, ubytování (Pá-Ne)
+
+Tomáš Kotula, tomaskotula@seznam.cz, bez ubytování
+Petr Dluhoš, petr_dluhos@seznam.cz, bez ubytování
+Jana Simandlová, Simandlova.Jana@seznam.cz, bez ubytování
+Jan Koščák, JanKoscak@seznam.cz, bez ubytování 
+
+Extra osoby pro ubytování (2 noci: Pá-Ne)
+
+Popis robota:
+
+Budeme používat robota, kterého jsme pro minulý ročník nestihli připravit. Používáme podvozek MOB-03 od snailinstruments.com tři sonary SRF08 a kompas CMPS03. Sledování cesty bude záviset primárně na rozpoznání obrazu z webové kamery. Dále chceme využít GPS přijímač pro určení výchozí pozice na okruhu a rámcovou orientaci. Doufáme, že všchny základní funkce robota budou fungovat bezchybně a budeme mít šanci se zabývat samotnou navigací v parku a splněním úkolu.
+
+HARDWARE
+
+Jaké senzory bude robot používat na detekci překážek?
+
+webová kamera a sonary
+
+Bude se robot snažit o objíždění?
+
+snažit ano :-)
+
+SOFTWARE
+
+Exhibice ano/ne, jaká
+
+zatím ne
+
+Přílohy:
+- foto robota/týmu
+
+Tomáš Kotula
+tomaskotula@seznam.cz
