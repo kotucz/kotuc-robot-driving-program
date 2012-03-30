@@ -19,7 +19,7 @@ public class Transforms {
     public static AffineTransform getLocalToGlobalAffineTransform(Pose pose) {
         AffineTransform transform = new AffineTransform();
         transform.translate(pose.getPoint().getX(), pose.getPoint().getY());
-        transform.rotate(-pose.getAzimuth().radians());
+        transform.rotate(pose.getHeading().radians());
         return transform;
     }
 

@@ -39,4 +39,13 @@ public class Azimuth extends Angle {
     public String toString() {
         return Math.round(degrees()) + "°";
     }
+
+    Heading toHeading() {
+        return Heading.fromRadians(Math.PI/2.-radians());
+    }
+
+    static Azimuth fromHeading(Heading heading) {
+        return Azimuth.valueOfRadians(Math.PI/2.-heading.radians());
+    }
+
 }

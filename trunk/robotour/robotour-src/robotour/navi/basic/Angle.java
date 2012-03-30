@@ -23,22 +23,7 @@ public class Angle implements Serializable {
         this.radians = angle.radians;
     }
 
-    /**
-     * Format: 49o55'30.23"N,18o2'30.05"E
-     * @param lat
-     * @return
-     */
-    public static Angle parseDMS(String lat) {
 
-        String[] nums = lat.split("\\D");
-
-        double degrees = Double.parseDouble(nums[0]) +
-                Double.parseDouble(nums[1]) / 60.0 +
-                Double.parseDouble(nums[2] + "." + nums[3]) / 3600.0;
-
-        return new Angle(Math.toRadians(degrees));
-
-    }
 
     public double degrees() {
         return Math.toDegrees(radians);
@@ -72,9 +57,35 @@ public class Angle implements Serializable {
         return new Angle(Math.toRadians(degrees));
     }
 
+
+    /**
+     * Format: 49o55'30.23"N,18o2'30.05"E
+     * @param lat
+     * @return
+     *
+     * TODO use format
+     *
+     */
+    public static Angle parseDMS(String lat) {
+
+        String[] nums = lat.split("\\D");
+
+        double degrees = Double.parseDouble(nums[0]) +
+                Double.parseDouble(nums[1]) / 60.0 +
+                Double.parseDouble(nums[2] + "." + nums[3]) / 3600.0;
+
+        return new Angle(Math.toRadians(degrees));
+
+    }
+
 //    static Angle valueOf(String string) {
 //        return null;
 //    }
+
+    /**
+     * * TODO use format
+     * @return
+     */
     public String toDegreesString() {
         double l = Math.abs(Math.toDegrees(this.radians));
         int deg = (int) l;

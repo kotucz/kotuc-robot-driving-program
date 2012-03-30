@@ -7,7 +7,7 @@ package robotour.navi.basic;
 public class Pose {
 
     protected Point point;
-    protected Azimuth azimuth;
+//    protected Azimuth azimuth;
     protected Heading heading;
 
     public Pose(Pose pose) {
@@ -16,19 +16,27 @@ public class Pose {
 
     public Pose(Point point, Azimuth azimuth) {
         this.point = point;
-        this.azimuth = azimuth;
+        this.heading = azimuth.toHeading();
     }
 
+    /**
+       @deprecated
+     */
     public void setAzimuth(Azimuth azimuth) {
-        this.azimuth = azimuth;
+//        this.azimuth = azimuth;
+        this.heading = azimuth.toHeading();
+
     }
 
     public void setPoint(Point point) {
         this.point = point;
     }
 
+    /**
+       @deprecated
+     */
     public Azimuth getAzimuth() {
-        return azimuth;
+        return Azimuth.fromHeading(this.heading);
     }
 
     public Heading getHeading() {
@@ -54,8 +62,8 @@ public class Pose {
      * @param radscw
      */
     public void doMoveFwRight(double dist, double radscw) {
-        this.point = point.move(Azimuth.valueOfRadians(azimuth.radians() + 0.5 * radscw), dist);
-        this.azimuth = Azimuth.valueOfRadians(azimuth.radians() + radscw);
+        this.point = point.move(this.heading.rotatedCounterClockWise(-0.5*radscw), dist);
+        this.heading = this.heading.rotatedCounterClockWise(-radscw);
         //            Vec2 fw = new Vec2((float) Math.cos(0.5 * rotangleccw + Math.PI / 2), (float) Math.sin(rotangleccw + Math.PI / 2));
         //        fw.normalize();
         //        moveRelFw(getWorldVector(fw.mul((float) )));
@@ -67,15 +75,15 @@ public class Pose {
      * Moves the point of this pose.
      * @param azimuth
      * @param dist
-     * @see Point.move
+     * @see Point move
      */
     public void move(Azimuth azimuth, double dist) {
         point.move(azimuth, dist);
     }
 
-    public Angle angleTo(Point t) {
-        return new Angle(this.point.getAzimuthTo(t).radians()-this.azimuth.radians()).shorter();
-    }
+//    public Angle angleTo(Point t) {
+//        return new Angle(this.point.getAzimuthTo(t).radians()-this.azimuth.radians()).shorter();
+//    }
 
 
 }
