@@ -2,20 +2,19 @@ package robotour.gui.map;
 
 import robotour.gui.map.gps.GPSReference;
 import robotour.gui.map.gps.MapView;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import robotour.navi.basic.Angle;
 import robotour.navi.gps.GPSPoint;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  *
@@ -27,7 +26,7 @@ public class MapViewOld extends MapView {
     private static final int MAX_SCALE = 10000;//1024 * 1024 * 1024;
     private static final int MIN_SCALE = 1;
     private GPSReference gpsReference;
-    public RobotPose eyelock = null;
+    public Pose eyelock = null;
     public boolean eyelockon = true;
 
     public MapViewOld() {
@@ -38,7 +37,7 @@ public class MapViewOld extends MapView {
         setScale(20);
     }
 //    private GPSPoint eye = GPSPoint.fromDegrees(0, 0);
-    private LocalPoint eye = new LocalPoint(0, 0);
+    private Point eye = new Point(0, 0);
     private Graphics2D graphics;
     private final List<MapLayer> layers = new ArrayList<MapLayer>();
 
@@ -68,7 +67,7 @@ public class MapViewOld extends MapView {
         }
     }
 
-    public void setEye(LocalPoint neweye) {
+    public void setEye(Point neweye) {
         this.eye = neweye;
     }
 
@@ -99,7 +98,7 @@ public class MapViewOld extends MapView {
         return (int) Math.round(meters * DPM / scale2);
     }
 
-    LocalPoint toLocal(GPSPoint gps) {
+    Point toLocal(GPSPoint gps) {
         if (gps == null) {
             throw new NullPointerException("gps");
         }
@@ -109,34 +108,34 @@ public class MapViewOld extends MapView {
         return gpsReference.toLocal(gps);
     }
 
-    Point toPoint(GPSPoint gps) {
+    java.awt.Point toPoint(GPSPoint gps) {
         return toPoint(toLocal(gps));
     }
 
-    LocalPoint clickToLocal(Point click) {
-        LocalPoint lp = new LocalPoint(
+    Point clickToLocal(java.awt.Point click) {
+        Point lp = new Point(
                 eye.getX() + (scale2 * click.x / DPM),
                 eye.getY() - (scale2 * click.y / DPM));
         return lp;
     }
 
-    int getX(LocalPoint p) {
+    int getX(Point p) {
 //        return (int) Math.round((p.getX() - eye.getLongMetres()) * DPM / scale2);
 //        return (int) Math.round((p.getX() - eye.getX()) * DPM / scale2);
         return metersToPixels(p.getX() - eye.getX());
     }
 
-    int getY(LocalPoint p) {
+    int getY(Point p) {
 //        return (int) -Math.round((p.getY() - eye.getLatMetres()) * DPM / scale2);
 //        return (int) -Math.round((p.getY() - eye.getY()) * DPM / scale2);
         return -metersToPixels(p.getY() - eye.getY());
     }
 
-    Point toPoint(LocalPoint local) {
-        return new Point(getX(local), getY(local));
+    java.awt.Point toPoint(Point local) {
+        return new java.awt.Point(getX(local), getY(local));
     }
 
-    public LocalPoint getEye() {
+    public Point getEye() {
         return eye;
     }
 //    double scale = 0.0000001;
@@ -160,7 +159,7 @@ public class MapViewOld extends MapView {
         this.scale2 = scale;
     }
 
-    public void zoomTo(LocalPoint center, double scale) {
+    public void zoomTo(Point center, double scale) {
         setEye(center);
         setScale(scale);
     }
@@ -196,11 +195,11 @@ public class MapViewOld extends MapView {
 
         for (int i = -10; i < 10; i++) {
 
-            LocalPoint px1 = new LocalPoint(-1000, Math.round(eye.getY()) + i * mets);
-            LocalPoint px2 = new LocalPoint(1000, Math.round(eye.getY()) + i * mets);
+            Point px1 = new Point(-1000, Math.round(eye.getY()) + i * mets);
+            Point px2 = new Point(1000, Math.round(eye.getY()) + i * mets);
 
-            LocalPoint py1 = new LocalPoint(Math.round(eye.getX()) + i * mets, -1000);
-            LocalPoint py2 = new LocalPoint(Math.round(eye.getX()) + i * mets, 1000);
+            Point py1 = new Point(Math.round(eye.getX()) + i * mets, -1000);
+            Point py2 = new Point(Math.round(eye.getX()) + i * mets, 1000);
 
             map.drawLine(px1, px2, 0.001);
             map.drawLine(py1, py2, 0.001);
@@ -246,7 +245,7 @@ public class MapViewOld extends MapView {
         drawLine(toLocal(p1), toLocal(p2), lwidth);
     }
 
-    public void drawLine(LocalPoint p1, LocalPoint p2, double lwidth) {
+    public void drawLine(Point p1, Point p2, double lwidth) {
 
         Stroke stroke = graphics.getStroke();
         graphics.setStroke(new BasicStroke((int) (lwidth * DPM / getScale()), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -257,7 +256,7 @@ public class MapViewOld extends MapView {
 
     }
 
-//    public void drawRect(LocalPoint p1, LocalPoint p2, double lwidth) {
+//    public void drawRect(Point p1, Point p2, double lwidth) {
 //
 //        Point minp = map.toPoint(p1);
 //        Point maxp = map.toPoint(p2);
@@ -269,7 +268,7 @@ public class MapViewOld extends MapView {
         drawText(toLocal(center), text);
     }
 
-    public void drawText(LocalPoint center, String text) {
+    public void drawText(Point center, String text) {
         graphics.drawString(text, getX(center), getY(center));
     }
 
@@ -277,13 +276,13 @@ public class MapViewOld extends MapView {
         drawDot(toLocal(center), radius);
     }
 
-    public void drawDot(LocalPoint center, double radius) {
+    public void drawDot(Point center, double radius) {
         int r = metersToPixels(radius);
 
         graphics.fillOval(getX(center) - r / 2, getY(center) - r / 2, r, r);
     }
 
-    public void drawOval(LocalPoint center, double radius) {
+    public void drawOval(Point center, double radius) {
         int r = metersToPixels(radius);
 
         graphics.drawOval(getX(center) - r, getY(center) - r, 2 * r, 2 * r);
@@ -293,9 +292,9 @@ public class MapViewOld extends MapView {
         drawTexture(texture, toLocal(center), scale, azimuth);
     }
 
-    public void drawTexture(Image texture, LocalPoint center, double scale, Angle azimuth) {
+    public void drawTexture(Image texture, Point center, double scale, Angle azimuth) {
 
-        Point cent = toPoint(center);
+        java.awt.Point cent = toPoint(center);
 
         int w = (int) (texture.getWidth(null) * scale / getScale());
         int h = (int) (texture.getHeight(null) * scale / getScale());

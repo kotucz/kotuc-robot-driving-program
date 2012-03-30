@@ -1,7 +1,7 @@
 package robotour.behavior.impl;
 
 import robotour.gui.map.LocalPath;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import java.util.Iterator;
 import robotour.driving.BlindCompassPilot;
 
@@ -20,10 +20,10 @@ public class PathDriver implements Runnable {
     }
 
     public void run() {
-        Iterator<LocalPoint> iterator = path.getWaypoints().iterator();
-        LocalPoint last = iterator.next();
+        Iterator<Point> iterator = path.getWaypoints().iterator();
+        Point last = iterator.next();
         for (; iterator.hasNext();) {
-            LocalPoint next = iterator.next();
+            Point next = iterator.next();
 
             pilot.rotateTo(last.getAzimuthTo(next), false);
             pilot.travel(last.getDistanceTo(next), false);

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import robotour.gui.map.Paintable;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.gui.map.MapLayer;
 
 /**
@@ -50,7 +50,7 @@ public class Trajectory implements MapLayer {
         
     }
 
-    public LocalPoint interpolate(double t) {
+    public Point interpolate(double t) {
         int floor = (int) Math.floor(t);
 
 //        t -= floor;
@@ -60,7 +60,7 @@ public class Trajectory implements MapLayer {
         
         double[] w = getWeights(t - floor);
 
-        return new LocalPoint(
+        return new Point(
                 w[0] * pd0.p.getX() + w[1] * pd1.p.getX() + w[2] * pd0.v.getX() + w[3] * pd1.v.getX(),
                 w[0] * pd0.p.getY() + w[1] * pd1.p.getY() + w[2] * pd0.v.getY() + w[3] * pd1.v.getY());
 
@@ -143,16 +143,16 @@ public class Trajectory implements MapLayer {
 
         map.setColor(Color.white);
         double t = 0;
-        LocalPoint p = interpolate(t);
+        Point p = interpolate(t);
         while (t < 1) {
             t+=0.01;
-            LocalPoint p2 = interpolate(t);
+            Point p2 = interpolate(t);
             map.drawLine(p, p2, 0.01);
             p = p2;
         }
     }
 
-    void add(LocalPoint p, LocalPoint v) {
+    void add(Point p, Point v) {
         defs.add(new PointDef(p, v));
     }
 
@@ -161,13 +161,13 @@ public class Trajectory implements MapLayer {
 //    }
 
     class PointDef {
-        LocalPoint p;
-        LocalPoint v;
+        Point p;
+        Point v;
 
         public PointDef() {
         }
 
-        public PointDef(LocalPoint p, LocalPoint v) {
+        public PointDef(Point p, Point v) {
             this.p = p;
             this.v = v;
         }

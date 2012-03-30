@@ -1,9 +1,7 @@
 package robotour.gui.map;
 
-import robotour.navi.basic.Angle;
-import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.LocalPoint;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.*;
+import robotour.navi.basic.Point;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +104,7 @@ public class LocalMapView implements Paintable {
 
 
     @Override
-    public void drawLine(LocalPoint p1, LocalPoint p2, double lwidth) {
+    public void drawLine(Point p1, robotour.navi.basic.Point p2, double lwidth) {
 
         Stroke stroke = graphics.getStroke();
         graphics.setStroke(new BasicStroke((float) lwidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -119,7 +117,7 @@ public class LocalMapView implements Paintable {
 
     }
 
-    public void drawString(String text, LocalPoint p1) {
+    public void drawString(String text, Point p1) {
         AffineTransform transform = graphics.getTransform();
         AffineTransform transform2 = (AffineTransform)transform.clone();
         double scaleX = transform2.getScaleX();
@@ -131,11 +129,11 @@ public class LocalMapView implements Paintable {
     }
 
     @Override
-    public void drawTexture(Image robotImg, LocalPoint point, double scale, Azimuth azimuth) {
+    public void drawTexture(Image robotImg, Point point, double scale, Azimuth azimuth) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void fillOval(LocalPoint center, double radius) {
+    public void fillOval(Point center, double radius) {
 
         Stroke stroke = graphics.getStroke();
         graphics.setStroke(new BasicStroke((float) 0.001f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -145,7 +143,7 @@ public class LocalMapView implements Paintable {
         graphics.setStroke(stroke);
     }
 
-    public void drawOval(LocalPoint center, double radius) {
+    public void drawOval(Point center, double radius) {
         Stroke stroke = graphics.getStroke();
         graphics.setStroke(new BasicStroke((float) 0.001f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
@@ -154,7 +152,7 @@ public class LocalMapView implements Paintable {
         graphics.setStroke(stroke);
     }
 
-    public void drawTexture(Image texture, LocalPoint center, double scale, Angle azimuth) {
+    public void drawTexture(Image texture, Point center, double scale, Angle azimuth) {
 
 //        Point cent = toPoint(center);
         Point2D cent = center.toAwtPoint();
@@ -188,17 +186,17 @@ public class LocalMapView implements Paintable {
         return frame;
     }
 
-    //    int getX(LocalPoint p) {
+    //    int getX(Point p) {
 ////        return (int) Math.round((p.getX() - eye.getLongMetres()) * DPM / scale2);
 ////        return (int) Math.round((p.getX() - eye.getX()) * DPM / scale2);
 //        return metersToPixels(p.getX() - eye.getX());
 //    }
-//    int getY(LocalPoint p) {
+//    int getY(Point p) {
 ////        return (int) -Math.round((p.getY() - eye.getLatMetres()) * DPM / scale2);
 ////        return (int) -Math.round((p.getY() - eye.getY()) * DPM / scale2);
 //        return -metersToPixels(p.getY() - eye.getY());
 //    }
-//    Point toPoint(LocalPoint local) {
+//    Point toPoint(Point local) {
 //        return local.toAwtPoint();
 //        return new Point(getX(local), getY(local));
 //    }

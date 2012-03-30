@@ -1,6 +1,6 @@
 package robotour.gui.map.gps;
 
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.navi.gps.GPSPoint;
 
 /**
@@ -31,8 +31,8 @@ public class GPSReference {
         metersPerLongitudeRadian = zeroGPS.latitude().cos()*EARTH_RADIUS;
     }
 
-    public LocalPoint toLocal(GPSPoint p) {
-        return new LocalPoint(
+    public Point toLocal(GPSPoint p) {
+        return new Point(
                 metersPerLongitudeRadian * (p.longitude().radians() - zeroGPS.longitude().radians()),
                 metersPerLatitudeRadian * (p.latitude().radians() - zeroGPS.latitude().radians()));
     }

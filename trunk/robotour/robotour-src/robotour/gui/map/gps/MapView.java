@@ -1,8 +1,7 @@
 package robotour.gui.map.gps;
 
 import robotour.gui.map.LocalMapView;
-import robotour.gui.map.gps.GPSReference;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 
 import java.awt.Image;
 
@@ -49,7 +48,7 @@ public class MapView extends LocalMapView {
     //        return (int) -Math.round(metersPerLatitudeRadian * (p.latitude().radians() - zeroGPS.latitude().radians()) * DPM / scale2);
     //    }
 
-    LocalPoint toLocal(GPSPoint gps) {
+    Point toLocal(GPSPoint gps) {
         if (gps == null) {
             throw new NullPointerException("gps");
         }
@@ -69,7 +68,7 @@ public class MapView extends LocalMapView {
 
     }
 
-    //    public void drawRect(LocalPoint p1, LocalPoint p2, double lwidth) {
+    //    public void drawRect(Point p1, Point p2, double lwidth) {
 //
 //        Point minp = map.toPoint(p1);
 //        Point maxp = map.toPoint(p2);

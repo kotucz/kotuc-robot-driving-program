@@ -55,7 +55,7 @@ public class OdometrySonarMapping implements Runnable {
                     double dist = sonar.getDistance();
                     if (0.0 < dist && dist < 0.5) {
                         map.addObject(new LocalObject(
-                                //                                new LocalPoint(
+                                //                                new Point(
                                 //                                odometry.getPoint().getX() + dist * Math.sin(angle),
                                 //                                odometry.getPoint().getY() + dist * Math.cos(angle)),
                                 odometry.getPoint().move(Azimuth.valueOfRadians(angle), dist),
@@ -71,7 +71,7 @@ public class OdometrySonarMapping implements Runnable {
                 robotImgLayer.setPoint(odometry.getPoint());
 
 //                map.addObject(new LocalObject(
-//                        new LocalPoint(odometry.getX(), odometry.getY()), 0.1));
+//                        new Point(odometry.getX(), odometry.getY()), 0.1));
 
                 Thread.sleep(100);
             } catch (Exception ex) {

@@ -1,7 +1,7 @@
 package robotour.pathing.simple;
 
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
 
 /**
  *
@@ -14,9 +14,9 @@ public class PoseEstimator {
     double steerConst = 80;
 
     //  speed -1 .. 1, steer -1 .. 1, time seconds
-    public RobotPose transform(RobotPose start, double speed, double steer, double time) {
+    public Pose transform(Pose start, double speed, double steer, double time) {
 
-        RobotPose pose = new RobotPose(start);
+        Pose pose = new Pose(start);
         while (time > 0) {
 
             double dt = time;
@@ -35,7 +35,7 @@ public class PoseEstimator {
 
             double dist = speed * speedConst * dt;
 
-            pose = new RobotPose(
+            pose = new Pose(
                     pose.getPoint().move(Azimuth.valueOfDegrees(azimhdeg), dist),
                     Azimuth.valueOfDegrees(azim1deg));
         }

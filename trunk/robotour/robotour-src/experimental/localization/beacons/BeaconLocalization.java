@@ -6,14 +6,15 @@ package experimental.localization.beacons;
 
 import robotour.gui.map.Paintable;
 import robotour.gui.map.gps.MapView;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Point;
+import robotour.navi.basic.Pose;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
-import robotour.navi.basic.LocalPoint;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.RobotImgLayer;
 import robotour.navi.basic.Azimuth;
@@ -24,24 +25,24 @@ import robotour.navi.basic.Azimuth;
  */
 public class BeaconLocalization implements MapLayer {
 
-    List<LocalPoint> beacons = new ArrayList<LocalPoint>();
-    RobotPose pose;
+    List<Point> beacons = new ArrayList<Point>();
+    Pose pose;
     RobotImgLayer robotImg;
-    RobotPose sol;
+    Pose sol;
 
     public BeaconLocalization() {
-        beacons.add(new LocalPoint(-1.5, 2.1));
-        beacons.add(new LocalPoint(-1.5, 0));
+        beacons.add(new Point(-1.5, 2.1));
+        beacons.add(new Point(-1.5, 0));
 
-//        beacons.add(new LocalPoint(1.5, 1.05));
+//        beacons.add(new Point(1.5, 1.05));
 
-        beacons.add(new LocalPoint(1.5, 2.1));
-        beacons.add(new LocalPoint(1.5, 0));
+        beacons.add(new Point(1.5, 2.1));
+        beacons.add(new Point(1.5, 0));
 
-        LocalPoint center = new LocalPoint(0.25, 1.5);
+        Point center = new Point(0.25, 1.5);
         Azimuth azim = Azimuth.valueOfDegrees(0);
 
-        pose = new RobotPose(center, azim);
+        pose = new Pose(center, azim);
 
         robotImg = new RobotImgLayer(pose);
 
@@ -56,11 +57,11 @@ public class BeaconLocalization implements MapLayer {
      * @param pose
      * @return angles relative to robot's front
      */
-    double[] detectBeaconsSimulate(RobotPose pose) {
+    double[] detectBeaconsSimulate(Pose pose) {
         double[] angles = new double[beacons.size()];
 
         int i = 0;
-        for (LocalPoint beacon : beacons) {
+        for (Point beacon : beacons) {
             angles[i++] = pose.getAzimuth().radians() - pose.getPoint().getAzimuthTo(beacon).radians();
         }
 
@@ -73,8 +74,8 @@ public class BeaconLocalization implements MapLayer {
 
         map.getGraphics().setColor(Color.RED);
 
-        for (LocalPoint localPoint : beacons) {
-            map.fillOval(localPoint, 0.04);
+        for (Point point : beacons) {
+            map.fillOval(point, 0.04);
         }
 
         robotImg.paint(map);
@@ -93,15 +94,15 @@ public class BeaconLocalization implements MapLayer {
         visializeAngleCircles(map, pose);
 
         int i = 0;
-        for (LocalPoint localPoint : beacons) {
-            map.drawString("" + solvdists[i], localPoint);
+        for (Point point : beacons) {
+            map.drawString("" + solvdists[i], point);
             i++;
         }
 
 
     }
 
-    void visializeAngleCircles(Paintable map, RobotPose pose) {
+    void visializeAngleCircles(Paintable map, Pose pose) {
 
         Point2d pos = pose.getPoint().toPoint2d();
 
@@ -128,7 +129,7 @@ public class BeaconLocalization implements MapLayer {
             Point2d center = new Point2d();
             center.interpolate(beac1, beac2, 0.5);
 
-//        map.drawOval(new LocalPoint(center.x, center.y), radius);
+//        map.drawOval(new Point(center.x, center.y), radius);
 
             Vector2d vecB = new Vector2d();
             vecB.sub(beac2, beac1);
@@ -142,24 +143,24 @@ public class BeaconLocalization implements MapLayer {
 
             center.add(vecB);
 
-            map.drawOval(new LocalPoint(center.x, center.y), radius);
+            map.drawOval(new Point(center.x, center.y), radius);
         }
     }
     double[] solvdists = new double[4];
 
-    void visializeScan(Paintable map, RobotPose pose) {
+    void visializeScan(Paintable map, Pose pose) {
 
-        LocalPoint center = pose.getPoint();
+        Point center = pose.getPoint();
         Azimuth azim = pose.getAzimuth();
 
         double[] scan = simulateScan(detectBeaconsSimulate(pose));
 
-        LocalPoint end0 = center;
+        Point end0 = center;
 
         for (int i = 0; i < scan.length; i++) {
             double d = scan[i];
 
-            LocalPoint end = center.move(
+            Point end = center.move(
                     Azimuth.valueOfRadians(azim.radians() - (2 * Math.PI * i / scan.length)), d);
 
             map.drawLine(end, end0, 0.001);
@@ -168,19 +169,19 @@ public class BeaconLocalization implements MapLayer {
         }
     }
 
-    void visializeScan(Paintable map, RobotPose pose, double[] angles) {
+    void visializeScan(Paintable map, Pose pose, double[] angles) {
 
-        LocalPoint center = pose.getPoint();
+        Point center = pose.getPoint();
         Azimuth azim = pose.getAzimuth();
 
         double[] scan = simulateScan(angles);
 
-        LocalPoint end0 = center;
+        Point end0 = center;
 
         for (int i = 0; i < scan.length; i++) {
             double d = scan[i];
 //            d = 1 / (Math.random() + 0.01);
-            LocalPoint end = center.move(
+            Point end = center.move(
                     Azimuth.valueOfRadians(azim.radians() - (2 * Math.PI * i / scan.length)), d);
 
             map.drawLine(end, end0, 0.001);
@@ -211,13 +212,13 @@ public class BeaconLocalization implements MapLayer {
         BeaconLocalization localization = new BeaconLocalization();
 
         PoseSolver solver = new PoseSolver(localization, localization.sol =
-                new RobotPose(new LocalPoint(0, 1.05), Azimuth.valueOfDegrees(0)));
+                new Pose(new Point(0, 1.05), Azimuth.valueOfDegrees(0)));
 
         MapView view = new MapView();
         view.addLayer(localization);
         view.addLayer(new RobotImgLayer(solver.sol));
 
-//TOOD        view.zoomTo(new LocalPoint(0, 1), 25);
+//TOOD        view.zoomTo(new Point(0, 1), 25);
         view.showInFrame().setSize(640, 480);
 
         new Thread(solver).start();

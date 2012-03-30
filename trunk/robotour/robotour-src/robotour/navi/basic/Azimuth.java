@@ -3,6 +3,8 @@ package robotour.navi.basic;
 /**
  *
  * @author Tomas
+ * NOTE Azimuth is defined with respect to geographic coordinates. Local XY coorinates does not have to be aligned,
+ * although it was originally intendet to do so.
  */
 public class Azimuth extends Angle {
 

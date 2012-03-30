@@ -1,7 +1,7 @@
 package robotour.gui.map;
 
 import robotour.navi.basic.Azimuth;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 
 import java.awt.*;
 
@@ -25,10 +25,10 @@ public interface Paintable {
     Graphics2D getGraphics();
 
     void setColor(Color color);
-    void drawLine(LocalPoint p1, LocalPoint p2, double lwidth);
-    void drawOval(LocalPoint p1, double rad);
-    void fillOval(LocalPoint p1, double rad);
-    void drawString(String text, LocalPoint p1);
+    void drawLine(Point p1, Point p2, double lwidth);
+    void drawOval(Point p1, double rad);
+    void fillOval(Point p1, double rad);
+    void drawString(String text, Point p1);
 
-    void drawTexture(Image robotImg, LocalPoint point, double scale, Azimuth azimuth);
+    void drawTexture(Image robotImg, Point point, double scale, Azimuth azimuth);
 }

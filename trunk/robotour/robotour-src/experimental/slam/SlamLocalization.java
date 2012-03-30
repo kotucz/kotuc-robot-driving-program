@@ -2,7 +2,8 @@ package experimental.slam;
 
 import robotour.gui.map.Paintable;
 import robotour.gui.map.gps.MapView;
-import robotour.navi.basic.RobotPose;
+import robotour.navi.basic.Pose;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +11,7 @@ import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import robotour.gui.map.MapLayer;
 import robotour.gui.map.RobotImgLayer;
 import robotour.arduino.SerialComm;
@@ -23,17 +24,17 @@ import robotour.navi.basic.Azimuth;
  */
 public class SlamLocalization implements MapLayer, Runnable {
 
-    RobotPose pose;
+    Pose pose;
     RobotImgLayer robotImg;
     SharpScanReader scanner;
     MapView view;
 //    ScanTracer tracer;
 
     public SlamLocalization() {
-        LocalPoint center = new LocalPoint(0, 1);
+        Point center = new Point(0, 1);
         Azimuth azim = Azimuth.valueOfDegrees(0);
 
-        pose = new RobotPose(center, azim);
+        pose = new Pose(center, azim);
 
         robotImg = new RobotImgLayer(pose);
 
@@ -70,7 +71,7 @@ public class SlamLocalization implements MapLayer, Runnable {
 //        view.addLayer(tracer = new ScanTracer(pose, new double[1]));
 
 //   TODO     view.zoomTo(
-//                new LocalPoint(0, 1), 25);
+//                new Point(0, 1), 25);
         view.showInFrame().setSize(640, 480);
 
     }
@@ -99,7 +100,7 @@ public class SlamLocalization implements MapLayer, Runnable {
 
     }
 
-    void visializeScan(Paintable map, RobotPose pose) {
+    void visializeScan(Paintable map, Pose pose) {
     }
 
     public void run() {

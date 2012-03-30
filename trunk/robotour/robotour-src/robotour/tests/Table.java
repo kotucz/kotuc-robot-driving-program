@@ -4,7 +4,7 @@ import robotour.behavior.impl.PathDriver;
 import robotour.gui.map.gps.MapView;
 import robotour.localization.odometry.PassiveOdometry;
 import robotour.gui.map.LocalPath;
-import robotour.navi.basic.LocalPoint;
+import robotour.navi.basic.Point;
 import java.awt.Color;
 import robotour.driving.BlindCompassPilot;
 import robotour.util.RobotSystems;
@@ -22,11 +22,11 @@ public class Table {
         view.showInFrame();
 
         LocalPath localPath = new LocalPath();
-        localPath.append(new LocalPoint(-1, -1));
-        localPath.append(new LocalPoint(-1, 2));
-        localPath.append(new LocalPoint(1, 2));
-        localPath.append(new LocalPoint(1, -1));
-        localPath.append(new LocalPoint(-1, -1));
+        localPath.append(new Point(-1, -1));
+        localPath.append(new Point(-1, 2));
+        localPath.append(new Point(1, 2));
+        localPath.append(new Point(1, -1));
+        localPath.append(new Point(-1, -1));
         view.addLayer(localPath);
 
         final PassiveOdometry odometry = new PassiveOdometry(systems.getEncoder(), systems.getCompass());
@@ -36,15 +36,15 @@ public class Table {
 
         LocalPath drivePath = new LocalPath();
         drivePath.setColor(Color.GREEN);
-        drivePath.append(new LocalPoint(0, 0));
-        drivePath.append(new LocalPoint(-0.5, 0.5));
-        drivePath.append(new LocalPoint(0, 1));
-        drivePath.append(new LocalPoint(0.5, 0.5));
-        drivePath.append(new LocalPoint(0, 0));
-        drivePath.append(new LocalPoint(-0.5, 0.5));
-        drivePath.append(new LocalPoint(0, 1));
-        drivePath.append(new LocalPoint(0.5, 0.5));
-        drivePath.append(new LocalPoint(0, 0));
+        drivePath.append(new Point(0, 0));
+        drivePath.append(new Point(-0.5, 0.5));
+        drivePath.append(new Point(0, 1));
+        drivePath.append(new Point(0.5, 0.5));
+        drivePath.append(new Point(0, 0));
+        drivePath.append(new Point(-0.5, 0.5));
+        drivePath.append(new Point(0, 1));
+        drivePath.append(new Point(0.5, 0.5));
+        drivePath.append(new Point(0, 0));
         
         view.addLayer(drivePath);
 
