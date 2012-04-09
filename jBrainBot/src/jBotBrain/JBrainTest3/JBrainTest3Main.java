@@ -355,6 +355,7 @@ public class JBrainTest3Main {
 	static byte readByte(CommPort cp) {
 		byte[] buffer = new byte[1];
 		while (cp.read(buffer, 0, 1) == 0) {
+			//busy wait loop
 		}
 		return buffer[0];
 	}
