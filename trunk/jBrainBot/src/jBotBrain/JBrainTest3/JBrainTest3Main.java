@@ -16,241 +16,117 @@ public class JBrainTest3Main {
 
 	public static void main(String[] args) {
 
-		DigitalOutput.H.setValue(true);
-
-		Led.RED.set(Led.MODE_BLINK, 1000);
-
-		System.out.println("press any button");
-
-		Button.waitForPress();
-
-		Led.RED.set(Led.MODE_OFF, 1000);
-
-		System.out.println("start");
+		// DigitalOutput.H.setValue(true);
+		//
+		// Led.RED.set(Led.MODE_BLINK, 1000);
+		//
+		// System.out.println("press any button");
+		//
+		// Button.waitForPress();
+		//
+		// Led.RED.set(Led.MODE_OFF, 1000);
+		//
+		// System.out.println("start");
 
 		// stepper();
 
 		// Led.GREEN1.set(Led.MODE_BLINK, 100);
 
-		drive();
+		// drive();
+
+		bluetoothDriving();
 
 		// Button.waitForPress();
 
 	}
 
-	static void stepper() {
-
-		BipolarStepper stepper = new BipolarStepper();
-
-		while (true) {
-
-			switch (Button.readButtons()) {
-			case Button.S1_BUTTON:
-				stepper.step--;
-				stepper.refresh();
-				break;
-			case Button.S2_BUTTON:
-				stepper.step++;
-				stepper.refresh();
-				break;
-			default:
-				stepper.sleep();
-				break;
-			}
-
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-			}
-
-		}
-	}
-
-	static void laserReflect() {
-		while (true) {
-
-			Button.waitForPress();
-
-			DigitalOutput.H.setValue(false); // turn laser on
-
-			int valon = -1;
-
-			String line = "on:";
-
-			for (int i = 0; i < 10; i++) {
-
-				valon = AnalogInput.A.readValue_mV();
-
-				line += valon + " ";
-
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-				}
-
-			}
-
-			System.out.println(line);
-
-			DigitalOutput.H.setValue(true); // turn off
-			int valoff = -1;
-
-			line = "off: ";
-
-			for (int i = 0; i < 10; i++) {
-
-				valoff = AnalogInput.A.readValue_mV();
-
-				line += valoff + " ";
-
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-				}
-
-			}
-
-			System.out.println(line);
-
-			System.out.println("result: on: " + valon + " mV; off: " + valoff
-					+ " mV; reflect: " + (valon - valoff));
-
-			//
-			// System.out.println("" + (int) System.currentTimeMillis()
-			// + " voltage: " + System.getMainVoltage());
-			// int i = 0;
-			// int startt = (int) System.currentTimeMillis();
-			// int t;
-			// while ((t = (int) System.currentTimeMillis()) - startt < 1000) {
-			// t = (int) System.currentTimeMillis();
-			// int valon = AnalogInput.A.readValue_mV();
-
-			// int valon = AnalogInput.A.readValue_mV();
-
-			// // int val2 = AnalogInput.B.readValue_mV();
-			// // System.out.print(""+t+" voltage: "+val);
-			// System.out.println("" + t + " voltage: " + val);
-			// Led.GREEN2.set((val > 200) ? Led.MODE_ON : Led.MODE_OFF, 0);
-			// Led.ORANGE.set((val > 250) ? Led.MODE_ON : Led.MODE_OFF, 0);
-			// Led.RED.set((val > 280) ? Led.MODE_ON : Led.MODE_OFF, 0);
-			// i++;
-			// }
-			// System.out.println("\n***** " + i + "/10s");
-
-			// DigitalOutput.H.setValue(true);
-			//			
-			// Button.waitForPress();
-			//			
-			// DigitalOutput.H.setValue(false);
-			//			
-			// Button.waitForPress();
-			// try {
-			// Thread.sleep(10);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-		}
-	}
-
-	static void drive() {
-		// SaberToothSimpleSerial stss = new SaberToothSimpleSerial();
-		Motors stss = new Motors();
-
-		bluetoothDriving(stss);
-
-		// for (byte i = -63; i < 64; i++) {
-		// System.out.println(""+i);
-		//			
-		// stss.setMotor(true, i);
-		// stss.setMotor(false, i);
-		//			
-		// try {
-		// Thread.sleep(50);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// // e.printStackTrace();
-		// }
-		// }
-
-		SRF08Sensor[] sonars = { new SRF08Sensor(0xE2), new SRF08Sensor(0xE0),
-				new SRF08Sensor(0xE4), };
-
-		// CMPS03Sensor cmps = new CMPS03Sensor(0xC0);
-
-		// Led.GREEN2.set(Led.MODE_BLINK, 200);
-
-		int loops = 1;
-
-		while (true) {
-
-			System.out.println("loop " + loops);
-
-			Led.ORANGE.set(Led.MODE_ON, 0);
-
-			int[] ranges = new int[3];
-			for (int i = 0; i < ranges.length; i++) {
-				ranges[i] = sonars[i].getRange();
-			}
-
-			Led.ORANGE.set(Led.MODE_OFF, 0);
-			System.out.println("Ranges: " + ranges[0] + " " + ranges[1] + " "
-					+ ranges[2]);
-
-			// System.out.println("azimuth: " +cmps.getAngleHighResolution());
-
-			int fw = ranges[1] - 50;
-			int turn = ranges[2] - ranges[0];
-
-			stss.setMotorsFT(fw, turn);
-
-			System.out.println("jkhk");
-
-			try {
-
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-			}
-
-			loops++;
-
-		}
-
-		// UARTCommPort uart = new UARTCommPort();
-		//		
-		// uart.open(
-		// UARTCommPort.BR_9600,
-		// UARTCommPort.PARITY_NONE);
-		//		
-		// byte[] buffer = new byte[1];
-		//		
-		// for (byte i = 2; i != 1; i++) {
-		// buffer[0] = i;
-		//			
-		// uart.write(buffer, 0, buffer.length);
-		//			
-		// System.out.println(""+i);
-		//			
-		// try {
-		// Thread.sleep(50);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// // e.printStackTrace();
-		// }
-		// }
-		//		
-		// uart.close();
-
-	}
-
-	static void bluetoothDriving(Motors stss) {
+	static void bluetoothDriving() {
 
 		System.out.println("bluetooth driving");
 
+		Motors stss = new Motors();
+
 		CommPort bt = new BTCommPort();
-		byte[] buffer = new byte[20];
+
+		while (true) {
+
+			Led.GREEN2.set(Led.MODE_OFF, 100);
+			Led.ORANGE.set(Led.MODE_BLINK, 100);
+			System.out.println("Waiting for connection");
+
+			while (bt.getStatus() != CommPort.DEVICE_CONNECTED) {
+			}
+
+			bt.writeString("Welcome! use binary ");
+			System.out.println("connected");
+			Led.ORANGE.set(Led.MODE_OFF, 100);
+			Led.GREEN2.set(Led.MODE_BLINK, 100);
+
+			final byte CTRL = -128;
+
+			// int ST = 0;
+			int stl = 0;
+			int str = 0;
+
+			byte[] buffer = new byte[20];
+
+			while (bt.getStatus() == CommPort.DEVICE_CONNECTED) {
+
+				//byte b = readByte(bt);
+
+				int readen = bt.read(buffer, 0, 20);
+				if (readen > 0) {
+					bt.write(buffer, 0, readen); // echo
+					//System.out.println("\nr " + readen);
+					// lets hope overcurrent will not be a problem
+//					 System.out.println("Current: " + Motor.A.getMotorCurrent()
+//					 + " " + Motor.B.getMotorCurrent());
+				}
+
+				for (int i = 0; i < readen; i++) {
+					byte b = buffer[i];
+					//System.out.print("b " + (int)b);
+
+					if (CTRL == b) {
+						stss.setMotorsLR(2*stl, 2*str);
+					} else {
+						stl = str;
+						str = b;
+					}
+				}
+
+				
+				
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+				}
+
+				
+			}
+			stss.stop();
+			// Led.ledSetAll(false);
+
+		}
+	}
+
+	static byte readByte(CommPort cp) {
+		byte[] buffer = new byte[1];
+		while (cp.read(buffer, 0, 1) == 0) {
+			// busy wait loop
+		}
+		return buffer[0];
+	}
+
+	static void terminalDriving() {
+
+		System.out.println("terminal driving");
+
+		Motors stss = new Motors();
+
+		CommPort bt = new BTCommPort();
 
 		while (true) {
 
@@ -327,9 +203,6 @@ public class JBrainTest3Main {
 					// // stss.setMotor(true, (byte) -33);
 					// // stss.setMotor(false, (byte) -33);
 					// break;
-					case 0x7f: // next two bytes are left, right speeds
-						stss.setMotorsLR(2 * readByte(bt), 2 * readByte(bt));
-						break;
 					default:
 						stss.stop();
 						// Led.ledSetAll(false);
@@ -343,21 +216,13 @@ public class JBrainTest3Main {
 				// // TODO Auto-generated catch block
 				// // e.printStackTrace();
 				// }
-				// System.out.println("Current: " + Motor.A.getMotorCurrent()
-				// + " " + Motor.B.getMotorCurrent());
+				System.out.println("Current: " + Motor.A.getMotorCurrent()
+						+ " " + Motor.B.getMotorCurrent());
 			}
 			stss.stop();
 			// Led.ledSetAll(false);
 
 		}
-	}
-
-	static byte readByte(CommPort cp) {
-		byte[] buffer = new byte[1];
-		while (cp.read(buffer, 0, 1) == 0) {
-			//busy wait loop
-		}
-		return buffer[0];
 	}
 
 }
