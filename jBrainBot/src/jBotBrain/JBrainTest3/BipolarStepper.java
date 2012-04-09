@@ -1,9 +1,41 @@
 package jBotBrain.JBrainTest3;
 
+import jBotBrain.hw.Button;
 import jBotBrain.hw.Motor;
 
 public class BipolarStepper {
 
+	/***
+	 * main method
+	 */
+	static void stepper() {
+
+		BipolarStepper stepper = new BipolarStepper();
+
+		while (true) {
+
+			switch (Button.readButtons()) {
+			case Button.S1_BUTTON:
+				stepper.step--;
+				stepper.refresh();
+				break;
+			case Button.S2_BUTTON:
+				stepper.step++;
+				stepper.refresh();
+				break;
+			default:
+				stepper.sleep();
+				break;
+			}
+
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+			}
+
+		}
+	}
+	
 	Motor coila = Motor.A;
 	Motor coilb = Motor.B;
 
