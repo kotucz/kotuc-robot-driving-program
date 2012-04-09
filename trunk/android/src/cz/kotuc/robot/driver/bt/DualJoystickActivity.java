@@ -173,7 +173,7 @@ public class DualJoystickActivity extends Activity {
             public void run() {
                 sendSpeedCommandLeftRight(leftJSV.getValue(), rightJSV.getValue());
             }
-        }, 1000, 10);
+        }, 1000, 50);
     }
 
 
@@ -270,10 +270,10 @@ public class DualJoystickActivity extends Activity {
         left = Math.max(-1f, Math.min(left, 1f));
         right = Math.max(-1f, Math.min(right, 1f));
 
-        byte leftByte = (byte) Math.round(100 * -right); // TODO flip here when robot is ready
-        byte rightByte = (byte) Math.round(100 * -left);
+        byte leftByte = (byte) Math.round(127 * -right); // TODO flip here when robot is ready
+        byte rightByte = (byte) Math.round(127 * -left);
 
-        byte[] send = new byte[]{0x7f, leftByte, rightByte};
+        byte[] send = new byte[]{leftByte, rightByte, -128};
 
 
 
