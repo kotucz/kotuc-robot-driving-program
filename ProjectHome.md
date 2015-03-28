@@ -1,0 +1,3 @@
+It contains various parts of code for driving robot and its components. Most of which I have made, some may be copied from other sources.
+It contains hardware drivers, can parse GPS data, shows maps, implements testing versions of several algorithms and other stuff ...
+I have chosen to change basic classes. Old version is in tag.
